@@ -49,10 +49,106 @@ const companies = [
   {
     name: "Netflix",
     svg: (
-      <svg viewBox="0 0 24 24" className="w-full h-full">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        id="netflix_icon__Netflix_Symbol_RGB"
+        version="1.1"
+        viewBox="0 0 551.111 1000"
+        className="w-full h-full"
+      >
+        <defs id="netflix_icon__defs4">
+          <linearGradient id="netflix_icon__linearGradient35887">
+            <stop
+              id="netflix_icon__stop35883"
+              offset="0"
+              style={{ stopColor: "#b1060f", stopOpacity: 1 }}
+            />
+            <stop
+              id="netflix_icon__stop36053"
+              offset=".625"
+              style={{ stopColor: "#7b010c", stopOpacity: 1 }}
+            />
+            <stop
+              id="netflix_icon__stop35885"
+              offset="1"
+              style={{ stopColor: "#b1060f", stopOpacity: 0 }}
+            />
+          </linearGradient>
+          <linearGradient id="netflix_icon__linearGradient19332">
+            <stop
+              id="netflix_icon__stop19328"
+              offset="0"
+              style={{ stopColor: "#b1060f", stopOpacity: 1 }}
+            />
+            <stop
+              id="netflix_icon__stop19560"
+              offset=".546"
+              style={{ stopColor: "#7b010c", stopOpacity: 1 }}
+            />
+            <stop
+              id="netflix_icon__stop19330"
+              offset="1"
+              style={{ stopColor: "#e50914", stopOpacity: 0 }}
+            />
+          </linearGradient>
+          <linearGradient
+            xlinkHref="#netflix_icon__linearGradient19332"
+            id="netflix_icon__linearGradient13368"
+            x1="78.234"
+            x2="221.663"
+            y1="423.767"
+            y2="365.092"
+            gradientUnits="userSpaceOnUse"
+          />
+          <linearGradient
+            xlinkHref="#netflix_icon__linearGradient35887"
+            id="netflix_icon__linearGradient35889"
+            x1="456.365"
+            x2="309.676"
+            y1="521.56"
+            y2="583.495"
+            gradientUnits="userSpaceOnUse"
+          />
+        </defs>
         <path
-          d="M5.006 20.37h2.895l.006-11.859 6.837 11.875h3.693V3.618h-2.889l-.004 11.9-6.837-11.9H5.006v16.752Z"
-          className="fill-[#E50914]"
+          id="netflix_icon__path6055"
+          d="M-1.152-1.152 2.305 1002.67c73.273-14.111 130.892-12.569 195.924-18.44V0Z"
+          style={{
+            fill: "url(#netflix_icon__linearGradient13368)",
+            stroke: "none",
+            strokeWidth: "1px",
+            strokeLinecap: "butt",
+            strokeLinejoin: "miter",
+            strokeOpacity: 1,
+            fillOpacity: 1,
+          }}
+        />
+        <path
+          id="netflix_icon__path678"
+          d="M353.816 0h199.381l2.305 1000.365-202.839-33.422z"
+          style={{
+            fill: "url(#netflix_icon__linearGradient35889)",
+            stroke: "none",
+            strokeWidth: "1px",
+            strokeLinecap: "butt",
+            strokeLinejoin: "miter",
+            strokeOpacity: 1,
+            fillOpacity: 1,
+          }}
+        />
+        <path
+          id="netflix_icon__path362"
+          d="M1.152 0c4.61 11.525 345.749 981.925 345.749 981.925 56.056-.4 131.219 8.754 205.144 17.288L197.077 0Z"
+          style={{
+            fill: "#e50914",
+            fillOpacity: 1,
+            stroke: "none",
+            strokeWidth: "1px",
+            strokeLinecap: "butt",
+            strokeLinejoin: "miter",
+            strokeOpacity: 1,
+          }}
         />
       </svg>
     ),
@@ -60,14 +156,22 @@ const companies = [
   {
     name: "Amazon",
     svg: (
-      <svg viewBox="0 0 24 24" className="w-full h-full text-white">
+      <svg
+        xmlSpace="preserve"
+        viewBox="0 0 304 182"
+        className="w-full h-full text-white"
+      >
         <path
-          d="M13.435 14.128c-2.458 1.83-5.266 1.34-6.494.613-.39-.234-.516-.543-.371-.976l1.04-3.52c.168-.53.593-.566 1.097-.246 1.707 1.05 4.098 1.011 4.673.238.25-.332.063-1.02-.68-1.574-3.535-2.61-2.074-6.68 1.89-6.68 1.957 0 3.73.684 4.5 1.14.329.196.426.602.27.997l-1.02 2.87c-.172.536-.613.567-1.023.274-.696-.484-1.922-.84-2.817-.63-1.355.32-1.285 1.72-.016 2.59 4.316 2.922 1.637 6.946-2.05 6.946l1.004-2.043z"
-          fill="currentColor"
+          fill="#ffffff"
+          d="m86 66 2 9c0 3 1 5 3 8v2l-1 3-7 4-2 1-3-1-4-5-3-6c-8 9-18 14-29 14-9 0-16-3-20-8-5-4-8-11-8-19s3-15 9-20c6-6 14-8 25-8a79 79 0 0 1 22 3v-7c0-8-2-13-5-16-3-4-8-5-16-5l-11 1a80 80 0 0 0-14 5h-2c-1 0-2-1-2-3v-5l1-3c0-1 1-2 3-2l12-5 16-2c12 0 20 3 26 8 5 6 8 14 8 25v32zM46 82l10-2c4-1 7-4 10-7l3-6 1-9v-4a84 84 0 0 0-19-2c-6 0-11 1-15 4-3 2-4 6-4 11s1 8 3 11c3 2 6 4 11 4zm80 10-4-1-2-3-23-78-1-4 2-2h10l4 1 2 4 17 66 15-66 2-4 4-1h8l4 1 2 4 16 67 17-67 2-4 4-1h9c2 0 3 1 3 2v2l-1 2-24 78-2 4-4 1h-9l-4-1-1-4-16-65-15 64-2 4-4 1h-9zm129 3a66 66 0 0 1-27-6l-3-3-1-2v-5c0-2 1-3 2-3h2l3 1a54 54 0 0 0 23 5c6 0 11-2 14-4 4-2 5-5 5-9l-2-7-10-5-15-5c-7-2-13-6-16-10a24 24 0 0 1 5-34l10-5a44 44 0 0 1 20-2 110 110 0 0 1 12 3l4 2 3 2 1 4v4c0 3-1 4-2 4l-4-2c-6-2-12-3-19-3-6 0-11 0-14 2s-4 5-4 9c0 3 1 5 3 7s5 4 11 6l14 4c7 3 12 6 15 10s5 9 5 14l-3 12-7 8c-3 3-7 5-11 6l-14 2z"
         />
         <path
-          d="M19.703 16.035c-.172-.258-.293-.207-.504-.008-1.66 1.68-4.254 1.832-6.527.766-.465-.219-.66-.082-.375.344 1.586 2.309 5.379 2.129 7.426.047.309-.32.227-.82-.02-1.149zm-8.867-1.1s-.29-.27-.797-.04c-.66.305-1.02.485-1.02.485s.55.352 1.156.403c.516.039.66-.848.66-.848z"
-          fill="#FF9900"
+          d="M274 144A220 220 0 0 1 4 124c-4-3-1-6 2-4a300 300 0 0 0 263 16c5-2 10 4 5 8z"
+          fill="#f90"
+        />
+        <path
+          d="M287 128c-4-5-28-3-38-1-4 0-4-3-1-5 19-13 50-9 53-5 4 5-1 36-18 51-3 2-6 1-5-2 5-10 13-33 9-38z"
+          fill="#f90"
         />
       </svg>
     ),
@@ -75,10 +179,14 @@ const companies = [
   {
     name: "Spotify",
     svg: (
-      <svg viewBox="0 0 24 24" className="w-full h-full">
+      <svg
+        viewBox="0 0 256 256"
+        preserveAspectRatio="xMidYMid"
+        className="w-full h-full"
+      >
         <path
-          d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.118-.96-.539-.12-.42.118-.84.54-.96 4.68-1.079 8.64-.719 11.76 1.2.36.18.48.6.24.96zm1.44-3.3c-.3.48-.841.6-1.26.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"
-          className="fill-[#1DB954]"
+          d="M128 0C57.308 0 0 57.309 0 128c0 70.696 57.309 128 128 128 70.697 0 128-57.304 128-128C256 57.314 198.697.007 127.998.007l.001-.006Zm58.699 184.614c-2.293 3.76-7.215 4.952-10.975 2.644-30.053-18.357-67.885-22.515-112.44-12.335a7.981 7.981 0 0 1-9.552-6.007 7.968 7.968 0 0 1 6-9.553c48.76-11.14 90.583-6.344 124.323 14.276 3.76 2.308 4.952 7.215 2.644 10.975Zm15.667-34.853c-2.89 4.695-9.034 6.178-13.726 3.289-34.406-21.148-86.853-27.273-127.548-14.92-5.278 1.594-10.852-1.38-12.454-6.649-1.59-5.278 1.386-10.842 6.655-12.446 46.485-14.106 104.275-7.273 143.787 17.007 4.692 2.89 6.175 9.034 3.286 13.72v-.001Zm1.345-36.293C162.457 88.964 94.394 86.71 55.007 98.666c-6.325 1.918-13.014-1.653-14.93-7.978-1.917-6.328 1.65-13.012 7.98-14.935C93.27 62.027 168.434 64.68 215.929 92.876c5.702 3.376 7.566 10.724 4.188 16.405-3.362 5.69-10.73 7.565-16.4 4.187h-.006Z"
+          fill="#1ED760"
         />
       </svg>
     ),
@@ -95,7 +203,7 @@ export function TrustedBySection() {
       </div>
 
       {/* Marquee Container */}
-      <div className="relative flex overflow-hidden group max-w-7xl mx-auto mask-gradient">
+      <div className="relative flex overflow-hidden group max-w-7xl mx-auto mask-gradient py-12">
         {/* Edge Masks */}
         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
@@ -105,7 +213,7 @@ export function TrustedBySection() {
           {companies.map((company, index) => (
             <div
               key={index}
-              className="h-12 w-auto min-w-[120px] px-2 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
+              className="h-14 w-auto min-w-[120px] px-6 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
             >
               {/* Glow Effect on Hover */}
               <div className="absolute inset-0 bg-white/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
@@ -117,7 +225,7 @@ export function TrustedBySection() {
           {companies.map((company, index) => (
             <div
               key={`dup-${index}`}
-              className="h-12 w-auto min-w-[120px] px-2 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
+              className="h-14 w-auto min-w-[120px] px-6 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
             >
               <div className="absolute inset-0 bg-white/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
               {company.svg}
@@ -128,7 +236,7 @@ export function TrustedBySection() {
           {companies.map((company, index) => (
             <div
               key={`dup2-${index}`}
-              className="h-12 w-auto min-w-[120px] px-2 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
+              className="h-14 w-auto min-w-[120px] px-6 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
             >
               <div className="absolute inset-0 bg-white/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
               {company.svg}
