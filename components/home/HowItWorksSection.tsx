@@ -130,7 +130,7 @@ export function HowItWorksSection() {
               <div className="aspect-[3/4] bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden relative hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all duration-500">
                 {/* Label */}
                 <div className="absolute top-4 left-4 text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
-                  // STEP {step.step}
+                  {"//"} STEP {step.step}
                 </div>
 
                 {/* Visual Area */}

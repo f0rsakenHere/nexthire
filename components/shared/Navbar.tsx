@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
 export default function Navbar() {
-  const [user, setUser] = useState(false); // Auth state simulation
+  const [user] = useState(false); // Auth state simulation
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
@@ -30,7 +30,7 @@ export default function Navbar() {
                 (item) => (
                   <Link
                     key={item}
-                    href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+                    href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
                     className="text-white/70 hover:text-white transition-all text-sm font-medium tracking-wide hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
                   >
                     {item}
