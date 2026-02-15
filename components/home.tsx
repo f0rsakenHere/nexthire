@@ -7,6 +7,7 @@ import { FooterSection } from "@/components/home/FooterSection";
 import { Testimonials } from "./home/Testimonials";
 import { FAQSection } from "./home/FAQSection";
 import { TrustedBySection } from "./home/TrustedBySection";
+import { FeatureShowreel } from "./home/FeatureShowreel";
 
 export function Home() {
   return (
@@ -17,6 +18,7 @@ export function Home() {
 
       <FeaturesSection />
       <HowItWorksSection />
+      <FeatureShowreel />
       <Testimonials />
       <FAQSection />
       <TrustedBySection />
