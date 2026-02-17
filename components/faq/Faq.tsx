@@ -86,7 +86,14 @@ export default function Faq() {
               <AccordionContent className="text-lg text-gray-500">
                 <span className="text-cyan-400  mr-2">{`>`}</span>
                 We provide actionable bullet-point suggestions so you can <br />
-                rewrite each section with stronger impact.
+                rewrite each section with stronger impact
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -109,7 +116,14 @@ export default function Faq() {
               <AccordionContent className="text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2 ">{`>`}</span>
                 You select a role and difficulty level. The AI generates <br />{" "}
-                dynamic questions and adapts based on your responses.
+                dynamic questions and adapts based on your responses
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -123,7 +137,21 @@ export default function Faq() {
               <AccordionContent className=" text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. The AI evaluates correctness, structure, and clarity <br />{" "}
-                and gives instant improvement suggestions.
+                and gives instant improvement suggestions
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -137,7 +165,14 @@ export default function Faq() {
               <AccordionContent className="faq-content text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. Speech-to-text converts your spoken answers into text{" "}
-                <br /> for real-time evaluation.
+                <br /> for real-time evaluation
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -158,7 +193,14 @@ export default function Faq() {
               <AccordionContent className="faq-content text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 All uploads are processed securely via server-side <br /> API
-                routes and we never expose API keys.
+                routes and we never expose API keys
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -170,7 +212,14 @@ export default function Faq() {
               <AccordionContent className="faq-content text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 We offer a free tier with limited resume scans and mock <br />
-                interviews. Pro unlocks unlimited access.
+                interviews. Pro unlocks unlimited access
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -181,7 +230,14 @@ export default function Faq() {
               </AccordionTrigger>
               <AccordionContent className="faq-content text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
-                Yes. You can upgrade or cancel your subscription at any time.
+                Yes. You can upgrade or cancel your subscription at any time
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -206,7 +262,14 @@ export default function Faq() {
                 Yes. You can track: <br />
                 1. Score history <br />
                 2. Skill progression <br />
-                3. Performance against industry trends.
+                3. Performance against industry trends
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -218,7 +281,14 @@ export default function Faq() {
               <AccordionContent className=" text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. It shows example high-quality answers so you can learn{" "}
-                <br /> how to respond better.
+                <br /> how to respond better
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -242,6 +312,13 @@ export default function Faq() {
                 1.Encrypted in transit and at rest <br />
                 2.Never sold or shared without consent <br />
                 3.Protected under privacy standards (e.g., GDPR)
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -253,7 +330,14 @@ export default function Faq() {
               <AccordionContent className=" text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Only you. Recruiters cannot access your data unless you <br />{" "}
-                choose to share it.
+                choose to share it
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -278,6 +362,13 @@ export default function Faq() {
                 2. Cover letter generation <br />
                 3. Mock interview questions <br />
                 4. Daily usage credits
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -293,6 +384,13 @@ export default function Faq() {
                 2. Priority processing <br />
                 3. Advanced feedback <br />
                 4. Full Interview simulations
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
@@ -305,7 +403,14 @@ export default function Faq() {
                 <span className="text-cyan-400  mr-2">{`>`}</span>
                 Yes. You can upgrade, downgrade, or cancel your subscription{" "}
                 <br />
-                anytime.
+                anytime
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
