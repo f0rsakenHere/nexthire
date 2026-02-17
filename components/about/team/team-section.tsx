@@ -1,4 +1,3 @@
-import { FooterSection } from "@/components/home/FooterSection";
 import TeamCard from "./team-card";
 
 export default function TeamSection() {
@@ -20,7 +19,6 @@ export default function TeamSection() {
           <TeamCard key={i} member={member} />
         ))}
       </div>
-      <FooterSection></FooterSection>
     </section>
   );
 }
