@@ -7,4 +7,4 @@ const Heading = () => {
     );
 };
 
-export default Heading;
+export default Heading; // #49B4C4
