@@ -67,7 +67,14 @@ export default function Faq() {
               <AccordionContent className="text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 You can upload PDF and DOCX files. Your data is processed <br />
-                securely through server-side API routes.
+                securely through server-side API routes
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
