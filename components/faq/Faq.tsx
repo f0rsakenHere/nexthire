@@ -42,7 +42,7 @@ export default function Faq() {
                 </span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lgbg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400  mr-2">{`>`}</span>
                 Our AI evaluates keyword density, formatting, section structure,
                 <br />
@@ -64,7 +64,7 @@ export default function Faq() {
                 </span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lgbg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 You can upload PDF and DOCX files. Your data is processed <br />
                 securely through server-side API routes
@@ -83,7 +83,7 @@ export default function Faq() {
                 <span className="text-lg">Does the AI rewrite my resume?</span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lgbg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400  mr-2">{`>`}</span>
                 We provide actionable bullet-point suggestions so you can <br />
                 rewrite each section with stronger impact
@@ -113,7 +113,7 @@ export default function Faq() {
                 </span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2 ">{`>`}</span>
                 You select a role and difficulty level. The AI generates <br />{" "}
                 dynamic questions and adapts based on your responses
@@ -134,17 +134,10 @@ export default function Faq() {
                 </span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
-              <AccordionContent className=" text-lg text-gray-500">
+              <AccordionContent className=" bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. The AI evaluates correctness, structure, and clarity <br />{" "}
                 and gives instant improvement suggestions
-                <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
-                >
-                  |
-                </motion.span>
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
@@ -162,7 +155,7 @@ export default function Faq() {
                 </span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
-              <AccordionContent className="faq-content text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. Speech-to-text converts your spoken answers into text{" "}
                 <br /> for real-time evaluation
@@ -190,7 +183,7 @@ export default function Faq() {
                 <span className="faq-title text-lg">Is my data secure?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
-              <AccordionContent className="faq-content text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 All uploads are processed securely via server-side <br /> API
                 routes and we never expose API keys
@@ -209,7 +202,7 @@ export default function Faq() {
                 <span className="faq-title text-lg">Is NextHire free?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
-              <AccordionContent className="faq-content text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 We offer a free tier with limited resume scans and mock <br />
                 interviews. Pro unlocks unlimited access
@@ -228,7 +221,7 @@ export default function Faq() {
                 <span className="faq-title text-lg">Can I cancel anytime?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
-              <AccordionContent className="faq-content text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. You can upgrade or cancel your subscription at any time
                 <motion.span
@@ -257,7 +250,7 @@ export default function Faq() {
                 </span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2 ">{`>`}</span>
                 Yes. You can track: <br />
                 1. Score history <br />
@@ -278,7 +271,7 @@ export default function Faq() {
                 <span className="text-lg">Does the AI give model answers?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
-              <AccordionContent className=" text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. It shows example high-quality answers so you can learn{" "}
                 <br /> how to respond better
@@ -306,7 +299,7 @@ export default function Faq() {
                 <span className="text-lg">Is my data secure?</span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2 ">{`>`}</span>
                 Yes. Your data is: <br />
                 1.Encrypted in transit and at rest <br />
@@ -327,7 +320,7 @@ export default function Faq() {
                 <span className="text-lg">Who can see my resume?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
-              <AccordionContent className=" text-lg text-gray-500">
+              <AccordionContent className=" bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Only you. Recruiters cannot access your data unless you <br />{" "}
                 choose to share it
@@ -355,7 +348,7 @@ export default function Faq() {
                 <span className="faq-title text-lg">Is NextHire free?</span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg font-medium text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400  mr-2">{`>`}</span>
                 Yes. The free plan includes: <br />
                 1. Limited resume analysis <br />
@@ -377,7 +370,7 @@ export default function Faq() {
                 <span className=" text-lg">What do I get with Pro?</span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Pro typically includes: <br />
                 1. Unlimited generations <br />
@@ -399,7 +392,7 @@ export default function Faq() {
                 <span className="text-lg">Can I cancel anytime?</span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400  mr-2">{`>`}</span>
                 Yes. You can upgrade, downgrade, or cancel your subscription{" "}
                 <br />
