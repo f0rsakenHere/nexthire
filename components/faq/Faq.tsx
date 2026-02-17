@@ -11,11 +11,12 @@ import { motion } from "motion/react";
 export default function Faq() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-black text-white">
-      <div className="max-w-5xl mx-auto p-4  mt-18">
+      <div className="max-w-5xl mx-auto p-4 py-20  mt-18">
         {/* 🔹 Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-4">NextHire FAQ</h1>
