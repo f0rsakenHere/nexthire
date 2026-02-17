@@ -37,7 +37,7 @@ export default function Faq() {
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="resume-1" className="border-b-0">
               <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline [&>svg]:hidden">
-                <span className="faq-title text-lg">
+                <span className="text-lg font-medium text-gray-400 group-hover:text-gray-200 group-data-[state=open]:text-white transition-colors text-left flex-1 mr-4">
                   How does the ATS score work?
                 </span>
                 <Plus />
