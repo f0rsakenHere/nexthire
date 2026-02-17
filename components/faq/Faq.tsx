@@ -130,7 +130,7 @@ export default function Faq() {
         </div>
 
         {/* 🔹 Platform & Pricing */}
-        <div>
+        <div className="mb-14">
           <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
             Platform & Pricing
           </h2>
@@ -168,6 +168,130 @@ export default function Faq() {
               <AccordionContent className="faq-content text-lg text-gray-500">
                 <span className="text-cyan-400 mr-2">{`>`}</span>
                 Yes. You can upgrade or cancel your subscription at any time.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        {/* Feedback  */}
+        <div className="mb-14">
+          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+            Feedback & Analytics
+          </h2>
+
+          <Accordion type="single" collapsible className="flex flex-col gap-4">
+            <AccordionItem value="interview-1" className="border-b-0">
+              <AccordionTrigger className="group faq-trigger">
+                <span className="text-lg">
+                  Will I see my improvement over time?
+                </span>
+                <Plus />
+              </AccordionTrigger>
+              <AccordionContent className="text-lg text-gray-500">
+                <span className="text-cyan-400 mr-2 ">{`>`}</span>
+                Yes. You can track: <br />
+                1. Score history <br />
+                2. Skill progression <br />
+                3. Performance against industry trends.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="interview-2" className="border-b-0">
+              <AccordionTrigger className="group faq-trigger">
+                <span className="text-lg">Does the AI give model answers?</span>
+                <Plus className="faq-icon" />
+              </AccordionTrigger>
+              <AccordionContent className=" text-lg text-gray-500">
+                <span className="text-cyan-400 mr-2">{`>`}</span>
+                Yes. It shows example high-quality answers so you can learn{" "}
+                <br /> how to respond better.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        {/* platform & data security */}
+        <div className="mb-14">
+          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+            Platform & Data Security
+          </h2>
+
+          <Accordion type="single" collapsible className="flex flex-col gap-4">
+            <AccordionItem value="interview-1" className="border-b-0">
+              <AccordionTrigger className="group faq-trigger">
+                <span className="text-lg">Is my data secure?</span>
+                <Plus />
+              </AccordionTrigger>
+              <AccordionContent className="text-lg text-gray-500">
+                <span className="text-cyan-400 mr-2 ">{`>`}</span>
+                Yes. Your data is: <br />
+                1.Encrypted in transit and at rest <br />
+                2.Never sold or shared without consent <br />
+                3.Protected under privacy standards (e.g., GDPR)
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="interview-2" className="border-b-0">
+              <AccordionTrigger className="group faq-trigger">
+                <span className="text-lg">Who can see my resume?</span>
+                <Plus className="faq-icon" />
+              </AccordionTrigger>
+              <AccordionContent className=" text-lg text-gray-500">
+                <span className="text-cyan-400 mr-2">{`>`}</span>
+                Only you. Recruiters cannot access your data unless you <br />{" "}
+                choose to share it.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        {/* Pricing & Plans */}
+        <div className="mb-14">
+          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+            Pricing & Plans
+          </h2>
+
+          <Accordion type="single" collapsible className="flex flex-col gap-4">
+            <AccordionItem value="resume-1" className="border-b-0">
+              <AccordionTrigger className="group faq-trigger">
+                <span className="faq-title text-lg">Is NextHire free?</span>
+                <Plus />
+              </AccordionTrigger>
+              <AccordionContent className="text-lg font-medium text-gray-500">
+                <span className="text-cyan-400  mr-2">{`>`}</span>
+                Yes. The free plan includes: <br />
+                1. Limited resume analysis <br />
+                2. Cover letter generation <br />
+                3. Mock interview questions <br />
+                4. Daily usage credits
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="resume-2" className="border-b-0">
+              <AccordionTrigger className="group faq-trigger">
+                <span className=" text-lg">What do I get with Pro?</span>
+                <Plus />
+              </AccordionTrigger>
+              <AccordionContent className="text-lg text-gray-500">
+                <span className="text-cyan-400 mr-2">{`>`}</span>
+                Pro typically includes: <br />
+                1. Unlimited generations <br />
+                2. Priority processing <br />
+                3. Advanced feedback <br />
+                4. Full Interview simulations
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="resume-3" className="border-b-0">
+              <AccordionTrigger className="group faq-trigger">
+                <span className="text-lg">Can I cancel anytime?</span>
+                <Plus />
+              </AccordionTrigger>
+              <AccordionContent className="text-lg text-gray-500">
+                <span className="text-cyan-400  mr-2">{`>`}</span>
+                Yes. You can upgrade, downgrade, or cancel your subscription{" "}
+                <br />
+                anytime.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
