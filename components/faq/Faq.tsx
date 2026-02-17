@@ -36,17 +36,24 @@ export default function Faq() {
 
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="resume-1" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline [&>svg]:hidden">
                 <span className="faq-title text-lg">
                   How does the ATS score work?
                 </span>
                 <Plus />
               </AccordionTrigger>
-              <AccordionContent className="text-lg font-medium text-gray-500">
+              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
                 <span className="text-cyan-400  mr-2">{`>`}</span>
                 Our AI evaluates keyword density, formatting, section structure,
                 <br />
-                and readability to generate a score out of 100.
+                and readability to generate a score out of 100{" "}
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-2 H-4 bg-cyan-500 ml-1 align-middle"
+                >
+                  |
+                </motion.span>
               </AccordionContent>
             </AccordionItem>
 
