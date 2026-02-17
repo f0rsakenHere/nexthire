@@ -36,7 +36,7 @@ export default function Faq() {
 
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="resume-1" className="border-b-0">
-              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline [&>svg]:hidden">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg font-medium text-gray-400 group-hover:text-gray-200 group-data-[state=open]:text-white transition-colors text-left flex-1 mr-4">
                   How does the ATS score work?
                 </span>
@@ -58,7 +58,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="resume-2" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className=" text-lg">
                   What file formats are supported?
                 </span>
@@ -72,7 +72,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="resume-3" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">Does the AI rewrite my resume?</span>
                 <Plus />
               </AccordionTrigger>
@@ -93,7 +93,7 @@ export default function Faq() {
 
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="interview-1" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">
                   How does the AI mock interview work?
                 </span>
@@ -107,7 +107,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="interview-2" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">
                   Do I get feedback after each answer?
                 </span>
@@ -121,7 +121,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="interview-3" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="faq-title text-lg">
                   Can I answer using voice input?
                 </span>
@@ -144,7 +144,7 @@ export default function Faq() {
 
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="platform-1" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="faq-title text-lg">Is my data secure?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
@@ -156,7 +156,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="platform-2" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="faq-title text-lg">Is NextHire free?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
@@ -168,7 +168,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="platform-3" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="faq-title text-lg">Can I cancel anytime?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
@@ -188,7 +188,7 @@ export default function Faq() {
 
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="interview-1" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">
                   Will I see my improvement over time?
                 </span>
@@ -204,7 +204,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="interview-2" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">Does the AI give model answers?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
@@ -225,7 +225,7 @@ export default function Faq() {
 
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="interview-1" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">Is my data secure?</span>
                 <Plus />
               </AccordionTrigger>
@@ -239,7 +239,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="interview-2" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">Who can see my resume?</span>
                 <Plus className="faq-icon" />
               </AccordionTrigger>
@@ -260,7 +260,7 @@ export default function Faq() {
 
           <Accordion type="single" collapsible className="flex flex-col gap-4">
             <AccordionItem value="resume-1" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="faq-title text-lg">Is NextHire free?</span>
                 <Plus />
               </AccordionTrigger>
@@ -275,7 +275,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="resume-2" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className=" text-lg">What do I get with Pro?</span>
                 <Plus />
               </AccordionTrigger>
@@ -290,7 +290,7 @@ export default function Faq() {
             </AccordionItem>
 
             <AccordionItem value="resume-3" className="border-b-0">
-              <AccordionTrigger className="group faq-trigger">
+              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline ">
                 <span className="text-lg">Can I cancel anytime?</span>
                 <Plus />
               </AccordionTrigger>
