@@ -93,7 +93,7 @@ export function FeatureShowreel() {
                 <div className="flex items-start gap-4 relative z-10">
                   <div
                     className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center border transition-colors duration-300",
+                      "w-10 h-10 rounded-full flex items-center justify-center border transition-colors duration-300 shrink-0",
                       activeFeature === index
                         ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400"
                         : "bg-white/5 border-white/10 text-zinc-500 group-hover:text-zinc-300",
