@@ -1,7 +1,7 @@
 export default function WhyStandOut() {
   return (
     <section className="py-4">
-      <h2 className="text-3xl text-center p-6 font-bold">Why We Stand Out</h2>
+      <h2 className="text-4xl text-center p-6 font-bold">Why We Stand Out</h2>
       <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
         {/* left text */}{" "}
         <div className="space-y-6">
@@ -19,7 +19,7 @@ export default function WhyStandOut() {
           </ul>
         </div>
         {/* right card */}
-        <div className="p-8 rounded-3xl border bg-gradient-to-br from-primary/10 to-transparent shadow-lg">
+        <div className="p-8 rounded-3xl border hover:border-cyan-400 hover:bg-card bg-gradient-to-br from-primary/10 to-transparent shadow-lg">
           <h3 className="text-xl font-semibold mb-4">Our Mission</h3>
 
           <p className="text-muted-foreground">

@@ -13,7 +13,7 @@ export default function TeamSection() {
 
   return (
     <section className="text-center px-6">
-      <h2 className="text-3xl font-semibold mb-10">Our Team</h2>
+      <h2 className="text-4xl font-semibold mb-10">Our Team</h2>
 
       <div className="grid md:grid-cols-3 gap-6 max-w-6xl mb-10 mx-auto">
         {teamMembers.map((member, i) => (
