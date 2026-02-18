@@ -27,8 +27,8 @@ export default function Highlights() {
   return (
     <section className="py-4">
       <div className="text-center mb-14">
-        <h2 className="text-3xl font-bold">Platform Highlights</h2>
-        <p className="text-muted-foreground text-lg md:text-xl mt-3">
+        <h2 className="text-4xl font-bold">Platform Highlights</h2>
+        <p className="text-blue-200/60 text-lg md:text-lg mt-3">
           Everything you need to prepare smarter, faster, and better.
         </p>
       </div>

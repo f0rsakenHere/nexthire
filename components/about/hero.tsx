@@ -20,7 +20,7 @@ export default function Hero() {
       </motion.h1>
 
       <motion.p
-        className="text-muted-foreground text-lg md:text-xl mt-4 max-w-xl mx-auto"
+        className="text-blue-200/60 text-lg md:text-lg mt-4 max-w-xl mx-auto"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}

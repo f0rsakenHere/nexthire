@@ -53,7 +53,7 @@ export default function Features() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-5xl font-bold mb-6 text-white"
+            className="text-3xl md:text-4xl font-bold mb-6 text-white"
           >
             Features
           </motion.h2>
