@@ -16,7 +16,10 @@ export default function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, duration: 0.6 }}
       >
-        About <span className="text-cyan-400">NextHire</span>
+        About{" "}
+        <span className="font-medium bg-gradient-to-r from-cyan-200 to-blue-500 bg-clip-text text-transparent filter drop-shadow-[0_0_20px_rgba(34,211,238,0.3)]">
+          NextHire
+        </span>
       </motion.h1>
 
       <motion.p
