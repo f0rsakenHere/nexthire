@@ -1,26 +1,39 @@
-import { FooterSection } from "@/components/home/FooterSection";
 import TeamCard from "./team-card";
 
 export default function TeamSection() {
   const teamMembers = [
-    { name: "Mehedi Hasan Tushar", role: "Backend Developer" },
-    { name: "Saad Ferozee", role: "Next JS Developer" },
+    { name: "Mehedi Hasan Tushar", role: "Senior FullStack Developer" },
+    { name: "Saad Ferozee", role: "MERN Stack Developer" },
     { name: "Moksina Akter", role: "Frontend Developer" },
-    { name: "Nusrat Islam Bonna", role: "Frontend Developer" },
-    { name: "Tonmoy  Biswas", role: "UI Designer" },
-    { name: "Samia Islam Safa", role: "Backend Developer" },
+    { name: "Nusrat Islam Bonna", role: "MERN Stack Developer" },
+    { name: "Tonmoy  Biswas", role: "MERN Stack Developer" },
+    { name: "Samia Islam Safa", role: "MERN Stack Developer" },
   ];
 
   return (
-    <section className="text-center px-6">
-      <h2 className="text-3xl font-semibold mb-10">Our Team</h2>
+    <section className="text-center px-6 py-6 bg-gradient-to-b from-black via-neutral-900 to-black">
+      {/* Heading */}
+      <h2 className="text-4xl md:text-4xl font-bold mb-14 bg-white bg-clip-text text-transparent tracking-wide">
+        Our Team
+      </h2>
 
-      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mb-10 mx-auto">
+      {/* Cards */}
+      <div className="grid md:grid-cols-3 gap-8 max-w-6xl  mx-auto">
         {teamMembers.map((member, i) => (
-          <TeamCard key={i} member={member} />
+          <div
+            key={i}
+            className="
+              transform transition duration-300
+              hover:scale-105
+              hover:-translate-y-2
+              hover:shadow-[0_0_25px_rgba(168,85,247,0.4)]
+              rounded-2xl
+            "
+          >
+            <TeamCard member={member} />
+          </div>
         ))}
       </div>
-      <FooterSection></FooterSection>
     </section>
   );
 }
