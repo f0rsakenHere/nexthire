@@ -7,6 +7,7 @@ import TechStack from "@/components/about/techStack";
 import TeamSection from "@/components/about/team/team-section";
 import Highlights from "@/components/about/highlights";
 import WhyStandOut from "@/components/about/why-standout";
+import CallToAction from "@/components/call-to-action";
 
 export default function AboutUs() {
   return (
@@ -20,6 +21,7 @@ export default function AboutUs() {
       <WhyStandOut />
       <TechStack />
       <TeamSection />
+      <CallToAction />
     </main>
   );
 }
