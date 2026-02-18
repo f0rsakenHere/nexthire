@@ -20,16 +20,7 @@ export default function TeamSection() {
       {/* Cards */}
       <div className="grid md:grid-cols-3 gap-8 max-w-6xl  mx-auto">
         {teamMembers.map((member, i) => (
-          <div
-            key={i}
-            className="
-              transform transition duration-300
-              hover:scale-105
-              hover:-translate-y-2
-              hover:shadow-[0_0_25px_rgba(168,85,247,0.4)]
-              rounded-2xl
-            "
-          >
+          <div key={i}>
             <TeamCard member={member} />
           </div>
         ))}
