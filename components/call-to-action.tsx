@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import { FooterSection } from "./home/FooterSection";
 
 export default function CallToAction() {
   return (
@@ -37,7 +36,6 @@ export default function CallToAction() {
           Get Started Now
         </motion.button>
       </motion.div>
-      <FooterSection />
     </section>
   );
 }
