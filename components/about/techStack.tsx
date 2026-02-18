@@ -23,7 +23,7 @@ const duplicatedIcons = [...icons, ...icons];
 
 export default function TechStack() {
   return (
-    <section className="py-10 overflow-hidden ">
+    <section className=" overflow-hidden ">
       <h2 className="text-center text-4xl font-bold mb-10">Tech Stack</h2>
 
       <div className="relative flex max-w-[100vw] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
