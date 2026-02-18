@@ -44,10 +44,10 @@ export default function SignUpPage() {
   {/* Google Button */}
 <button
   type="submit"
-  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-md hover:bg-black/50"
+  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-md hover:bg-black/50 hover:bg-cyan-400"
 >
   <FcGoogle size={24} />
-  <span className="font-medium text-white">Continue with Google</span>
+  <span className="font-medium text-white hover:text-black">Continue with Google</span>
 </button>
 
   {/* OR separator */}
