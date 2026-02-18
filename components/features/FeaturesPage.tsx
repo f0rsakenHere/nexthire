@@ -318,7 +318,7 @@ export function FeaturesPage() {
               transition={{ delay: 0.1 }}
               className="text-blue-200/60 max-w-2xl mx-auto text-lg font-light"
             >
-              Features you won't find anywhere else
+              Features you won&apos;t find anywhere else
             </motion.p>
           </div>
 
@@ -393,7 +393,7 @@ export function FeaturesPage() {
               transition={{ delay: 0.1 }}
               className="text-blue-200/60 max-w-2xl mx-auto text-lg font-light"
             >
-              Whether you're just starting out or leveling up, we've got you covered
+              Whether you&apos;re just starting out or leveling up, we&apos;ve got you covered
             </motion.p>
           </div>
 
