@@ -5,7 +5,7 @@ export default function SignUpPage() {
     <div className="flex min-h-screen items-center justify-center bg-black text-white">
       
       {/* Card */}
-      <div className="w-full max-w-md rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_40px_rgba(34,211,238,0.15)]">
+      <div className="w-full max-w-md rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_40px_rgba(34,211,238,0.15)] mt-22">
         
         {/* Heading */}
         <h2 className="text-4xl font-bold text-center">
