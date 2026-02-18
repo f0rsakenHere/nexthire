@@ -1,4 +1,3 @@
-// import { FooterSection } from "@/components/home/FooterSection";
 import TeamCard from "./team-card";
 
 export default function TeamSection() {
