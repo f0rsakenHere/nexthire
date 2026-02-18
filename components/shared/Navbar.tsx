@@ -26,7 +26,7 @@ export default function Navbar() {
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:absolute md:inset-x-0 md:flex md:justify-center items-center space-x-8 pointer-events-none">
             <div className="pointer-events-auto flex items-center space-x-8 bg-black/20 backdrop-blur-md rounded-full px-6 py-2 border border-white/5">
-              {["Product", "How it works", "Features", "Mission", "About"].map(
+              {["Product", "How it works", "Features", "Faq", "About"].map(
                 (item) => (
                   <Link
                     key={item}
