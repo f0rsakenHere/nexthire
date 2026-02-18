@@ -29,14 +29,14 @@ export default function SignUpPage() {
 
           <input
             type="email"
-            placeholder="Email Address"
+            placeholder="Write Your Email Address"
             className="w-full px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-md"
             required
           />
 
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Write Your Password"
             className="w-full px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-md"
            required
            />
