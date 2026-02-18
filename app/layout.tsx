@@ -6,6 +6,7 @@ import {
   Bricolage_Grotesque,
 } from "next/font/google"; // 1
 import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -41,6 +42,7 @@ export default function RootLayout({
       >
         <Navbar />
         <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
