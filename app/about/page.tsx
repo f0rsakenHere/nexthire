@@ -18,7 +18,6 @@ export default function AboutUs() {
       <Story />
       <Features />
       <WhyStandOut />
-
       <TechStack />
       <TeamSection />
     </main>
