@@ -24,12 +24,14 @@ export default function SignUpPage() {
             type="text"
             placeholder="Full Name"
             className="w-full px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-md"
-          />
+           required
+           />
 
           <input
             type="email"
             placeholder="Email Address"
             className="w-full px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-md"
+          required
           />
 
           <input
