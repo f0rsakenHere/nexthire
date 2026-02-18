@@ -8,7 +8,10 @@ export default function Stats() {
   return (
     <section className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto px-6">
       {stats.map((s, i) => (
-        <div key={i} className="border rounded-2xl p-6 text-center">
+        <div
+          key={i}
+          className="border rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-cyan-400"
+        >
           <h3 className="text-3xl font-bold">{s.value}</h3>
           <p className="text-muted-foreground">{s.label}</p>
         </div>
