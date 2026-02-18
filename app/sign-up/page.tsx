@@ -22,7 +22,7 @@ export default function SignUpPage() {
         <form className="mt-8 space-y-4">
           <input
             type="text"
-            placeholder="Full Name"
+            placeholder="Write Your Full Name"
             className="w-full px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-md"
            required
            />
