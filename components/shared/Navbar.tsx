@@ -26,19 +26,6 @@ export default function Navbar() {
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:absolute md:inset-x-0 md:flex md:justify-center items-center space-x-8 pointer-events-none">
             <div className="pointer-events-auto flex items-center space-x-8 bg-black/20 backdrop-blur-md rounded-full px-6 py-2 border border-white/5">
-<<<<<<< HEAD
-              {["Product", "How it works", "Features", "Faq", "About"].map(
-                (item) => (
-                  <Link
-                    key={item}
-                    href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                    className="text-white/70 hover:text-white transition-all text-sm font-medium tracking-wide hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
-                  >
-                    {item}
-                  </Link>
-                ),
-              )}
-=======
               {["How it Works", "Features", "FAQs", "About"].map((item) => (
                 <Link
                   key={item}
@@ -48,7 +35,6 @@ export default function Navbar() {
                   {item}
                 </Link>
               ))}
->>>>>>> a0ec0ff1d9ed79cc60d7fed9850dbd63822fe366
             </div>
           </div>
 
