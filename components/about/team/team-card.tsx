@@ -19,7 +19,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
           <div className="absolute inset-0 rounded-full border border-white/10 group-hover:border-cyan-500/30 transition-colors duration-500" />
           <div className="absolute inset-1 rounded-full overflow-hidden bg-white/5">
             <Image
-              src={`https://api.dicebear.com/9.x/avataaars/svg?seed=${member.name}&backgroundColor=transparent`}
+              src={`https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${member.name}`}
               alt={member.name}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
