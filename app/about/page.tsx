@@ -1,26 +1,20 @@
 import Hero from "@/components/about/hero";
 import Stats from "@/components/about/states";
-import Platform from "@/components/about/platform";
-import Story from "@/components/about/story";
-import Features from "@/components/about/features";
+import MissionStory from "@/components/about/mission-story";
 import TechStack from "@/components/about/techStack";
 import TeamSection from "@/components/about/team/team-section";
-import Highlights from "@/components/about/highlights";
-import WhyStandOut from "@/components/about/why-standout";
+import { CtaSection } from "@/components/home/CtaSection";
 
 export default function AboutUs() {
   return (
-    <main className="space-y-24">
+    <main className="bg-black min-h-screen">
       <Hero />
       <Stats />
-      <Platform />
-      <Highlights />
-      <Story />
-      <Features />
-      <WhyStandOut />
+      <MissionStory />
 
       <TechStack />
       <TeamSection />
+      <CtaSection />
     </main>
   );
 }
