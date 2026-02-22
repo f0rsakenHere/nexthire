@@ -24,16 +24,15 @@ import {
   XCircleIcon,
   AlertTriangleIcon,
   SparklesIcon,
-  ArrowRightIcon,
   RotateCcwIcon,
   TrendingUpIcon,
-  ShieldCheckIcon,
   TagIcon,
   BrainIcon,
   GraduationCapIcon,
+  ShieldCheckIcon,
+  ArrowUpRightIcon,
+  ChevronRightIcon,
 } from "lucide-react";
-
-// ── Types ──────────────────────────────────────────────────────────────────
 interface ResumeResult {
   ats_score: number;
   sections: {
@@ -49,90 +48,192 @@ interface ResumeResult {
   summary: string;
 }
 
-// ── Score ring ─────────────────────────────────────────────────────────────
+function scoreGrade(score: number) {
+  if (score >= 85)
+    return {
+      label: "Excellent",
+      color: "#22d3ee",
+      bg: "bg-cyan-500/10",
+      border: "border-cyan-500/30",
+      text: "text-cyan-300",
+      bar: "from-cyan-400 to-blue-500",
+    };
+  if (score >= 70)
+    return {
+      label: "Good",
+      color: "#34d399",
+      bg: "bg-emerald-500/10",
+      border: "border-emerald-500/30",
+      text: "text-emerald-300",
+      bar: "from-emerald-400 to-cyan-500",
+    };
+  if (score >= 55)
+    return {
+      label: "Fair",
+      color: "#fbbf24",
+      bg: "bg-amber-500/10",
+      border: "border-amber-500/30",
+      text: "text-amber-300",
+      bar: "from-amber-400 to-orange-400",
+    };
+  return {
+    label: "Needs Work",
+    color: "#f87171",
+    bg: "bg-rose-500/10",
+    border: "border-rose-500/30",
+    text: "text-rose-300",
+    bar: "from-rose-400 to-pink-500",
+  };
+}
+
 function ScoreRing({ score }: { score: number }) {
-  const r = 54;
+  const g = scoreGrade(score);
+  const r = 70;
   const circ = 2 * Math.PI * r;
   const filled = (score / 100) * circ;
-  const color = score >= 80 ? "#22d3ee" : score >= 60 ? "#f59e0b" : "#f87171";
 
   return (
-    <div className="relative flex items-center justify-center w-40 h-40">
+    <div className="relative flex items-center justify-center w-48 h-48">
+      {/* Outer glow ring */}
+      <div
+        className="absolute inset-0 rounded-full opacity-20 blur-xl"
+        style={{ background: g.color }}
+      />
       <svg
-        className="rotate-[-90deg]"
-        width="160"
-        height="160"
-        viewBox="0 0 160 160"
+        className="rotate-[-90deg] drop-shadow-2xl"
+        width="192"
+        height="192"
+        viewBox="0 0 192 192"
       >
+        {/* Track */}
         <circle
-          cx="80"
-          cy="80"
+          cx="96"
+          cy="96"
           r={r}
           fill="none"
-          stroke="rgba(255,255,255,0.05)"
-          strokeWidth="10"
+          stroke="rgba(255,255,255,0.04)"
+          strokeWidth="12"
         />
+        {/* Fill */}
         <circle
-          cx="80"
-          cy="80"
+          cx="96"
+          cy="96"
           r={r}
           fill="none"
-          stroke={color}
-          strokeWidth="10"
+          stroke={g.color}
+          strokeWidth="12"
           strokeLinecap="round"
           strokeDasharray={`${filled} ${circ}`}
           style={{
-            filter: `drop-shadow(0 0 8px ${color})`,
-            transition: "stroke-dasharray 1s ease",
+            filter: `drop-shadow(0 0 12px ${g.color})`,
+            transition: "stroke-dasharray 1.2s ease",
           }}
         />
       </svg>
-      <div className="absolute flex flex-col items-center">
-        <span className="text-4xl font-bold text-white">{score}</span>
-        <span className="text-xs text-white/40 font-mono uppercase tracking-widest">
-          / 100
+      <div className="absolute flex flex-col items-center gap-1">
+        <span className="text-5xl font-black text-white tracking-tight">
+          {score}
+        </span>
+        <span className="text-[10px] text-white/50 font-mono uppercase tracking-[0.25em]">
+          out of 100
         </span>
       </div>
     </div>
   );
 }
 
-// ── Section score bar ──────────────────────────────────────────────────────
-function SectionBar({
+function SectionCard({
   label,
   score,
   icon,
+  sub,
 }: {
   label: string;
   score: number;
   icon: React.ReactNode;
+  sub?: string;
 }) {
-  const color =
-    score >= 80
-      ? "from-cyan-500 to-blue-500"
-      : score >= 60
-        ? "from-amber-500 to-orange-500"
-        : "from-rose-500 to-red-500";
+  const g = scoreGrade(score);
   return (
-    <div className="group">
-      <div className="flex items-center justify-between mb-1.5">
-        <div className="flex items-center gap-2 text-sm text-blue-200/60 group-hover:text-white transition-colors">
-          <span className="text-cyan-400/60">{icon}</span>
-          {label}
+    <div
+      className={`relative rounded-2xl ${g.bg} ${g.border} border p-5 overflow-hidden group hover:scale-[1.01] transition-transform duration-300`}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div className={`p-2 rounded-xl ${g.bg} ${g.border} border`}>
+          <span className={g.text}>{icon}</span>
         </div>
-        <span className="text-xs font-mono text-white/30">{score}%</span>
+        <span className={`text-2xl font-black ${g.text}`}>{score}</span>
       </div>
-      <div className="h-1 rounded-full bg-white/5 overflow-hidden">
-        <div
-          className={`h-full rounded-full bg-gradient-to-r ${color} transition-all duration-700`}
-          style={{ width: `${score}%` }}
-        />
-      </div>
+      <p className="text-sm font-semibold text-white/80">{label}</p>
+      {sub && (
+        <p className="text-xs text-white/70 mt-1 leading-relaxed">{sub}</p>
+      )}
     </div>
   );
 }
 
-// ── Main component ─────────────────────────────────────────────────────────
+function EmptyHero({ onExampleClick }: { onExampleClick: () => void }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 gap-6 text-center">
+      <div className="relative">
+        <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-3xl scale-150" />
+        <div className="relative w-24 h-24 rounded-3xl bg-white/[0.03] border border-white/10 flex items-center justify-center">
+          <FileTextIcon className="size-10 text-cyan-400/60" />
+        </div>
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-white">Paste your resume</h2>
+        <p className="text-blue-200/65 mt-1 text-sm">
+          Get an instant ATS score + actionable AI feedback
+        </p>
+      </div>
+      <div className="flex flex-wrap gap-3 justify-center">
+        {[
+          "Formatting check",
+          "Keyword analysis",
+          "Impact scoring",
+          "Improvement plan",
+        ].map((f) => (
+          <span
+            key={f}
+            className="px-3 py-1.5 rounded-full text-xs bg-white/[0.03] border border-white/10 text-white/70"
+          >
+            ✓ {f}
+          </span>
+        ))}
+      </div>
+      <button
+        onClick={onExampleClick}
+        className="text-xs text-cyan-400/75 hover:text-cyan-300 transition-colors flex items-center gap-1 font-mono"
+      >
+        Try with a sample resume <ChevronRightIcon className="size-3" />
+      </button>
+    </div>
+  );
+}
+
+const SAMPLE_RESUME = `John Smith
+john.smith@email.com | linkedin.com/in/johnsmith | github.com/johnsmith
+
+SUMMARY
+Full-Stack Software Engineer with 4 years of experience building scalable web applications using React, Node.js, and PostgreSQL. Led development of SaaS product serving 10,000+ users.
+
+EXPERIENCE
+Senior Software Engineer — TechCorp Inc.            2022 – Present
+- Built customer dashboard that reduced support tickets by 35%
+- Led migration from REST to GraphQL, cutting API response time by 40%
+- Mentored 3 junior engineers and conducted 50+ code reviews
+
+Software Engineer — StartupXYZ                      2020 – 2022
+- Developed core payment flow processing $2M+ monthly transactions
+- Integrated Stripe, Plaid, and Twilio APIs
+
+SKILLS
+JavaScript, TypeScript, React, Node.js, PostgreSQL, AWS, Docker, GraphQL
+
+EDUCATION
+B.S. Computer Science — State University           2016 – 2020`;
+
 export default function ResumeScorerPage() {
   const [resume, setResume] = useState("");
   const [jobDesc, setJobDesc] = useState("");
@@ -140,53 +241,45 @@ export default function ResumeScorerPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ResumeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [statusMsg, setStatusMsg] = useState("");
+  const [step, setStep] = useState(0);
 
-  const scoreLabel = !result
-    ? ""
-    : result.ats_score >= 80
-      ? "Strong"
-      : result.ats_score >= 60
-        ? "Moderate"
-        : "Needs Work";
-
-  const scoreColor = !result
-    ? ""
-    : result.ats_score >= 80
-      ? "text-cyan-400"
-      : result.ats_score >= 60
-        ? "text-amber-400"
-        : "text-rose-400";
+  const steps = [
+    "Reading resume…",
+    "Running ATS checks…",
+    "Analyzing keywords…",
+    "Generating report…",
+  ];
 
   async function handleScore() {
     if (resume.trim().length < 50) {
-      setError("Please paste your resume (at least 50 characters).");
+      setError("Paste at least 50 characters of your resume.");
       return;
     }
     setError(null);
     setResult(null);
     setLoading(true);
-    setStatusMsg("Sending resume to AI…");
+    setStep(0);
+
+    const stepInterval = setInterval(
+      () => setStep((s) => Math.min(s + 1, steps.length - 1)),
+      4000,
+    );
 
     try {
-      setStatusMsg("Analyzing ATS compatibility…");
       const res = await fetch("/api/resume-score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ resume, jobDescription: jobDesc || undefined }),
       });
-
-      setStatusMsg("Parsing results…");
       const data = await res.json();
-
       if (!res.ok || data.error) throw new Error(data.error ?? "Unknown error");
-
       setResult(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
+      clearInterval(stepInterval);
       setLoading(false);
-      setStatusMsg("");
+      setStep(0);
     }
   }
 
@@ -197,377 +290,461 @@ export default function ResumeScorerPage() {
     setError(null);
   }
 
+  const g = result ? scoreGrade(result.ats_score) : null;
+
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-black text-white">
-        {/* Header */}
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b border-white/10 bg-black/60 backdrop-blur-sm transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <SidebarInset className="bg-[#050508] text-white min-h-screen">
+        <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-white/[0.06] bg-[#050508]/80 backdrop-blur-xl">
           <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1 text-white/60 hover:text-white hover:bg-white/10" />
+            <SidebarTrigger className="-ml-1 text-white/40 hover:text-white hover:bg-white/8 rounded-lg transition-colors" />
             <Separator
               orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4 bg-white/10"
+              className="mr-2 data-[orientation=vertical]:h-4 bg-white/[0.08]"
             />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink
                     href="/dashboard"
-                    className="text-blue-200/60 hover:text-cyan-400 transition-colors"
+                    className="text-white/55 hover:text-cyan-400 text-sm transition-colors"
                   >
                     Dashboard
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block text-white/20" />
+                <BreadcrumbSeparator className="hidden md:block text-white/10" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="text-white/80">
+                  <BreadcrumbPage className="text-white/80 text-sm">
                     AI Resume Scorer
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto flex items-center gap-2 px-4">
-            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-medium text-zinc-500">
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+          <div className="ml-auto px-4 flex items-center gap-2">
+            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+            <span className="text-[10px] font-mono uppercase tracking-widest text-white/50">
               AI Online
-            </div>
+            </span>
           </div>
         </header>
 
-        <div className="flex flex-1 flex-col gap-8 p-6 bg-black relative overflow-auto">
-          {/* Ambient glow */}
-          <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[500px] bg-cyan-900/10 blur-[120px] rounded-full mix-blend-screen" />
-
-          {/* Page title */}
-          <div className="relative z-10">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 mb-1 font-mono">
-              Resume Tools
-            </p>
-            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-              AI Resume{" "}
-              <span className="bg-gradient-to-r from-cyan-200 to-blue-500 bg-clip-text text-transparent">
-                Scorer
-              </span>
-            </h1>
-            <p className="text-blue-200/60 font-light mt-2 max-w-xl">
-              Paste your resume below. Our AI will analyze ATS compatibility,
-              formatting, impact, and keywords — and tell you exactly what
-              recruiters see.
-            </p>
+        <div className="p-6 lg:p-8 flex flex-col gap-8">
+          {/* ── Page title ── */}
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-cyan-400/80 mb-2">
+                Resume Tools
+              </p>
+              <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-white">
+                AI Resume{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400">
+                  Scorer
+                </span>
+              </h1>
+              <p className="text-white/55 text-sm mt-1.5">
+                Paste your resume · get scored · know exactly what to fix
+              </p>
+            </div>
+            {result && (
+              <button
+                onClick={reset}
+                className="flex items-center gap-1.5 text-xs text-white/50 hover:text-cyan-400 transition-colors font-mono"
+              >
+                <RotateCcwIcon className="size-3" /> New resume
+              </button>
+            )}
           </div>
 
-          {/* ── Input area ── */}
           {!result && (
-            <div className="relative z-10 flex flex-col gap-4 w-full">
-              {/* Resume textarea */}
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
-                  <FileTextIcon className="size-4 text-cyan-400/60" />
-                  <span className="text-xs uppercase tracking-widest text-cyan-400/60 font-mono">
-                    Resume Text
-                  </span>
-                  <span className="ml-auto text-xs text-white/20 font-mono">
-                    {resume.length} chars
-                  </span>
-                </div>
-                <textarea
-                  value={resume}
-                  onChange={(e) => setResume(e.target.value)}
-                  placeholder="Paste your full resume here — plain text works best…"
-                  rows={14}
-                  className="w-full bg-transparent px-4 py-4 text-sm text-blue-100/80 placeholder:text-white/15 font-mono resize-none focus:outline-none leading-relaxed"
-                />
-              </div>
-
-              {/* JD toggle */}
-              <button
-                onClick={() => setShowJD((v) => !v)}
-                className="flex items-center gap-2 text-xs text-cyan-400/60 hover:text-cyan-300 transition-colors w-fit font-mono uppercase tracking-widest"
-              >
-                <BriefcaseIcon className="size-3.5" />
-                {showJD ? "Hide" : "+ Add"} Job Description (optional)
-              </button>
-
-              {showJD && (
-                <div className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
-                  <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
-                    <BriefcaseIcon className="size-4 text-cyan-400/60" />
-                    <span className="text-xs uppercase tracking-widest text-cyan-400/60 font-mono">
-                      Job Description
+            <div className="grid lg:grid-cols-[1fr_380px] gap-6">
+              {/* Left — resume input */}
+              <div className="flex flex-col gap-4">
+                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] overflow-hidden focus-within:border-cyan-500/40 transition-colors duration-300">
+                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.06]">
+                    <FileTextIcon className="size-4 text-cyan-400/50" />
+                    <span className="text-xs font-mono uppercase tracking-widest text-white/60">
+                      Resume Text
+                    </span>
+                    <span className="ml-auto text-[10px] font-mono text-white/45">
+                      {resume.length} chars
                     </span>
                   </div>
                   <textarea
-                    value={jobDesc}
-                    onChange={(e) => setJobDesc(e.target.value)}
-                    placeholder="Paste the job description to tailor keyword analysis…"
-                    rows={6}
-                    className="w-full bg-transparent px-4 py-4 text-sm text-blue-100/80 placeholder:text-white/15 font-mono resize-none focus:outline-none leading-relaxed"
+                    value={resume}
+                    onChange={(e) => {
+                      setResume(e.target.value);
+                      setError(null);
+
+                      e.target.style.height = "auto";
+                      e.target.style.height = e.target.scrollHeight + "px";
+                    }}
+                    placeholder="Paste your resume here — plain text works best…"
+                    style={{ minHeight: "320px", overflow: "hidden" }}
+                    className="w-full bg-transparent px-4 py-4 text-sm text-white/85 placeholder:text-white/25 font-mono resize-none focus:outline-none leading-loose"
                   />
                 </div>
-              )}
 
-              {error && (
-                <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm">
-                  <AlertTriangleIcon className="size-4 shrink-0" />
-                  {error}
+                {/* JD toggle */}
+                <div>
+                  <button
+                    onClick={() => setShowJD((v) => !v)}
+                    className="flex items-center gap-2 text-xs font-mono text-cyan-400/70 hover:text-cyan-300 transition-colors uppercase tracking-widest"
+                  >
+                    <BriefcaseIcon className="size-3.5" />
+                    {showJD
+                      ? "Hide job description"
+                      : "+ Add job description (optional)"}
+                  </button>
+
+                  {showJD && (
+                    <div className="mt-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] overflow-hidden focus-within:border-cyan-500/40 transition-colors">
+                      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.06]">
+                        <BriefcaseIcon className="size-4 text-cyan-400/50" />
+                        <span className="text-xs font-mono uppercase tracking-widest text-white/60">
+                          Job Description
+                        </span>
+                      </div>
+                      <textarea
+                        value={jobDesc}
+                        onChange={(e) => {
+                          setJobDesc(e.target.value);
+                          // auto-grow
+                          e.target.style.height = "auto";
+                          e.target.style.height = e.target.scrollHeight + "px";
+                        }}
+                        placeholder="Paste the job description to tailor keyword scoring…"
+                        style={{ minHeight: "140px", overflow: "hidden" }}
+                        className="w-full bg-transparent px-4 py-4 text-sm text-white/85 placeholder:text-white/25 font-mono resize-none focus:outline-none leading-loose"
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
 
-              <button
-                onClick={handleScore}
-                disabled={loading || resume.trim().length < 50}
-                className="flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white text-sm font-semibold shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_40px_rgba(34,211,238,0.5)] transition-all disabled:opacity-40 disabled:cursor-not-allowed w-fit"
-              >
-                {loading ? (
-                  <>
-                    <span className="size-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                    {statusMsg || "Analyzing…"}
-                  </>
-                ) : (
-                  <>
-                    <ZapIcon className="size-4" />
-                    Score My Resume
-                  </>
+                {error && (
+                  <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-rose-500/8 border border-rose-500/20 text-rose-300 text-sm">
+                    <AlertTriangleIcon className="size-4 shrink-0 text-rose-400" />
+                    {error}
+                  </div>
                 )}
-              </button>
+
+                <button
+                  onClick={handleScore}
+                  disabled={loading || resume.trim().length < 50}
+                  className="group flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl text-white text-sm font-bold shadow-[0_0_24px_rgba(34,211,238,0.25)] hover:shadow-[0_0_40px_rgba(34,211,238,0.45)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed w-fit"
+                >
+                  {loading ? (
+                    <>
+                      <span className="size-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                      <span className="font-mono text-xs tracking-wide">
+                        {steps[step]}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <ZapIcon className="size-4 group-hover:scale-110 transition-transform" />
+                      Score My Resume
+                      <ArrowUpRightIcon className="size-3.5 opacity-60" />
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Right — empty state / features */}
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.015] p-6 flex flex-col">
+                <EmptyHero onExampleClick={() => setResume(SAMPLE_RESUME)} />
+
+                {/* Feature list */}
+                <div className="mt-auto space-y-3 pt-8 border-t border-white/[0.06]">
+                  {[
+                    {
+                      icon: <TagIcon className="size-3.5" />,
+                      text: "ATS keyword matching vs your target JD",
+                    },
+                    {
+                      icon: <ShieldCheckIcon className="size-3.5" />,
+                      text: "Formatting & structure audit",
+                    },
+                    {
+                      icon: <TrendingUpIcon className="size-3.5" />,
+                      text: "Impact scoring with quantification check",
+                    },
+                    {
+                      icon: <SparklesIcon className="size-3.5" />,
+                      text: "Prioritized improvement action plan",
+                    },
+                  ].map((f, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 text-xs text-white/60"
+                    >
+                      <span className="text-cyan-400/70">{f.icon}</span>
+                      {f.text}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
-          {/* ── Results ── */}
-          {result && (
-            <div className="relative z-10 flex flex-col gap-6 w-full">
-              {/* Top bar: score + verdict + reset */}
-              <div className="flex flex-col md:flex-row gap-6">
-                {/* Score card */}
-                <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-8 flex flex-col items-center gap-3 min-w-[220px]">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono">
+          {result && g && (
+            <div className="flex flex-col gap-6">
+              {/* Row 1: Score + Summary */}
+              <div className="grid lg:grid-cols-[auto_1fr] gap-6">
+                {/* Score hero */}
+                <div
+                  className={`relative rounded-3xl ${g.bg} ${g.border} border p-8 flex flex-col items-center gap-4 min-w-[260px]`}
+                >
+                  <div
+                    className="absolute inset-0 rounded-3xl opacity-30"
+                    style={{
+                      background: `radial-gradient(circle at 50% 30%, ${g.color}18, transparent 70%)`,
+                    }}
+                  />
+                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 relative z-10">
                     ATS Score
                   </p>
                   <ScoreRing score={result.ats_score} />
-                  <span className={`text-lg font-bold ${scoreColor}`}>
-                    {scoreLabel}
-                  </span>
+                  <div
+                    className={`px-4 py-1.5 rounded-full ${g.bg} ${g.border} border relative z-10`}
+                  >
+                    <span className={`text-sm font-bold ${g.text}`}>
+                      {g.label}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Summary + verdict */}
-                <div className="relative flex-1 rounded-3xl bg-white/[0.02] border border-white/10 p-8 flex flex-col justify-between gap-4">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+                {/* Summary panel */}
+                <div className="relative rounded-3xl bg-white/[0.02] border border-white/[0.07] p-8 flex flex-col gap-5">
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono mb-2">
-                      Summary
+                    <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 mb-3">
+                      AI Summary
                     </p>
-                    <p className="text-blue-100/80 text-sm leading-relaxed">
+                    <p className="text-white/85 text-sm leading-relaxed">
                       {result.summary}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-white/[0.02] border border-white/10 px-4 py-3">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-amber-400/60 font-mono mb-1">
+
+                  {/* Recruiter verdict */}
+                  <div className="rounded-2xl bg-amber-500/6 border border-amber-500/20 px-5 py-4">
+                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-amber-400/80 mb-2">
                       Recruiter Verdict
                     </p>
-                    <p className="text-sm text-white/70 italic">
+                    <p className="text-sm text-white/80 italic leading-relaxed">
                       &ldquo;{result.recruiter_verdict}&rdquo;
                     </p>
                   </div>
-                  <button
-                    onClick={reset}
-                    className="flex items-center gap-2 text-xs text-white/30 hover:text-cyan-400 transition-colors w-fit font-mono uppercase tracking-widest"
-                  >
-                    <RotateCcwIcon className="size-3.5" />
-                    Score another resume
-                  </button>
-                </div>
-              </div>
 
-              {/* Section scores */}
-              <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-8">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
-                <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono mb-6">
-                  Section Breakdown
-                </p>
-                <div className="grid md:grid-cols-2 gap-5">
-                  <SectionBar
-                    label="Formatting"
-                    score={result.sections.formatting.score}
-                    icon={<FileTextIcon className="size-3.5" />}
-                  />
-                  <SectionBar
-                    label="Impact"
-                    score={result.sections.impact.score}
-                    icon={<TrendingUpIcon className="size-3.5" />}
-                  />
-                  <SectionBar
-                    label="Keywords"
-                    score={result.sections.keywords.score}
-                    icon={<TagIcon className="size-3.5" />}
-                  />
-                  <SectionBar
-                    label="Experience"
-                    score={result.sections.experience.score}
-                    icon={<BrainIcon className="size-3.5" />}
-                  />
-                  <SectionBar
-                    label="Education"
-                    score={result.sections.education.score}
-                    icon={<GraduationCapIcon className="size-3.5" />}
-                  />
-                </div>
-              </div>
-
-              {/* 3-col detail row */}
-              <div className="grid md:grid-cols-3 gap-4">
-                {/* Formatting issues */}
-                <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-6">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono mb-4">
-                    Formatting Issues
-                  </p>
-                  {result.sections.formatting.issues.length === 0 ? (
-                    <p className="text-sm text-emerald-400 flex items-center gap-2">
-                      <CheckCircleIcon className="size-4" /> No issues found
+                  {/* Strengths */}
+                  <div>
+                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-emerald-400/75 mb-3">
+                      Top Strengths
                     </p>
-                  ) : (
-                    <ul className="space-y-2">
-                      {result.sections.formatting.issues.map((issue, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2 text-sm text-blue-200/60"
-                        >
-                          <XCircleIcon className="size-4 text-rose-400 shrink-0 mt-0.5" />
-                          {issue}
-                        </li>
+                    <div className="flex flex-col gap-2">
+                      {result.top_strengths.map((s, i) => (
+                        <div key={i} className="flex items-start gap-2.5">
+                          <CheckCircleIcon className="size-4 text-emerald-400 shrink-0 mt-0.5" />
+                          <span className="text-sm text-white/80">{s}</span>
+                        </div>
                       ))}
-                    </ul>
-                  )}
+                    </div>
+                  </div>
                 </div>
+              </div>
 
-                {/* Strengths */}
-                <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-6">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-400/60 font-mono mb-4">
-                    Top Strengths
-                  </p>
-                  <ul className="space-y-2">
-                    {result.top_strengths.map((s, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-2 text-sm text-blue-200/60"
-                      >
-                        <CheckCircleIcon className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                        {s}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-blue-200/30 font-mono mt-5 mb-3">
-                    Impact Feedback
-                  </p>
-                  <p className="text-xs text-blue-200/50 leading-relaxed">
-                    {result.sections.impact.feedback}
-                  </p>
-                </div>
+              {/* Row 2: 5 section cards */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <SectionCard
+                  label="Formatting"
+                  score={result.sections.formatting.score}
+                  icon={<FileTextIcon className="size-4" />}
+                  sub={result.sections.formatting.issues[0]}
+                />
+                <SectionCard
+                  label="Impact"
+                  score={result.sections.impact.score}
+                  icon={<TrendingUpIcon className="size-4" />}
+                  sub={result.sections.impact.feedback}
+                />
+                <SectionCard
+                  label="Keywords"
+                  score={result.sections.keywords.score}
+                  icon={<TagIcon className="size-4" />}
+                  sub={`${result.sections.keywords.found.length} found · ${result.sections.keywords.missing.length} missing`}
+                />
+                <SectionCard
+                  label="Experience"
+                  score={result.sections.experience.score}
+                  icon={<BrainIcon className="size-4" />}
+                  sub={result.sections.experience.feedback}
+                />
+                <SectionCard
+                  label="Education"
+                  score={result.sections.education.score}
+                  icon={<GraduationCapIcon className="size-4" />}
+                  sub={result.sections.education.feedback}
+                />
+              </div>
 
+              {/* Row 3: Keywords + Issues */}
+              <div className="grid md:grid-cols-2 gap-6">
                 {/* Keywords */}
-                <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-6">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono mb-4">
+                <div className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7">
+                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 mb-5">
                     Keyword Analysis
                   </p>
                   {result.sections.keywords.found.length > 0 && (
-                    <>
-                      <p className="text-[9px] uppercase tracking-widest text-emerald-400/50 font-mono mb-2">
-                        Found
+                    <div className="mb-5">
+                      <p className="text-[9px] font-mono uppercase tracking-widest text-emerald-400/75 mb-3">
+                        ✓ Found in your resume
                       </p>
-                      <div className="flex flex-wrap gap-1.5 mb-4">
+                      <div className="flex flex-wrap gap-2">
                         {result.sections.keywords.found.map((k, i) => (
                           <span
                             key={i}
-                            className="px-2 py-0.5 rounded-full text-[11px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-mono"
+                            className="px-3 py-1 rounded-lg text-xs bg-emerald-500/8 border border-emerald-500/20 text-emerald-300 font-mono"
                           >
                             {k}
                           </span>
                         ))}
                       </div>
-                    </>
+                    </div>
                   )}
                   {result.sections.keywords.missing.length > 0 && (
-                    <>
-                      <p className="text-[9px] uppercase tracking-widest text-rose-400/50 font-mono mb-2">
-                        Missing
+                    <div>
+                      <p className="text-[9px] font-mono uppercase tracking-widest text-rose-400/75 mb-3">
+                        ✗ Missing — add these
                       </p>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-2">
                         {result.sections.keywords.missing.map((k, i) => (
                           <span
                             key={i}
-                            className="px-2 py-0.5 rounded-full text-[11px] bg-rose-500/10 border border-rose-500/20 text-rose-300 font-mono"
+                            className="px-3 py-1 rounded-lg text-xs bg-rose-500/8 border border-rose-500/20 text-rose-300 font-mono"
                           >
                             {k}
                           </span>
                         ))}
                       </div>
-                    </>
+                    </div>
                   )}
+                </div>
+
+                {/* Formatting issues */}
+                <div className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7">
+                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 mb-5">
+                    Formatting Issues
+                  </p>
+                  {result.sections.formatting.issues.length === 0 ? (
+                    <div className="flex items-center gap-3 text-emerald-400">
+                      <CheckCircleIcon className="size-5" />
+                      <div>
+                        <p className="text-sm font-semibold">No issues found</p>
+                        <p className="text-xs text-white/60 mt-0.5">
+                          Your formatting looks great
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      {result.sections.formatting.issues.map((issue, i) => (
+                        <div
+                          key={i}
+                          className="flex items-start gap-3 p-3 rounded-xl bg-rose-500/5 border border-rose-500/10"
+                        >
+                          <XCircleIcon className="size-4 text-rose-400 shrink-0 mt-0.5" />
+                          <p className="text-sm text-white/80 leading-relaxed">
+                            {issue}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-6 pt-6 border-t border-white/[0.06]">
+                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-white/55 mb-3">
+                      Impact Feedback
+                    </p>
+                    <p className="text-xs text-white/70 leading-relaxed">
+                      {result.sections.impact.feedback}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Top improvements */}
-              <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-8">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+              {/* Row 4: Improvement plan */}
+              <div className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
-                    <SparklesIcon className="size-4 text-cyan-400" />
+                  <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
+                    <SparklesIcon className="size-5 text-cyan-400" />
                   </div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono">
-                    AI Improvement Plan
-                  </p>
+                  <div>
+                    <p className="text-sm font-bold text-white">
+                      AI Improvement Plan
+                    </p>
+                    <p className="text-xs text-white/60">
+                      Ranked by impact on your ATS score
+                    </p>
+                  </div>
                 </div>
-                <div className="grid md:grid-cols-2 gap-3">
+                <div className="grid sm:grid-cols-2 gap-3">
                   {result.top_improvements.map((tip, i) => (
                     <div
                       key={i}
-                      className="group flex items-start gap-3 p-4 rounded-2xl bg-black/30 border border-white/5 hover:border-cyan-500/20 transition-colors"
+                      className="group flex items-start gap-4 p-4 rounded-2xl bg-black/20 border border-white/[0.06] hover:border-cyan-500/20 hover:bg-cyan-500/[0.03] transition-all duration-300 cursor-default"
                     >
-                      <span className="text-xs font-mono text-cyan-500/40 group-hover:text-cyan-400/60 transition-colors mt-0.5 shrink-0">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <div className="flex-1">
-                        <p className="text-sm text-blue-200/70 leading-relaxed">
-                          {tip}
-                        </p>
+                      <div className="flex items-center justify-center size-7 rounded-xl bg-white/[0.04] border border-white/[0.08] shrink-0">
+                        <span className="text-xs font-black text-white/60 font-mono">
+                          {i + 1}
+                        </span>
                       </div>
-                      <ArrowRightIcon className="size-3.5 text-white/10 group-hover:text-cyan-400/40 transition-colors shrink-0 mt-0.5" />
+                      <p className="text-sm text-white/75 leading-relaxed group-hover:text-white/90 transition-colors">
+                        {tip}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Experience & Education feedback */}
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-6">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
-                  <div className="flex items-center gap-2 mb-3">
-                    <ShieldCheckIcon className="size-4 text-cyan-400/50" />
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono">
-                      Experience
-                    </p>
-                  </div>
-                  <p className="text-sm text-blue-200/60 leading-relaxed">
-                    {result.sections.experience.feedback}
-                  </p>
-                </div>
-                <div className="relative rounded-3xl bg-white/[0.02] border border-white/10 p-6">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
-                  <div className="flex items-center gap-2 mb-3">
-                    <GraduationCapIcon className="size-4 text-cyan-400/50" />
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/60 font-mono">
-                      Education
-                    </p>
-                  </div>
-                  <p className="text-sm text-blue-200/60 leading-relaxed">
-                    {result.sections.education.feedback}
-                  </p>
-                </div>
+              {/* Row 5: Experience + Education detail */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {[
+                  {
+                    label: "Experience",
+                    icon: <ShieldCheckIcon className="size-4" />,
+                    text: result.sections.experience.feedback,
+                    score: result.sections.experience.score,
+                  },
+                  {
+                    label: "Education",
+                    icon: <GraduationCapIcon className="size-4" />,
+                    text: result.sections.education.feedback,
+                    score: result.sections.education.score,
+                  },
+                ].map((s) => {
+                  const sg = scoreGrade(s.score);
+                  return (
+                    <div
+                      key={s.label}
+                      className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-white/60">{s.icon}</span>
+                          <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60">
+                            {s.label}
+                          </p>
+                        </div>
+                        <span className={`text-xl font-black ${sg.text}`}>
+                          {s.score}
+                        </span>
+                      </div>
+                      <p className="text-sm text-white/75 leading-relaxed">
+                        {s.text}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
