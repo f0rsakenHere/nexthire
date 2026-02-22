@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -243,6 +243,16 @@ export default function ResumeScorerPage() {
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(0);
 
+  const resumeRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-grow textarea whenever `resume` changes (covers both typing and programmatic updates)
+  useEffect(() => {
+    const el = resumeRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }, [resume]);
+
   const steps = [
     "Reading resume…",
     "Running ATS checks…",
@@ -372,13 +382,11 @@ export default function ResumeScorerPage() {
                     </span>
                   </div>
                   <textarea
+                    ref={resumeRef}
                     value={resume}
                     onChange={(e) => {
                       setResume(e.target.value);
                       setError(null);
-
-                      e.target.style.height = "auto";
-                      e.target.style.height = e.target.scrollHeight + "px";
                     }}
                     placeholder="Paste your resume here — plain text works best…"
                     style={{ minHeight: "320px", overflow: "hidden" }}
