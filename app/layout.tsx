@@ -4,16 +4,14 @@ import {
   Geist_Mono,
   Inter,
   Bricolage_Grotesque,
-} from "next/font/google"; // 1
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
+} from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-heading",
-}); // 2
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,11 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} antialiased min-h-screen flex flex-col`} // 3
+        className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
