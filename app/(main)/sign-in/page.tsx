@@ -13,9 +13,8 @@ export default function SignInPage() {
   const router = useRouter();
 
   const validPassword = (password: string) => {
-    console.log(validPassword);
-    
-  }
+    console.log(validPassword, "TEST");
+  };
 
   const handleSignIn = async () => {
     try {
