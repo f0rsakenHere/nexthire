@@ -1,7 +1,7 @@
 "use client";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import { FaSquareGithub } from "react-icons/fa6";
@@ -13,8 +13,34 @@ export default function SignInPage() {
 
   const [signInWithEmailAndPassword, user, loading, firebaseError] =
     useSignInWithEmailAndPassword(auth);
+  const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+  const [signInWithGithub, githubUser, githubLoading, githubError] = useSignInWithGithub(auth);
 
   const router = useRouter();
+
+  const saveUserToDatabase = async (user: any, provider: string) => {
+    try {
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          name: user.displayName || user.email?.split('@')[0],
+          provider: provider,
+          photoURL: user.photoURL,
+        }),
+      });
+
+      const data = await response.json();
+      console.log('User saved/checked in MongoDB:', data);
+      return data;
+    } catch (error) {
+      console.error('Error saving to MongoDB:', error);
+    }
+  };
 
   const getFirebaseError = (error: any) => {
     if (!error) return "";
@@ -46,12 +72,45 @@ export default function SignInPage() {
       const res = await signInWithEmailAndPassword(email, password);
 
       if (res?.user) {
+        // Check/save user in MongoDB
+        await saveUserToDatabase(res.user, 'email');
+        
         setEmail("");
         setPassword("");
         router.push("/dashboard");
       }
     } catch (err: any) {
       setErrorMsg(err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const res = await signInWithGoogle();
+      
+      if (res?.user) {
+        // Check/save user in MongoDB
+        await saveUserToDatabase(res.user, 'google');
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      setErrorMsg("Failed to sign in with Google");
+    }
+  };
+
+  const handleGithubSignIn = async () => {
+    try {
+      const res = await signInWithGithub();
+      
+      if (res?.user) {
+        // Check/save user in MongoDB
+        await saveUserToDatabase(res.user, 'github');
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("GitHub sign-in error:", error);
+      setErrorMsg("Failed to sign in with GitHub");
     }
   };
 
@@ -122,18 +181,26 @@ export default function SignInPage() {
         <div className="flex mx-auto gap-3 items-center justify-center">
           <button
             type="button"
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400"
+            onClick={handleGoogleSignIn}
+            disabled={googleLoading}
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400 disabled:opacity-50"
           >
             <FcGoogle size={18} />
-            <span className="font-medium hover:text-black">Google</span>
+            <span className="font-medium hover:text-black">
+              {googleLoading ? "Loading..." : "Google"}
+            </span>
           </button>
 
           <button
             type="button"
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400"
+            onClick={handleGithubSignIn}
+            disabled={githubLoading}
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400 disabled:opacity-50"
           >
             <FaSquareGithub size={18} />
-            <span className="font-medium hover:text-black">GitHub</span>
+            <span className="font-medium hover:text-black">
+              {githubLoading ? "Loading..." : "GitHub"}
+            </span>
           </button>
         </div>
 
