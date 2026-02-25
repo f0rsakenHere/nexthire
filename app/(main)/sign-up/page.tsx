@@ -13,11 +13,26 @@ export default function SignUpPage() {
   const router = useRouter();
   const handleSignUp = async () => {
     try {
+      const uppercase = /[A-Z]/;
+      const lowercase = /[a-z]/;
+
+      if (password.length < 6) {
+        return alert("less than 6 characters");
+      }
+      if (!uppercase.test(password)) {
+        return alert("Need a UpperCase");
+      }
+      if (!lowercase.test(password)) {
+        return alert("Need a Lower Case");
+      }
       const res = await createUserWithEmailAndPassword(email, password);
       console.log({ res });
       setEmail("");
       setPassword("");
-      router.push("/dashboard");
+      return (
+        alert("Account created successfully! Please Sign In"),
+        router.push("/sign-in")
+      );
     } catch (error) {
       console.error("Error signing up:", error);
     }

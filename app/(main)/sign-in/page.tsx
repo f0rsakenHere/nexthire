@@ -9,35 +9,62 @@ import { FaSquareGithub } from "react-icons/fa6";
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const [signInWithEmailAndPassword, user, loading, firebaseError] =
+    useSignInWithEmailAndPassword(auth);
+
   const router = useRouter();
 
-  const validPassword = (password: string) => {
-    console.log(validPassword, "TEST");
+  const getFirebaseError = (error: any) => {
+    if (!error) return "";
+
+    if (error.code === "auth/user-not-found") {
+      return "No user found with this email";
+    }
+
+    if (error.code === "auth/wrong-password") {
+      return "Incorrect password";
+    }
+
+    if (error.code === "auth/invalid-email") {
+      return "Invalid email format";
+    }
+
+    return "Login failed. Try again.";
   };
 
   const handleSignIn = async () => {
+    if (!email || !password) {
+      setErrorMsg("Email and password are required");
+      return;
+    }
+
+    setErrorMsg("");
+
     try {
       const res = await signInWithEmailAndPassword(email, password);
-      console.log({ res });
-      setEmail("");
-      setPassword("");
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("Error signing in:", error);
+
+      if (res?.user) {
+        setEmail("");
+        setPassword("");
+        router.push("/dashboard");
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message);
     }
   };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-black text-white">
-      {/* Card */}
       <div className="w-full max-w-md rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_40px_rgba(34,211,238,0.15)] mt-22">
-        {/* Heading */}
         <h2 className="text-2xl font-bold text-center">
           Sign In Your{" "}
           <span className="bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
             Account
           </span>
         </h2>
+
         <p className="text-gray-400 text-center mt-2">
           Welcome Back to the NextHire community
         </p>
@@ -50,75 +77,68 @@ export default function SignInPage() {
           }}
           className="mt-8 space-y-4"
         >
-          {/* <input
-            type="text"
-            placeholder="Write Your Full Name"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border border-blue-600 focus:outline-none shadow-blue-500 shadow-sm"
-            required
-          /> */}
-
           <input
             type="email"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Write Your Email Address"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border  focus:outline-none "
+            className="w-full px-4 py-3 rounded-lg bg-black/40 border focus:outline-none"
             required
           />
 
           <input
             type="password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Write Your Password"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border  focus:outline-none "
+            className="w-full px-4 py-3 rounded-lg bg-black/40 border focus:outline-none"
             required
           />
 
+          {/*  Error Message */}
+          {(errorMsg || firebaseError) && (
+            <p className="text-red-500 text-sm">
+              {errorMsg || getFirebaseError(firebaseError)}
+            </p>
+          )}
+
           <button
             type="submit"
-            className="w-full mt-2 py-3 rounded-lg bg-white hover:bg-cyan-400 text-black font-semibold transition"
+            disabled={loading}
+            className="w-full mt-2 py-3 rounded-lg bg-white hover:bg-cyan-400 text-black font-semibold transition disabled:opacity-50"
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
+
         {/* OR separator */}
         <div className="flex items-center w-full my-2">
           <hr className="flex-grow border-t border-gray-400" />
           <span className="mx-2 text-gray-500 font-medium">Continue with</span>
           <hr className="flex-grow border-t border-gray-400" />
         </div>
-        {/* social Button */}
+
+        {/* Social Buttons */}
         <div className="flex mx-auto gap-3 items-center justify-center">
-          <div>
-            <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg bg-black/40 border focus:outline-none hover:bg-black/50 hover:bg-cyan-400"
-            >
-              <FcGoogle size={18} />
-              <span className="font-medium text-white hover:text-black">
-                Google
-              </span>
-            </button>
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg bg-black/40 border focus:outline-none hover:bg-black/50 hover:bg-cyan-400"
-            >
-              <FaSquareGithub size={18} />
-              <span className="font-medium hover:text-black">GitHub</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400"
+          >
+            <FcGoogle size={18} />
+            <span className="font-medium hover:text-black">Google</span>
+          </button>
+
+          <button
+            type="button"
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400"
+          >
+            <FaSquareGithub size={18} />
+            <span className="font-medium hover:text-black">GitHub</span>
+          </button>
         </div>
 
-        {/* Footer */}
         <p className="text-gray-400 text-center mt-6">
-          Don't have an account?
+          Don't have an account?{" "}
           <a href="/sign-up" className="text-cyan-500 hover:underline">
             Sign Up
           </a>
