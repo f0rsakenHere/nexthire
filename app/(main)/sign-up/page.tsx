@@ -4,6 +4,7 @@ import { FaSquareGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
+import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
@@ -17,7 +18,7 @@ export default function SignUpPage() {
   
   const router = useRouter();
 
-  const saveUserToDatabase = async (user: any, provider: string, userName?: string) => {
+  const saveUserToDatabase = async (user: User, provider: string, userName?: string) => {
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -110,7 +111,7 @@ export default function SignUpPage() {
         {/* Heading */}
         <h2 className="text-2xl font-bold text-center">
           Create an{" "}
-          <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-primary to-blue-600 bg-clip-text text-transparent">
             Account
           </span>
         </h2>
@@ -161,11 +162,11 @@ export default function SignUpPage() {
         </form>
         {/* OR separator */}
         <div className="flex items-center w-full my-4">
-          <hr className="flex-grow border-t border-border" />
+          <hr className="grow border-t border-border" />
           <span className="mx-2 text-muted-foreground text-sm font-medium">
             Continue with
           </span>
-          <hr className="flex-grow border-t border-border" />
+          <hr className="grow border-t border-border" />
         </div>
         {/* social Button */}
         <div className="flex mx-auto gap-3 items-center justify-center">
@@ -174,7 +175,7 @@ export default function SignUpPage() {
               type="button"
               onClick={handleGoogleSignUp}
               disabled={googleLoading}
-              className="w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg bg-black/40 border focus:outline-none hover:bg-black/50 hover:bg-cyan-400 disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg bg-black/40 border focus:outline-none hover:bg-cyan-400 disabled:opacity-50"
             >
               <FcGoogle size={18} />
               <span className="font-medium text-white hover:text-black">
@@ -187,7 +188,7 @@ export default function SignUpPage() {
               type="button"
               onClick={handleGithubSignUp}
               disabled={githubLoading}
-              className="w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg bg-black/40 border focus:outline-none hover:bg-black/50 hover:bg-cyan-400 disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg bg-black/40 border focus:outline-none hover:bg-cyan-400 disabled:opacity-50"
             >
               <FaSquareGithub size={18} />
               <span className="font-medium hover:text-black">

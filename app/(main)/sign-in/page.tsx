@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { User } from "firebase/auth";
+import { AuthError } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { FaSquareGithub } from "react-icons/fa6";
 
@@ -43,7 +44,7 @@ export default function SignInPage() {
     }
   };
 
-  const getFirebaseError = (error: any) => {
+  const getFirebaseError = (error: AuthError | null | undefined) => {
     if (!error) return "";
 
     if (error.code === "auth/user-not-found") {
