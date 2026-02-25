@@ -60,23 +60,23 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
 
 ## 📚 Documentation
 
-### 🌟 **[Complete Setup Guide](./docs/COMPLETE_SETUP_GUIDE.md)** - START HERE!
+### 🌟 **[MongoDB Troubleshooting & Implementation Guide](./docs/MONGODB_TROUBLESHOOTING_AND_IMPLEMENTATION.md)** - RECOMMENDED!
 
-Comprehensive guide covering:
-- Firebase setup (step-by-step)
-- MongoDB Atlas configuration
-- Environment variables setup
-- Project installation
-- Testing and deployment
+Complete guide covering:
+- Architecture diagram with visual flow
+- Step-by-step implementation walkthrough
+- Comprehensive troubleshooting checklist
+- Common errors with solutions
+- Testing guide with examples
+- Debug commands reference
 
 ### 📖 Additional Documentation
 
-| Document | Description | Language |
-|----------|-------------|----------|
-| [MongoDB Integration](./docs/MONGODB_INTEGRATION_BANGLA.md) | Database structure and API details | 🇧🇩 Bangla |
-| [Environment Setup](./docs/ENV_SETUP_GUIDE.md) | Environment variables guide | 🇬🇧 English |
-| [ENV Template](./docs/ENV_LOCAL_TEMPLATE.md) | Quick copy-paste template | 🇬🇧 English |
-| [Docs Index](./docs/README.md) | Documentation index | 🇧🇩 Bangla + 🇬🇧 English |
+| Document | Description | Status |
+|----------|-------------|--------|
+| [MongoDB Implementation](./docs/MONGODB_TROUBLESHOOTING_AND_IMPLEMENTATION.md) | Complete implementation & troubleshooting | ✅ Complete |
+| [Resume Scorer](./docs/RESUME_SCORER_DOCS.md) | Resume scoring feature docs | ✅ Complete |
+| [Docs Index](./docs/README.md) | Documentation index | ✅ Complete |
 
 ---
 
