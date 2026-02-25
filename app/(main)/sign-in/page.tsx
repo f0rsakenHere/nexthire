@@ -370,6 +370,40 @@ export default function SignInPage() {
           </p>
         </div>
       </div>
+
+      {/* 🔥 RESET PASSWORD MODAL */}
+      {showResetModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white text-black p-6 rounded-xl w-full max-w-md relative">
+            <button
+              onClick={() => setShowResetModal(false)}
+              className="absolute right-3 top-2 text-lg"
+            >
+              ✕
+            </button>
+
+            <h2 className="text-2xl  t font-bold mb-4 text-center">
+              Reset Password
+            </h2>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={resetEmail}
+              onChange={(e) => setResetEmail(e.target.value)}
+              className="w-full px-4 py-3 border rounded-lg mb-4"
+            />
+
+            <button
+              onClick={handleResetPassword}
+              disabled={resetLoading}
+              className="w-full py-3 bg-cyan-400  rounded-lg disabled:opacity-50"
+            >
+              {resetLoading ? "Sending..." : "Send Reset Link"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
