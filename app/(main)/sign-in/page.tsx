@@ -12,6 +12,11 @@ export default function SignInPage() {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter();
 
+  const validPassword = (password: string) => {
+    console.log(validPassword);
+    
+  }
+
   const handleSignIn = async () => {
     try {
       const res = await signInWithEmailAndPassword(email, password);
