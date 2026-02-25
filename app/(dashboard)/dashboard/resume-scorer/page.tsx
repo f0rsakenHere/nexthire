@@ -52,37 +52,37 @@ function scoreGrade(score: number) {
   if (score >= 85)
     return {
       label: "Excellent",
-      color: "hsl(var(--primary))",
-      bg: "bg-primary/10",
-      border: "border-primary/30",
-      text: "text-primary",
-      bar: "from-primary to-blue-600",
+      color: "#6366f1",
+      bg: "bg-indigo-50",
+      border: "border-indigo-200",
+      text: "text-indigo-600",
+      bar: "from-indigo-500 to-violet-500",
     };
   if (score >= 70)
     return {
       label: "Good",
-      color: "#10b981",
-      bg: "bg-emerald-500/10",
-      border: "border-emerald-500/30",
-      text: "text-emerald-400",
-      bar: "from-emerald-500 to-cyan-500",
+      color: "#0d9488",
+      bg: "bg-teal-50",
+      border: "border-teal-200",
+      text: "text-teal-600",
+      bar: "from-teal-500 to-emerald-400",
     };
   if (score >= 55)
     return {
       label: "Fair",
-      color: "#f59e0b",
-      bg: "bg-amber-500/10",
-      border: "border-amber-500/30",
-      text: "text-amber-400",
+      color: "#d97706",
+      bg: "bg-amber-50",
+      border: "border-amber-200",
+      text: "text-amber-600",
       bar: "from-amber-500 to-orange-400",
     };
   return {
     label: "Needs Work",
-    color: "#ef4444",
-    bg: "bg-destructive/10",
-    border: "border-destructive/30",
-    text: "text-destructive",
-    bar: "from-destructive to-pink-500",
+    color: "#e11d48",
+    bg: "bg-rose-50",
+    border: "border-rose-200",
+    text: "text-rose-600",
+    bar: "from-rose-500 to-pink-500",
   };
 }
 
@@ -111,7 +111,7 @@ function ScoreRing({ score }: { score: number }) {
           cy="96"
           r={r}
           fill="none"
-          stroke="rgba(255,255,255,0.04)"
+          stroke="rgba(0,0,0,0.08)"
           strokeWidth="12"
         />
         {/* Fill */}
@@ -155,21 +155,23 @@ function SectionCard({
 }) {
   const g = scoreGrade(score);
   return (
-    <div
-      className={`relative rounded-2xl ${g.bg} ${g.border} border p-5 overflow-hidden group hover:scale-[1.01] transition-transform duration-300`}
-    >
-      <div className="flex items-start justify-between mb-4">
+    <div className="relative rounded-2xl bg-white border border-gray-100 shadow-sm p-5 flex flex-col gap-3 group hover:shadow-md hover:border-gray-200 transition-all duration-300">
+      <div className="flex items-center justify-between">
         <div className={`p-2 rounded-xl ${g.bg} ${g.border} border`}>
           <span className={g.text}>{icon}</span>
         </div>
-        <span className={`text-2xl font-black ${g.text}`}>{score}</span>
+        <span className={`text-3xl font-black ${g.text} tracking-tight`}>
+          {score}
+        </span>
       </div>
-      <p className="text-sm font-semibold text-foreground/80">{label}</p>
-      {sub && (
-        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-          {sub}
+      <div>
+        <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+          {label}
         </p>
-      )}
+        {sub && (
+          <p className="text-xs text-gray-500 mt-1 leading-relaxed">{sub}</p>
+        )}
+      </div>
     </div>
   );
 }
@@ -435,8 +437,8 @@ export default function ResumeScorerPage() {
                 </div>
 
                 {error && (
-                  <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-rose-500/8 border border-rose-500/20 text-rose-300 text-sm">
-                    <AlertTriangleIcon className="size-4 shrink-0 text-rose-400" />
+                  <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">
+                    <AlertTriangleIcon className="size-4 shrink-0 text-rose-500" />
                     {error}
                   </div>
                 )}
@@ -505,21 +507,13 @@ export default function ResumeScorerPage() {
               {/* Row 1: Score + Summary */}
               <div className="grid lg:grid-cols-[auto_1fr] gap-6">
                 {/* Score hero */}
-                <div
-                  className={`relative rounded-3xl ${g.bg} ${g.border} border p-8 flex flex-col items-center gap-4 min-w-[260px]`}
-                >
-                  <div
-                    className="absolute inset-0 rounded-3xl opacity-30"
-                    style={{
-                      background: `radial-gradient(circle at 50% 30%, ${g.color}18, transparent 70%)`,
-                    }}
-                  />
-                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground relative z-10">
+                <div className="relative rounded-3xl bg-white border border-gray-100 shadow-sm p-8 flex flex-col items-center gap-4 min-w-[260px]">
+                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-gray-400">
                     ATS Score
                   </p>
                   <ScoreRing score={result.ats_score} />
                   <div
-                    className={`px-4 py-1.5 rounded-full ${g.bg} ${g.border} border relative z-10`}
+                    className={`px-4 py-1.5 rounded-full ${g.bg} ${g.border} border`}
                   >
                     <span className={`text-sm font-bold ${g.text}`}>
                       {g.label}
@@ -539,25 +533,28 @@ export default function ResumeScorerPage() {
                   </div>
 
                   {/* Recruiter verdict */}
-                  <div className="rounded-2xl bg-amber-500/10 border border-amber-500/20 px-5 py-4">
-                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-amber-400/80 mb-2">
+                  <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 px-5 py-4">
+                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-amber-500 mb-2">
                       Recruiter Verdict
                     </p>
-                    <p className="text-sm text-foreground/80 italic leading-relaxed">
+                    <p className="text-sm text-gray-700 italic leading-relaxed">
                       &ldquo;{result.recruiter_verdict}&rdquo;
                     </p>
                   </div>
 
                   {/* Strengths */}
                   <div>
-                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-emerald-400/80 mb-3">
+                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-gray-400 mb-3">
                       Top Strengths
                     </p>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2.5">
                       {result.top_strengths.map((s, i) => (
-                        <div key={i} className="flex items-start gap-2.5">
-                          <CheckCircleIcon className="size-4 text-emerald-500 shrink-0 mt-0.5" />
-                          <span className="text-sm text-foreground/80">
+                        <div
+                          key={i}
+                          className="flex items-start gap-3 pl-3 border-l-2 border-teal-300"
+                        >
+                          <CheckCircleIcon className="size-4 text-teal-500 shrink-0 mt-0.5" />
+                          <span className="text-sm text-gray-700 leading-snug">
                             {s}
                           </span>
                         </div>
@@ -610,14 +607,14 @@ export default function ResumeScorerPage() {
                   </p>
                   {result.sections.keywords.found.length > 0 && (
                     <div className="mb-5">
-                      <p className="text-[9px] font-mono uppercase tracking-widest text-emerald-400/75 mb-3">
+                      <p className="text-[9px] font-mono uppercase tracking-widest text-emerald-700 mb-3">
                         ✓ Found in your resume
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {result.sections.keywords.found.map((k, i) => (
                           <span
                             key={i}
-                            className="px-3 py-1 rounded-lg text-xs bg-emerald-500/8 border border-emerald-500/20 text-emerald-300 font-mono"
+                            className="px-3 py-1 rounded-lg text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono"
                           >
                             {k}
                           </span>
@@ -627,14 +624,14 @@ export default function ResumeScorerPage() {
                   )}
                   {result.sections.keywords.missing.length > 0 && (
                     <div>
-                      <p className="text-[9px] font-mono uppercase tracking-widest text-rose-400/75 mb-3">
+                      <p className="text-[9px] font-mono uppercase tracking-widest text-rose-700 mb-3">
                         ✗ Missing — add these
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {result.sections.keywords.missing.map((k, i) => (
                           <span
                             key={i}
-                            className="px-3 py-1 rounded-lg text-xs bg-rose-500/8 border border-rose-500/20 text-rose-300 font-mono"
+                            className="px-3 py-1 rounded-lg text-xs bg-rose-50 border border-rose-200 text-rose-700 font-mono"
                           >
                             {k}
                           </span>
@@ -664,7 +661,7 @@ export default function ResumeScorerPage() {
                       {result.sections.formatting.issues.map((issue, i) => (
                         <div
                           key={i}
-                          className="flex items-start gap-3 p-3 rounded-xl bg-rose-500/5 border border-rose-500/10"
+                          className="flex items-start gap-3 p-3 rounded-xl bg-rose-50 border border-rose-200"
                         >
                           <XCircleIcon className="size-4 text-rose-500 shrink-0 mt-0.5" />
                           <p className="text-sm text-foreground/80 leading-relaxed">
@@ -705,14 +702,14 @@ export default function ResumeScorerPage() {
                   {result.top_improvements.map((tip, i) => (
                     <div
                       key={i}
-                      className="group flex items-start gap-4 p-4 rounded-2xl bg-muted border border-border hover:border-primary/20 hover:bg-primary/[0.03] transition-all duration-300 cursor-default"
+                      className="group flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all duration-300 cursor-default"
                     >
-                      <div className="flex items-center justify-center size-7 rounded-xl bg-card border border-border shrink-0">
-                        <span className="text-xs font-black text-muted-foreground font-mono">
+                      <div className="flex items-center justify-center size-7 rounded-xl bg-indigo-100 border border-indigo-200 shrink-0">
+                        <span className="text-xs font-black text-indigo-600 font-mono">
                           {i + 1}
                         </span>
                       </div>
-                      <p className="text-sm text-foreground/75 leading-relaxed group-hover:text-foreground transition-colors">
+                      <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors">
                         {tip}
                       </p>
                     </div>
