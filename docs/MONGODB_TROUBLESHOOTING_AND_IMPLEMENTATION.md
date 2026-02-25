@@ -33,73 +33,73 @@ A complete user authentication system that:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                         USER                                 │
+│                   USER                                      │
 └────────────────────┬────────────────────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    FRONTEND (Next.js)                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │  Sign Up     │  │  Sign In     │  │  Dashboard   │      │
-│  │  Page        │  │  Page        │  │  Page        │      │
-│  └──────┬───────┘  └──────┬───────┘  └──────────────┘      │
-│         │                  │                                 │
-│         └──────────┬───────┘                                 │
-│                    ▼                                         │
+│                    FRONTEND (Next.js)                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │  Sign Up     │  │  Sign In     │  │  Dashboard   │       │
+│  │  Page        │  │  Page        │  │  Page        │       │
+│  └──────┬───────┘  └──────┬───────┘  └──────────────┘       │
+│         │                  │                                │
+│         └──────────┬───────┘                                │
+│                    ▼                                        │
 │         ┌──────────────────────┐                            │
 │         │  Firebase Auth       │                            │
 │         │  (Email/Google/      │                            │
 │         │   GitHub)            │                            │
 │         └──────────┬───────────┘                            │
-└────────────────────┼─────────────────────────────────────────┘
+└────────────────────┼────────────────────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    BACKEND (API Routes)                      │
-│                                                              │
+│                    BACKEND (API Routes)                     │
+│                                                             │
 │  POST /api/users                                            │
-│  ┌────────────────────────────────────────────────────┐    │
-│  │ 1. Receive user data (uid, email, name, etc.)     │    │
-│  │ 2. Check if user exists (by uid)                  │    │
-│  │ 3. If exists: Return existing user                │    │
-│  │ 4. If not: Create new user document               │    │
-│  │ 5. Return user data                               │    │
-│  └────────────────────────────────────────────────────┘    │
-│                                                              │
+│  ┌────────────────────────────────────────────────────┐     │
+│  │ 1. Receive user data (uid, email, name, etc.)      │     │
+│  │ 2. Check if user exists (by uid)                   │     │
+│  │ 3. If exists: Return existing user                 │     │
+│  │ 4. If not: Create new user document                │     │
+│  │ 5. Return user data                                │     │
+│  └────────────────────────────────────────────────────┘     │
+│                                                             │
 │  GET /api/users?uid=xxx                                     │
-│  ┌────────────────────────────────────────────────────┐    │
-│  │ 1. Receive uid from query params                  │    │
-│  │ 2. Find user in database                          │    │
-│  │ 3. Return user data or 404                        │    │
-│  └────────────────────────────────────────────────────┘    │
-│                                                              │
+│  ┌────────────────────────────────────────────────────┐     │
+│  │ 1. Receive uid from query params                   │     │
+│  │ 2. Find user in database                           │     │
+│  │ 3. Return user data or 404                         │     │
+│  └────────────────────────────────────────────────────┘     │
+│                                                             │
 │  PUT /api/users                                             │
-│  ┌────────────────────────────────────────────────────┐    │
-│  │ 1. Receive uid and update data                    │    │
-│  │ 2. Update user document                           │    │
-│  │ 3. Return updated user                            │    │
-│  └────────────────────────────────────────────────────┘    │
-│                                                              │
-│                    ▼                                         │
+│  ┌────────────────────────────────────────────────────┐     │
+│  │ 1. Receive uid and update data                     │     │
+│  │ 2. Update user document                            │     │
+│  │ 3. Return updated user                             │     │
+│  └────────────────────────────────────────────────────┘     │
+│                                                             │
+│                    ▼                                        │
 │         ┌──────────────────────┐                            │
 │         │  MongoDB Connection  │                            │
 │         │  (lib/mongodb.ts)    │                            │
 │         └──────────┬───────────┘                            │
-└────────────────────┼─────────────────────────────────────────┘
+└────────────────────┼────────────────────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                   MongoDB Atlas                              │
-│                                                              │
+│                   MongoDB Atlas                             │
+│                                                             │
 │  Database: nexthire                                         │
 │  Collection: users                                          │
-│                                                              │
+│                                                             │
 │  Document Structure:                                        │
 │  {                                                          │
 │    uid: "firebase_uid",                                     │
-│    email: "user@example.com",                              │
+│    email: "user@example.com",                               │
 │    name: "User Name",                                       │
-│    provider: "email|google|github",                        │
+│    provider: "email|google|github",                         │
 │    role: "user",                                            │
 │    createdAt: Date,                                         │
 │    updatedAt: Date,                                         │
