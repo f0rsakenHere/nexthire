@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [user] = useState(false); // Auth state simulation
 
   return (
@@ -25,16 +28,29 @@ export default function Navbar() {
 
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:absolute md:inset-x-0 md:flex md:justify-center items-center space-x-8 pointer-events-none">
-            <div className="pointer-events-auto flex items-center space-x-8 bg-black/20 backdrop-blur-md rounded-full px-6 py-2 border border-white/5">
-              {["How it Works", "Features", "FAQs", "About"].map((item) => (
-                <Link
-                  key={item}
-                  href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="text-white/70 hover:text-white transition-all text-sm font-medium tracking-wide hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
-                >
-                  {item}
-                </Link>
-              ))}
+            <div className="pointer-events-auto flex items-center space-x-1 bg-black/20 backdrop-blur-md rounded-full px-2 py-2 border border-white/5">
+              {[
+                { label: "Home", href: "/" },
+                { label: "Features", href: "/features" },
+                { label: "FAQs", href: "/faqs" },
+                { label: "About", href: "/about" },
+              ].map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={cn(
+                      "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+                      isActive
+                        ? "text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
+                        : "text-white/70 hover:text-white hover:bg-white/5",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
@@ -84,17 +100,28 @@ export default function Navbar() {
               >
                 <div className="flex flex-col gap-8 mt-10">
                   <div className="flex flex-col gap-4">
-                    {["How it Works", "Features", "FAQs", "About"].map(
-                      (item) => (
+                    {[
+                      { label: "Home", href: "/" },
+                      { label: "Features", href: "/features" },
+                      { label: "FAQs", href: "/faqs" },
+                      { label: "About", href: "/about" },
+                    ].map((item) => {
+                      const isActive = pathname === item.href;
+                      return (
                         <Link
-                          key={item}
-                          href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                          className="text-2xl font-medium text-gray-300 hover:text-white transition-colors"
+                          key={item.label}
+                          href={item.href}
+                          className={cn(
+                            "text-2xl font-medium transition-colors",
+                            isActive
+                              ? "text-white pl-4 border-l-2 border-blue-500"
+                              : "text-gray-300 hover:text-white",
+                          )}
                         >
-                          {item}
+                          {item.label}
                         </Link>
-                      ),
-                    )}
+                      );
+                    })}
                   </div>
                   <div className="h-px bg-white/10 w-full" />
                   <div className="flex flex-col gap-4">
