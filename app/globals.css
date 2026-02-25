@@ -47,63 +47,64 @@
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
-   NextHire · Single-theme: Deep Navy × Electric Indigo
-   Inspired by Linear / Vercel / Raycast aesthetics.
-   No light/dark toggle — this IS the brand.
+   NextHire · Light Theme: Clean White × Electric Indigo
+   Inspired by modern SaaS products — clean, minimal, professional.
    ────────────────────────────────────────────────────────────────────────── */
 
 :root {
   --radius: 0.75rem;
 
   /* ── Core surfaces ── */
-  --background: oklch(0.118 0.028 264); /* near-black with a hint of indigo */
-  --foreground: oklch(0.94 0.012 260); /* warm white */
+  --background: oklch(
+    0.97 0.004 264
+  ); /* near-white with a barely-there cool tint */
+  --foreground: oklch(0.15 0.02 264); /* near-black text */
 
-  --card: oklch(0.155 0.032 264); /* slightly lifted panel */
-  --card-foreground: oklch(0.94 0.012 260);
+  --card: oklch(1 0 0); /* pure white cards */
+  --card-foreground: oklch(0.15 0.02 264);
 
-  --popover: oklch(0.16 0.034 264);
-  --popover-foreground: oklch(0.94 0.012 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 264);
 
-  /* ── Brand: Electric Violet/Indigo ── */
-  --primary: oklch(0.62 0.26 278); /* vivid electric indigo-violet */
-  --primary-foreground: oklch(0.99 0 0); /* crisp white on primary */
+  /* ── Brand: Electric Indigo/Blue ── */
+  --primary: oklch(0.55 0.22 278); /* rich indigo-blue */
+  --primary-foreground: oklch(0.99 0 0); /* white text on primary */
 
   /* ── Secondary surfaces ── */
-  --secondary: oklch(0.2 0.04 264);
-  --secondary-foreground: oklch(0.9 0.01 260);
+  --secondary: oklch(0.94 0.008 264);
+  --secondary-foreground: oklch(0.25 0.02 264);
 
-  --muted: oklch(0.19 0.035 264);
-  --muted-foreground: oklch(0.58 0.03 264);
+  --muted: oklch(0.94 0.006 264); /* very light gray for muted areas */
+  --muted-foreground: oklch(0.5 0.02 264); /* medium gray text */
 
-  --accent: oklch(0.22 0.055 268);
-  --accent-foreground: oklch(0.94 0.012 260);
+  --accent: oklch(0.92 0.015 278); /* light indigo tint for hover states */
+  --accent-foreground: oklch(0.25 0.02 264);
 
   /* ── State ── */
-  --destructive: oklch(0.65 0.22 20);
+  --destructive: oklch(0.58 0.22 20);
   --destructive-foreground: oklch(0.99 0 0);
 
   /* ── Borders / Inputs / Ring ── */
-  --border: oklch(0.26 0.04 264);
-  --input: oklch(0.22 0.04 264);
-  --ring: oklch(0.62 0.26 278);
+  --border: oklch(0.88 0.008 264); /* soft light border */
+  --input: oklch(0.92 0.006 264);
+  --ring: oklch(0.55 0.22 278);
 
   /* ── Charts ── */
-  --chart-1: oklch(0.62 0.26 278); /* primary violet */
-  --chart-2: oklch(0.7 0.18 195); /* cyan */
-  --chart-3: oklch(0.75 0.17 145); /* emerald */
-  --chart-4: oklch(0.78 0.19 55); /* amber */
-  --chart-5: oklch(0.65 0.22 350); /* rose */
+  --chart-1: oklch(0.55 0.22 278); /* primary indigo */
+  --chart-2: oklch(0.6 0.18 195); /* cyan */
+  --chart-3: oklch(0.6 0.17 145); /* emerald */
+  --chart-4: oklch(0.7 0.19 55); /* amber */
+  --chart-5: oklch(0.6 0.22 350); /* rose */
 
   /* ── Sidebar ── */
-  --sidebar: oklch(0.13 0.03 264);
-  --sidebar-foreground: oklch(0.94 0.012 260);
-  --sidebar-primary: oklch(0.62 0.26 278);
+  --sidebar: oklch(0.99 0.003 264);
+  --sidebar-foreground: oklch(0.2 0.02 264);
+  --sidebar-primary: oklch(0.55 0.22 278);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.22 0.05 268);
-  --sidebar-accent-foreground: oklch(0.94 0.012 260);
-  --sidebar-border: oklch(0.24 0.04 264);
-  --sidebar-ring: oklch(0.62 0.26 278);
+  --sidebar-accent: oklch(0.93 0.015 278);
+  --sidebar-accent-foreground: oklch(0.2 0.02 264);
+  --sidebar-border: oklch(0.88 0.008 264);
+  --sidebar-ring: oklch(0.55 0.22 278);
 }
 
 @layer base {
