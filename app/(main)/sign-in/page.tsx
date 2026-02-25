@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import {
@@ -7,6 +8,7 @@ import {
   useSignInWithGithub,
 } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
+import { User, AuthError } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { FaSquareGithub } from "react-icons/fa6";
 import { Briefcase, Sparkles, TrendingUp, Users } from "lucide-react";
@@ -30,33 +32,28 @@ export default function SignInPage() {
 
   const router = useRouter();
 
-  const saveUserToDatabase = async (
-    user: {
-      uid: string;
-      email: string | null;
-      displayName: string | null;
-      photoURL: string | null;
-    },
-    provider: string,
-  ) => {
+  const saveUserToDatabase = async (user: User, provider: string) => {
     try {
-      await fetch("/api/users", {
+      const response = await fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           uid: user.uid,
           email: user.email,
           name: user.displayName || user.email?.split("@")[0],
-          provider,
+          provider: provider,
           photoURL: user.photoURL,
         }),
       });
-    } catch (err) {
-      console.error("Error saving to MongoDB:", err);
+      const data = await response.json();
+      console.log("User saved/checked in MongoDB:", data);
+      return data;
+    } catch (error) {
+      console.error("Error saving to MongoDB:", error);
     }
   };
 
-  const getFirebaseError = (error: { code: string } | null | undefined) => {
+  const getFirebaseError = (error: AuthError | null | undefined) => {
     if (!error) return "";
     if (error.code === "auth/user-not-found")
       return "No user found with this email";
@@ -95,7 +92,8 @@ export default function SignInPage() {
         await saveUserToDatabase(res.user, "google");
         router.push("/dashboard");
       }
-    } catch {
+    } catch (error) {
+      console.error("Google sign-in error:", error);
       setErrorMsg("Failed to sign in with Google");
     }
   };
@@ -107,7 +105,8 @@ export default function SignInPage() {
         await saveUserToDatabase(res.user, "github");
         router.push("/dashboard");
       }
-    } catch {
+    } catch (error) {
+      console.error("GitHub sign-in error:", error);
       setErrorMsg("Failed to sign in with GitHub");
     }
   };

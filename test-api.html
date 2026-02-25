@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test MongoDB API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0051cc;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 MongoDB API Tester</h1>
+        <p>Ei page diye tumhar MongoDB API test korte parbe</p>
+        
+        <h3>Test User Data:</h3>
+        <input type="text" id="name" placeholder="Name" value="Test User">
+        <input type="email" id="email" placeholder="Email" value="test@example.com">
+        <input type="text" id="uid" placeholder="Firebase UID" value="test_uid_123">
+        
+        <div>
+            <button onclick="testCreateUser()">📝 Create User (POST)</button>
+            <button onclick="testGetUser()">🔍 Get User (GET)</button>
+            <button onclick="clearResult()">🗑️ Clear</button>
+        </div>
+        
+        <div id="result" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        const resultDiv = document.getElementById('result');
+        
+        function showResult(data, isError = false) {
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result ' + (isError ? 'error' : 'success');
+            resultDiv.textContent = JSON.stringify(data, null, 2);
+        }
+        
+        function clearResult() {
+            resultDiv.style.display = 'none';
+            resultDiv.textContent = '';
+        }
+        
+        async function testCreateUser() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const uid = document.getElementById('uid').value;
+            
+            try {
+                showResult({ status: 'Loading...', message: 'Sending request to API...' });
+                
+                const response = await fetch('http://localhost:3000/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        uid: uid,
+                        email: email,
+                        name: name,
+                        provider: 'email'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult({
+                        status: '✅ SUCCESS',
+                        statusCode: response.status,
+                        message: 'User created/found successfully!',
+                        data: data
+                    });
+                } else {
+                    showResult({
+                        status: '❌ ERROR',
+                        statusCode: response.status,
+                        error: data
+                    }, true);
+                }
+            } catch (error) {
+                showResult({
+                    status: '❌ NETWORK ERROR',
+                    message: error.message,
+                    hint: 'Make sure your dev server is running (npm run dev)'
+                }, true);
+            }
+        }
+        
+        async function testGetUser() {
+            const uid = document.getElementById('uid').value;
+            
+            try {
+                showResult({ status: 'Loading...', message: 'Fetching user...' });
+                
+                const response = await fetch(`http://localhost:3000/api/users?uid=${uid}`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult({
+                        status: '✅ SUCCESS',
+                        statusCode: response.status,
+                        data: data
+                    });
+                } else {
+                    showResult({
+                        status: '❌ ERROR',
+                        statusCode: response.status,
+                        error: data
+                    }, true);
+                }
+            } catch (error) {
+                showResult({
+                    status: '❌ NETWORK ERROR',
+                    message: error.message
+                }, true);
+            }
+        }
+    </script>
+</body>
+</html>
