@@ -11,12 +11,12 @@ export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const [signInWithEmailAndPassword, user, loading, firebaseError] =
+  const [signInWithEmailAndPassword, , loading, firebaseError] =
     useSignInWithEmailAndPassword(auth);
 
   const router = useRouter();
 
-  const getFirebaseError = (error: any) => {
+  const getFirebaseError = (error: { code: string } | null | undefined) => {
     if (!error) return "";
 
     if (error.code === "auth/user-not-found") {
@@ -50,22 +50,26 @@ export default function SignInPage() {
         setPassword("");
         router.push("/dashboard");
       }
-    } catch (err: any) {
-      setErrorMsg(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setErrorMsg(err.message);
+      } else {
+        setErrorMsg("An unknown error occurred");
+      }
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black text-white">
-      <div className="w-full max-w-md rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_40px_rgba(34,211,238,0.15)] mt-22">
+    <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+      <div className="w-full max-w-md rounded-2xl bg-card backdrop-blur-xl border border-border p-8 shadow-xl mt-22">
         <h2 className="text-2xl font-bold text-center">
           Sign In Your{" "}
-          <span className="bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
             Account
           </span>
         </h2>
 
-        <p className="text-gray-400 text-center mt-2">
+        <p className="text-muted-foreground text-center mt-2">
           Welcome Back to the NextHire community
         </p>
 
@@ -82,7 +86,7 @@ export default function SignInPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Write Your Email Address"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border focus:outline-none"
+            className="w-full px-4 py-3 rounded-lg bg-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
             required
           />
 
@@ -91,13 +95,13 @@ export default function SignInPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Write Your Password"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border focus:outline-none"
+            className="w-full px-4 py-3 rounded-lg bg-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
             required
           />
 
           {/*  Error Message */}
           {(errorMsg || firebaseError) && (
-            <p className="text-red-500 text-sm">
+            <p className="text-destructive text-sm">
               {errorMsg || getFirebaseError(firebaseError)}
             </p>
           )}
@@ -105,41 +109,46 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 py-3 rounded-lg bg-white hover:bg-cyan-400 text-black font-semibold transition disabled:opacity-50"
+            className="w-full mt-2 py-3 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold transition disabled:opacity-50 shadow-sm"
           >
             {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
         {/* OR separator */}
-        <div className="flex items-center w-full my-2">
-          <hr className="flex-grow border-t border-gray-400" />
-          <span className="mx-2 text-gray-500 font-medium">Continue with</span>
-          <hr className="flex-grow border-t border-gray-400" />
+        <div className="flex items-center w-full my-4">
+          <hr className="flex-grow border-t border-border" />
+          <span className="mx-2 text-muted-foreground text-sm font-medium">
+            Continue with
+          </span>
+          <hr className="flex-grow border-t border-border" />
         </div>
 
         {/* Social Buttons */}
         <div className="flex mx-auto gap-3 items-center justify-center">
           <button
             type="button"
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-muted border border-border hover:bg-accent transition-colors"
           >
             <FcGoogle size={18} />
-            <span className="font-medium hover:text-black">Google</span>
+            <span className="font-medium text-foreground">Google</span>
           </button>
 
           <button
             type="button"
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/40 border hover:bg-cyan-400"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-muted border border-border hover:bg-accent transition-colors"
           >
             <FaSquareGithub size={18} />
-            <span className="font-medium hover:text-black">GitHub</span>
+            <span className="font-medium text-foreground">GitHub</span>
           </button>
         </div>
 
-        <p className="text-gray-400 text-center mt-6">
-          Don't have an account?{" "}
-          <a href="/sign-up" className="text-cyan-500 hover:underline">
+        <p className="text-muted-foreground text-center mt-6">
+          Don&apos;t have an account?{" "}
+          <a
+            href="/sign-up"
+            className="text-primary hover:underline font-medium"
+          >
             Sign Up
           </a>
         </p>

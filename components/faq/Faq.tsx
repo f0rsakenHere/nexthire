@@ -20,22 +20,22 @@ const CustomAccordionItem = ({
 }) => {
   return (
     <AccordionItem value={value} className="border-b-0">
-      <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline [&>svg]:hidden">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500 opacity-0 group-data-[state=open]:opacity-100 transition-opacity" />
-        <span className="text-lg font-medium text-gray-400 group-hover:text-gray-200 group-data-[state=open]:text-white transition-colors text-left flex-1 mr-4">
+      <AccordionTrigger className="group py-6 px-6 bg-card hover:bg-muted data-[state=open]:bg-primary/10 data-[state=open]:border-primary/50 border border-border rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline [&>svg]:hidden">
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary opacity-0 group-data-[state=open]:opacity-100 transition-opacity" />
+        <span className="text-lg font-medium text-muted-foreground group-hover:text-foreground group-data-[state=open]:text-foreground transition-colors text-left flex-1 mr-4">
           {question}
         </span>
         <div className="relative w-6 h-6 flex items-center justify-center">
-          <Plus className="w-5 h-5 text-gray-500 group-data-[state=open]:text-cyan-400 group-data-[state=open]:rotate-45 transition-all duration-300 transform origin-center" />
+          <Plus className="w-5 h-5 text-muted-foreground group-data-[state=open]:text-primary group-data-[state=open]:rotate-45 transition-all duration-300 transform origin-center" />
         </div>
       </AccordionTrigger>
-      <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed text-lg">
-        <span className="text-cyan-400 mr-2">{`>`}</span>
+      <AccordionContent className="bg-card px-6 pb-6 pt-2 border-x border-b border-border group-data-[state=open]:border-primary/20 text-muted-foreground leading-relaxed text-lg">
+        <span className="text-primary mr-2">{`>`}</span>
         {children}
         <motion.span
           animate={{ opacity: [1, 0] }}
           transition={{ duration: 0.8, repeat: Infinity }}
-          className="inline-block w-2 h-4 bg-cyan-500 ml-1 align-middle"
+          className="inline-block w-2 h-4 bg-primary ml-1 align-middle"
         />
       </AccordionContent>
     </AccordionItem>
@@ -44,7 +44,7 @@ const CustomAccordionItem = ({
 
 export default function Faq() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black text-white">
+    <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
       <div className="max-w-5xl mx-auto p-4 py-20 mt-18">
         {/* 🔹 Heading */}
         <motion.div
@@ -53,10 +53,10 @@ export default function Faq() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl md:text-6xl bg-gradient-to-r from-cyan-200 to-blue-500 bg-clip-text text-transparent filter drop-shadow-[0_0_20px_rgba(34,211,238,0.3)]  font-medium mb-4">
-            NextHire <span className="text-white">FAQ</span>
+          <h1 className="text-5xl md:text-6xl bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent filter drop-shadow-[0_0_20px_rgba(var(--primary),0.3)]  font-medium mb-4">
+            NextHire <span className="text-foreground">FAQ</span>
           </h1>
-          <p className="text-blue-200/80 font-light tracking-wide">
+          <p className="text-muted-foreground font-light tracking-wide">
             Everything you need to know about AI resume analysis and mock
             interviews.
           </p>
@@ -64,7 +64,7 @@ export default function Faq() {
 
         {/* 🔹 Resume AI */}
         <div className="mb-14">
-          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+          <h2 className="text-2xl font-semibold mb-6 text-primary">
             Resume AI
           </h2>
 
@@ -98,7 +98,7 @@ export default function Faq() {
 
         {/* 🔹 Interview AI */}
         <div className="mb-14">
-          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+          <h2 className="text-2xl font-semibold mb-6 text-primary">
             Interview AI
           </h2>
 
@@ -131,7 +131,7 @@ export default function Faq() {
 
         {/* 🔹 Platform & Pricing */}
         <div className="mb-14">
-          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+          <h2 className="text-2xl font-semibold mb-6 text-primary">
             Platform & Pricing
           </h2>
 
@@ -163,7 +163,7 @@ export default function Faq() {
 
         {/* Feedback  */}
         <div className="mb-14">
-          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+          <h2 className="text-2xl font-semibold mb-6 text-primary">
             Feedback & Analytics
           </h2>
 
@@ -190,7 +190,7 @@ export default function Faq() {
 
         {/* platform & data security */}
         <div className="mb-14">
-          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+          <h2 className="text-2xl font-semibold mb-6 text-primary">
             Platform & Data Security
           </h2>
 
@@ -217,7 +217,7 @@ export default function Faq() {
 
         {/* Pricing & Plans */}
         <div className="mb-14">
-          <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+          <h2 className="text-2xl font-semibold mb-6 text-primary">
             Pricing & Plans
           </h2>
 
