@@ -137,7 +137,7 @@ export function HeroSection() {
             className="flex flex-col gap-4"
           >
             {/* Main card */}
-            <div className="rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+            <div className="relative z-20 rounded-2xl border border-border bg-card shadow-xl overflow-hidden">
               {/* Card header — profile + badges in one row */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-border flex-wrap gap-2">
                 <div className="flex items-center gap-3">
@@ -314,7 +314,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4, duration: 0.5 }}
-              className="flex items-center gap-4 px-5 py-3 rounded-xl border border-border bg-card/60 backdrop-blur-sm"
+              className="relative z-10 flex items-center gap-4 px-5 py-3 rounded-xl border border-border bg-card shadow-lg"
             >
               <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                 <TrendingUp className="w-4 h-4 text-primary" />

@@ -155,7 +155,7 @@ function SectionCard({
 }) {
   const g = scoreGrade(score);
   return (
-    <div className="relative rounded-2xl bg-white border border-gray-100 shadow-sm p-5 flex flex-col gap-3 group hover:shadow-md hover:border-gray-200 transition-all duration-300">
+    <div className="relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-5 flex flex-col gap-3 group hover:shadow-md hover:border-primary/30 transition-all duration-300">
       <div className="flex items-center justify-between">
         <div className={`p-2 rounded-xl ${g.bg} ${g.border} border`}>
           <span className={g.text}>{icon}</span>
@@ -378,7 +378,7 @@ export default function ResumeScorerPage() {
             <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
               {/* Left — resume input */}
               <div className="flex flex-col gap-4">
-                <div className="rounded-2xl border border-border bg-card overflow-hidden focus-within:border-primary/40 transition-colors duration-300">
+                <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors duration-300">
                   <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border">
                     <FileTextIcon className="size-4 text-primary/50" />
                     <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
@@ -413,7 +413,7 @@ export default function ResumeScorerPage() {
                   </button>
 
                   {showJD && (
-                    <div className="mt-3 rounded-2xl border border-border bg-card overflow-hidden focus-within:border-primary/40 transition-colors">
+                    <div className="mt-3 rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors">
                       <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border">
                         <BriefcaseIcon className="size-4 text-primary/50" />
                         <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
@@ -466,7 +466,7 @@ export default function ResumeScorerPage() {
               </div>
 
               {/* Right — empty state / features */}
-              <div className="rounded-2xl border border-border bg-card p-6 flex flex-col">
+              <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-6 flex flex-col">
                 <EmptyHero onExampleClick={() => setResume(SAMPLE_RESUME)} />
 
                 {/* Feature list */}
@@ -507,7 +507,7 @@ export default function ResumeScorerPage() {
               {/* Row 1: Score + Summary */}
               <div className="grid lg:grid-cols-[auto_1fr] gap-6">
                 {/* Score hero */}
-                <div className="relative rounded-3xl bg-white border border-gray-100 shadow-sm p-8 flex flex-col items-center gap-4 min-w-[260px]">
+                <div className="relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 flex flex-col items-center gap-4 min-w-[260px]">
                   <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-gray-400">
                     ATS Score
                   </p>
@@ -522,7 +522,7 @@ export default function ResumeScorerPage() {
                 </div>
 
                 {/* Summary panel */}
-                <div className="relative rounded-3xl bg-card border border-border p-8 flex flex-col gap-5">
+                <div className="relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 flex flex-col gap-5">
                   <div>
                     <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-3">
                       AI Summary
@@ -601,7 +601,7 @@ export default function ResumeScorerPage() {
               {/* Row 3: Keywords + Issues */}
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Keywords */}
-                <div className="rounded-3xl bg-card border border-border p-7">
+                <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
                   <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-5">
                     Keyword Analysis
                   </p>
@@ -642,7 +642,7 @@ export default function ResumeScorerPage() {
                 </div>
 
                 {/* Formatting issues */}
-                <div className="rounded-3xl bg-card border border-border p-7">
+                <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
                   <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-5">
                     Formatting Issues
                   </p>
@@ -684,7 +684,7 @@ export default function ResumeScorerPage() {
               </div>
 
               {/* Row 4: Improvement plan */}
-              <div className="rounded-3xl bg-card border border-border p-7">
+              <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20">
                     <SparklesIcon className="size-5 text-primary" />
@@ -737,7 +737,7 @@ export default function ResumeScorerPage() {
                   return (
                     <div
                       key={s.label}
-                      className="rounded-3xl bg-card border border-border p-7"
+                      className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2.5">

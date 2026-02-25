@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase/config";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -51,7 +53,10 @@ const data = {
       url: "#",
       icon: <MicIcon />,
       items: [
-        { title: "Role-Based Mock Interviews", url: "#" },
+        {
+          title: "Role-Based Mock Interviews",
+          url: "/dashboard/mock-interview",
+        },
         { title: "Real-time Voice Interaction", url: "#" },
         { title: "Instant Feedback Loop", url: "#" },
         { title: "Company-Specific Drills", url: "#" },
@@ -101,6 +106,16 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user] = useAuthState(auth);
+
+  const userData = user
+    ? {
+        name: user.displayName || user.email?.split("@")[0] || "User",
+        email: user.email || "",
+        avatar: user.photoURL || "",
+      }
+    : data.user;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -128,7 +143,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.quickTools} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

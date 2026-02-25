@@ -11,77 +11,74 @@ const testimonials = [
     role: "Product Manager at Meta",
     quote:
       "I struggled with behavioral questions until I found NextHire. The real-time tone analysis is a game changer.",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Sarah",
   },
   {
     name: "Michael Ross",
     role: "Frontend Dev at Vercel",
     quote:
       "Got the job in 2 weeks! The technical questions were spot on with what I was actually asked.",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Michael",
   },
   {
     name: "Priya Patel",
     role: "Senior Engineer at Microsoft",
     quote:
       "The system design feedback helped me identify gaps I didn't even know I had. Crushed the onsite!",
-    avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Priya",
   },
   {
     name: "David Kim",
     role: "Full Stack at Airbnb",
     quote:
       "This is the best investment I made for my career. It feels like having a senior staff engineer coaching you 24/7.",
-    avatar: "https://randomuser.me/api/portraits/men/86.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=David",
   },
   {
     name: "Elena Rodriguez",
     role: "Data Scientist at Netflix",
     quote:
       "The SQL challenges were harder than the real interview. I felt over-prepared, which is a good thing!",
-    avatar: "https://randomuser.me/api/portraits/women/22.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Elena",
   },
   {
     name: "James Wilson",
     role: "DevOps Engineer at AWS",
     quote:
       "Mock interviews helped me get rid of my anxiety. The AI interviewer actually sounds human.",
-    avatar: "https://randomuser.me/api/portraits/men/11.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=James",
   },
   {
     name: "Anita Roy",
     role: "UX Designer at Google",
     quote:
       "I used to freeze up during whiteboard sessions. The practice mode built my confidence massively.",
-    avatar: "https://randomuser.me/api/portraits/women/18.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Anita",
   },
   {
     name: "Omar Hassan",
     role: "Backend Lead at Uber",
     quote:
       "Incredible depth in the system design scenarios. Highly recommended for senior level candidates.",
-    avatar: "https://randomuser.me/api/portraits/men/45.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Omar",
   },
   {
     name: "Sophie Anderson",
     role: "Mobile Dev at Spotify",
     quote:
       "The resume scanner picked up on keywords I was missing. My callback rate doubled after fixing it.",
-    avatar: "https://randomuser.me/api/portraits/women/33.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Sophie",
   },
   {
     name: "Kenji Tanaka",
     role: "AI Researcher at OpenAI",
     quote:
       "Ironically, using an AI to practice for an AI role was the best decision. The feedback is brutally honest.",
-    avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=Kenji",
   },
 ];
 
 export function Testimonials() {
-  const row1 = testimonials.slice(0, 5);
-  const row2 = testimonials.slice(5, 10);
-
   return (
     <section className="py-24 bg-background relative overflow-hidden">
       {/* Background Ambience - Themed Mix */}
@@ -117,18 +114,9 @@ export function Testimonials() {
 
         {/* Row 1: Left to Right */}
         <div className="flex overflow-hidden relative w-full group">
-          <div className="flex gap-6 animate-marquee-reverse hover:[animation-play-state:paused] w-max items-center">
-            {[...row1, ...row1, ...row1].map((t, i) => (
+          <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] w-max items-stretch">
+            {[...testimonials, ...testimonials].map((t, i) => (
               <TestimonialCard key={`row1-${i}`} {...t} />
-            ))}
-          </div>
-        </div>
-
-        {/* Row 2: Right to Left */}
-        <div className="flex overflow-hidden relative w-full group">
-          <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] w-max items-center">
-            {[...row2, ...row2, ...row2].map((t, i) => (
-              <TestimonialCard key={`row2-${i}`} {...t} />
             ))}
           </div>
         </div>
@@ -138,25 +126,27 @@ export function Testimonials() {
       <style jsx global>{`
         @keyframes marquee {
           from {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
           to {
-            transform: translateX(-50%);
+            transform: translate3d(-50%, 0, 0);
           }
         }
         @keyframes marquee-reverse {
           from {
-            transform: translateX(-50%);
+            transform: translate3d(-50%, 0, 0);
           }
           to {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
         }
         .animate-marquee {
           animation: marquee 50s linear infinite;
+          will-change: transform;
         }
         .animate-marquee-reverse {
           animation: marquee-reverse 50s linear infinite;
+          will-change: transform;
         }
       `}</style>
     </section>
@@ -175,7 +165,7 @@ function TestimonialCard({
   avatar: string;
 }) {
   return (
-    <div className="w-[350px] md:w-[450px] flex-shrink-0 relative rounded-2xl border border-border bg-card backdrop-blur-sm p-6 md:p-8 hover:border-primary/30 hover:bg-muted/50 transition-all duration-300 group/card">
+    <div className="w-[350px] md:w-[450px] h-full flex flex-col flex-shrink-0 relative rounded-2xl border border-border bg-card backdrop-blur-sm p-6 md:p-8 hover:border-primary/30 hover:bg-muted/50 transition-all duration-300 group/card">
       {/* Hover Glow */}
       <div className="absolute inset-0 rounded-2xl ring-0 group-hover/card:ring-1 ring-primary/20 shadow-none group-hover/card:shadow-[0_0_30px_-10px_rgba(34,211,238,0.15)] transition-all duration-300 pointer-events-none" />
 
