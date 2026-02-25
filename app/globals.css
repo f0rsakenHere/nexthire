@@ -2,8 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -48,75 +46,65 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.129 0.042 264.695);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.129 0.042 264.695);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.55 0.2 260);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.25 0.05 260);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.25 0.05 260);
-  --muted-foreground: oklch(0.7 0.05 260);
-  --accent: oklch(0.25 0.05 260);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.3 0.05 260);
-  --input: oklch(0.3 0.05 260);
-  --ring: oklch(0.55 0.2 260);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.15 0.05 260);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.55 0.2 260);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.25 0.05 260);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.3 0.05 260);
-  --sidebar-ring: oklch(0.55 0.2 260);
-}
+/* ──────────────────────────────────────────────────────────────────────────
+   NextHire · Light Theme: Clean White × Electric Indigo
+   Inspired by modern SaaS products — clean, minimal, professional.
+   ────────────────────────────────────────────────────────────────────────── */
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.129 0.042 264.695);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.129 0.042 264.695);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.55 0.2 260);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.25 0.05 260);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.25 0.05 260);
-  --muted-foreground: oklch(0.7 0.05 260);
-  --accent: oklch(0.25 0.05 260);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.3 0.05 260);
-  --input: oklch(0.3 0.05 260);
-  --ring: oklch(0.55 0.2 260);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.15 0.05 260);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.55 0.2 260);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.25 0.05 260);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.3 0.05 260);
-  --sidebar-ring: oklch(0.55 0.2 260);
+:root {
+  --radius: 0.75rem;
+
+  /* ── Core surfaces ── */
+  --background: oklch(
+    0.97 0.004 264
+  ); /* near-white with a barely-there cool tint */
+  --foreground: oklch(0.15 0.02 264); /* near-black text */
+
+  --card: oklch(1 0 0); /* pure white cards */
+  --card-foreground: oklch(0.15 0.02 264);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 264);
+
+  /* ── Brand: Electric Indigo/Blue ── */
+  --primary: oklch(0.55 0.22 278); /* rich indigo-blue */
+  --primary-foreground: oklch(0.99 0 0); /* white text on primary */
+
+  /* ── Secondary surfaces ── */
+  --secondary: oklch(0.94 0.008 264);
+  --secondary-foreground: oklch(0.25 0.02 264);
+
+  --muted: oklch(0.94 0.006 264); /* very light gray for muted areas */
+  --muted-foreground: oklch(0.5 0.02 264); /* medium gray text */
+
+  --accent: oklch(0.92 0.015 278); /* light indigo tint for hover states */
+  --accent-foreground: oklch(0.25 0.02 264);
+
+  /* ── State ── */
+  --destructive: oklch(0.58 0.22 20);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  /* ── Borders / Inputs / Ring ── */
+  --border: oklch(0.88 0.008 264); /* soft light border */
+  --input: oklch(0.92 0.006 264);
+  --ring: oklch(0.55 0.22 278);
+
+  /* ── Charts ── */
+  --chart-1: oklch(0.55 0.22 278); /* primary indigo */
+  --chart-2: oklch(0.6 0.18 195); /* cyan */
+  --chart-3: oklch(0.6 0.17 145); /* emerald */
+  --chart-4: oklch(0.7 0.19 55); /* amber */
+  --chart-5: oklch(0.6 0.22 350); /* rose */
+
+  /* ── Sidebar ── */
+  --sidebar: oklch(0.99 0.003 264);
+  --sidebar-foreground: oklch(0.2 0.02 264);
+  --sidebar-primary: oklch(0.55 0.22 278);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.93 0.015 278);
+  --sidebar-accent-foreground: oklch(0.2 0.02 264);
+  --sidebar-border: oklch(0.88 0.008 264);
+  --sidebar-ring: oklch(0.55 0.22 278);
 }
 
 @layer base {
@@ -125,6 +113,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
   h1,
   h2,
@@ -138,7 +129,6 @@
 
 /* ── Custom Scrollbars ─────────────────────────────────────────────────── */
 
-/* Webkit (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -149,21 +139,20 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 211, 238, 0.18);
+  background: oklch(0.62 0.26 278 / 0.25);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 211, 238, 0.5);
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+  background: oklch(0.62 0.26 278 / 0.55);
+  box-shadow: 0 0 8px oklch(0.62 0.26 278 / 0.4);
 }
 
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-/* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(34, 211, 238, 0.18) transparent;
+  scrollbar-color: oklch(0.62 0.26 278 / 0.25) transparent;
 }

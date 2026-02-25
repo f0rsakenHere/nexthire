@@ -83,26 +83,26 @@ export function Testimonials() {
   const row2 = testimonials.slice(5, 10);
 
   return (
-    <section className="py-24 bg-black relative overflow-hidden">
-      {/* Background Ambience - Cyan/Blue Mix */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-cyan-900/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen" />
+    <section className="py-24 bg-background relative overflow-hidden">
+      {/* Background Ambience - Themed Mix */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-violet-500/8 blur-[100px] rounded-full pointer-events-none mix-blend-screen" />
 
       <div className="max-w-7xl mx-auto px-4 mb-16 text-center relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-bold mb-6 text-white"
+          className="text-4xl md:text-5xl font-bold mb-6 text-foreground"
         >
-          Tried & Tested by <span className="text-cyan-400">Thousands</span>
+          Tried & Tested by <span className="text-primary">Thousands</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-blue-200/60 text-lg max-w-2xl mx-auto"
+          className="text-muted-foreground text-lg max-w-2xl mx-auto"
         >
           Join a community of developers landing their dream jobs at top tech
           companies.
@@ -111,9 +111,9 @@ export function Testimonials() {
 
       {/* Marquee Container */}
       <div className="relative flex flex-col gap-8">
-        {/* Edge Masks (Fade to Black) */}
-        <div className="absolute inset-y-0 left-0 w-20 md:w-64 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-20 md:w-64 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+        {/* Edge Masks (Fade to Background) */}
+        <div className="absolute inset-y-0 left-0 w-20 md:w-64 bg-gradient-to-r from-background via-background/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-20 md:w-64 bg-gradient-to-l from-background via-background/80 to-transparent z-20 pointer-events-none" />
 
         {/* Row 1: Left to Right */}
         <div className="flex overflow-hidden relative w-full group">
@@ -175,13 +175,13 @@ function TestimonialCard({
   avatar: string;
 }) {
   return (
-    <div className="w-[350px] md:w-[450px] flex-shrink-0 relative rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm p-6 md:p-8 hover:border-cyan-500/30 hover:bg-white/[0.04] transition-all duration-300 group/card">
+    <div className="w-[350px] md:w-[450px] flex-shrink-0 relative rounded-2xl border border-border bg-card backdrop-blur-sm p-6 md:p-8 hover:border-primary/30 hover:bg-muted/50 transition-all duration-300 group/card">
       {/* Hover Glow */}
-      <div className="absolute inset-0 rounded-2xl ring-0 group-hover/card:ring-1 ring-cyan-500/20 shadow-none group-hover/card:shadow-[0_0_30px_-10px_rgba(34,211,238,0.15)] transition-all duration-300 pointer-events-none" />
+      <div className="absolute inset-0 rounded-2xl ring-0 group-hover/card:ring-1 ring-primary/20 shadow-none group-hover/card:shadow-[0_0_30px_-10px_rgba(34,211,238,0.15)] transition-all duration-300 pointer-events-none" />
 
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full border border-white/10 relative overflow-hidden">
+          <div className="w-12 h-12 rounded-full border border-border relative overflow-hidden">
             <Image
               src={avatar}
               alt={name}
@@ -191,16 +191,16 @@ function TestimonialCard({
             />
           </div>
           <div>
-            <h4 className="text-white font-semibold text-lg">{name}</h4>
-            <p className="text-blue-200/50 text-xs uppercase tracking-wider font-medium">
+            <h4 className="text-foreground font-semibold text-lg">{name}</h4>
+            <p className="text-muted-foreground text-xs uppercase tracking-wider font-medium">
               {role}
             </p>
           </div>
         </div>
-        <Quote className="text-white/10 w-8 h-8 group-hover/card:text-cyan-500/20 transition-colors" />
+        <Quote className="text-foreground/10 w-8 h-8 group-hover/card:text-primary/20 transition-colors" />
       </div>
 
-      <p className="text-blue-100/70 leading-relaxed font-light">
+      <p className="text-muted-foreground/90 leading-relaxed font-light">
         &quot;{quote}&quot;
       </p>
     </div>
