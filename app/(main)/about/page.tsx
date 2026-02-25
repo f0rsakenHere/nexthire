@@ -7,7 +7,7 @@ import { CtaSection } from "@/components/home/CtaSection";
 
 export default function AboutUs() {
   return (
-    <main className="bg-black min-h-screen">
+    <main className="bg-background min-h-screen">
       <Hero />
       <Stats />
       <MissionStory />

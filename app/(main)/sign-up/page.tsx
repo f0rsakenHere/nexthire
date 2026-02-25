@@ -104,17 +104,17 @@ export default function SignUpPage() {
     }
   };
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black text-white m">
+    <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
       {/* Card */}
-      <div className="w-full max-w-md rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_40px_rgba(34,211,238,0.15)] mt-24">
+      <div className="w-full max-w-md rounded-2xl bg-card backdrop-blur-xl border border-border p-8 shadow-xl mt-24">
         {/* Heading */}
         <h2 className="text-2xl font-bold text-center">
           Create an{" "}
-          <span className="bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
             Account
           </span>
         </h2>
-        <p className="text-gray-400 text-center mt-2">
+        <p className="text-muted-foreground text-center mt-2">
           Be a part of the NextHire community
         </p>
         {/* Form */}
@@ -130,7 +130,7 @@ export default function SignUpPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Write Your Full Name"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border focus:outline-none "
+            className="w-full px-4 py-3 rounded-lg bg-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
             required
           />
           <input
@@ -140,7 +140,7 @@ export default function SignUpPage() {
               setEmail(e.target.value);
             }}
             placeholder="Write Your Email Address"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border focus:outline-none "
+            className="w-full px-4 py-3 rounded-lg bg-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
             required
           />
           <input
@@ -150,24 +150,26 @@ export default function SignUpPage() {
               setPassword(e.target.value);
             }}
             placeholder="Write Your Password"
-            className="w-full px-4 py-3 rounded-lg bg-black/40 border 0 focus:outline-none"
+            className="w-full px-4 py-3 rounded-lg bg-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
           />
           <button
             type="submit"
-            className="w-full mt-2 py-3 rounded-lg bg-white hover:bg-cyan-400 text-black font-semibold transition"
+            className="w-full mt-2 py-3 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold transition shadow-sm"
           >
             Sign Up
           </button>
         </form>
         {/* OR separator */}
-        <div className="flex items-center w-full my-2">
-          <hr className="flex-grow border-t border-gray-400" />
-          <span className="mx-2 text-gray-500 font-medium">Continue with</span>
-          <hr className="flex-grow border-t border-gray-400" />
+        <div className="flex items-center w-full my-4">
+          <hr className="flex-grow border-t border-border" />
+          <span className="mx-2 text-muted-foreground text-sm font-medium">
+            Continue with
+          </span>
+          <hr className="flex-grow border-t border-border" />
         </div>
         {/* social Button */}
         <div className="flex mx-auto gap-3 items-center justify-center">
-          <div>
+          <div className="flex-1">
             <button
               type="button"
               onClick={handleGoogleSignUp}
@@ -180,7 +182,7 @@ export default function SignUpPage() {
               </span>
             </button>
           </div>
-          <div>
+          <div className="flex-1">
             <button
               type="button"
               onClick={handleGithubSignUp}
@@ -195,9 +197,12 @@ export default function SignUpPage() {
           </div>
         </div>
         {/* Footer */}
-        <p className="text-gray-400 text-center mt-6">
-          Already have an account?
-          <a href="/sign-in" className="text-cyan-500 hover:underline">
+        <p className="text-muted-foreground text-center mt-6">
+          Already have an account?{" "}
+          <a
+            href="/sign-in"
+            className="text-primary hover:underline font-medium"
+          >
             Sign In
           </a>
         </p>

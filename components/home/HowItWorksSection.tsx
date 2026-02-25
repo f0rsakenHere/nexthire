@@ -11,7 +11,7 @@ export function HowItWorksSection() {
       description: "Our AI scans your resume to identify key skills and gaps.",
       renderVisual: () => (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-6">
-          <div className="w-32 h-40 bg-zinc-900 border border-zinc-800 rounded-lg relative overflow-hidden flex flex-col p-3 gap-2 shadow-2xl">
+          <div className="w-32 h-40 bg-card border border-border rounded-lg relative overflow-hidden flex flex-col p-3 gap-2 shadow-2xl">
             {/* Header Lines */}
             <div className="flex gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-red-500/20" />
@@ -21,11 +21,11 @@ export function HowItWorksSection() {
 
             {/* Skeleton Lines */}
             <div className="space-y-2">
-              <div className="h-2 w-3/4 bg-zinc-800 rounded-sm" />
-              <div className="h-2 w-1/2 bg-zinc-800 rounded-sm" />
-              <div className="h-2 w-full bg-zinc-800 rounded-sm" />
-              <div className="h-2 w-5/6 bg-zinc-800 rounded-sm" />
-              <div className="h-2 w-4/5 bg-zinc-800 rounded-sm" />
+              <div className="h-2 w-3/4 bg-muted rounded-sm" />
+              <div className="h-2 w-1/2 bg-muted rounded-sm" />
+              <div className="h-2 w-full bg-muted rounded-sm" />
+              <div className="h-2 w-5/6 bg-muted rounded-sm" />
+              <div className="h-2 w-4/5 bg-muted rounded-sm" />
             </div>
 
             {/* Scanning Beam */}
@@ -76,7 +76,7 @@ export function HowItWorksSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex items-center gap-4 shadow-2xl relative overflow-hidden"
+            className="bg-card border border-border rounded-xl p-4 flex items-center gap-4 shadow-2xl relative overflow-hidden"
           >
             {/* Glow behind */}
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-transparent opacity-50" />
@@ -85,10 +85,12 @@ export function HowItWorksSection() {
               <Check size={18} strokeWidth={3} />
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-white">
+              <h4 className="text-sm font-semibold text-foreground">
                 Offer Received
               </h4>
-              <p className="text-xs text-zinc-500">Google • L4 Engineer</p>
+              <p className="text-xs text-muted-foreground">
+                Google • L4 Engineer
+              </p>
             </div>
           </motion.div>
         </div>
@@ -97,7 +99,7 @@ export function HowItWorksSection() {
   ];
 
   return (
-    <section className="py-32 bg-black relative overflow-hidden">
+    <section className="py-32 bg-background relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="mb-20">
@@ -105,17 +107,17 @@ export function HowItWorksSection() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-medium text-white mb-6 tracking-tight"
+            className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight"
           >
             How it works
           </motion.h2>
-          <div className="h-px w-full bg-white/10" />
+          <div className="h-px w-full bg-border" />
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
           {/* Connecting Line (Behind) */}
-          <div className="absolute top-1/2 left-0 w-full h-px bg-white/5 -z-10 hidden md:block" />
+          <div className="absolute top-1/2 left-0 w-full h-px bg-border/50 -z-10 hidden md:block" />
 
           {steps.map((step, i) => (
             <motion.div
@@ -127,9 +129,9 @@ export function HowItWorksSection() {
               className="group"
             >
               {/* Card */}
-              <div className="aspect-[3/4] bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden relative hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all duration-500">
+              <div className="aspect-[3/4] bg-card border border-border rounded-xl overflow-hidden relative hover:border-primary/30 hover:bg-muted/30 transition-all duration-500">
                 {/* Label */}
-                <div className="absolute top-4 left-4 text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
+                <div className="absolute top-4 left-4 text-[10px] font-mono text-muted-foreground tracking-widest uppercase">
                   {"//"} STEP {step.step}
                 </div>
 
@@ -139,11 +141,11 @@ export function HowItWorksSection() {
                 </div>
 
                 {/* Text Area */}
-                <div className="absolute bottom-0 left-0 w-full p-6 border-t border-white/5 bg-black/20 backdrop-blur-sm">
-                  <h3 className="text-lg font-medium text-white mb-2">
+                <div className="absolute bottom-0 left-0 w-full p-6 border-t border-border bg-muted/20 backdrop-blur-sm">
+                  <h3 className="text-lg font-medium text-foreground mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     {step.description}
                   </p>
                 </div>

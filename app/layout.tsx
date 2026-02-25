@@ -24,8 +24,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NextHire",
-  description: "AI-Powered Interview Preparation Platform",
+  title: "NextHire — AI Interview Coach",
+  description: "AI-Powered Resume Scoring & Mock Interview Platform",
 };
 
 export default function RootLayout({
