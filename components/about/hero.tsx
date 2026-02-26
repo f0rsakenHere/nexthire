@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import { motion } from "motion/react";
@@ -58,6 +59,18 @@ export default function Hero() {
       <div className="absolute bottom-12 flex flex-col items-center gap-2 z-20 animate-bounce">
         <ArrowDown className="text-blue-400 w-5 h-5" />
       </div>
+=======
+export default function Hero() {
+  return (
+    <section className="text-center pt-24">
+      <h1 className="text-5xl font-bold">
+        About <span className="text-cyan-400">NextHire</span>
+      </h1>
+      <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
+        NextHire is an AI-powered platform designed to help job seekers analyze
+        resumes, prepare for interviews, and track progress.
+      </p>
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
     </section>
   );
 }

@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+<<<<<<< HEAD
     remotePatterns: [
       {
         protocol: "https",
@@ -19,6 +20,9 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+=======
+    domains: ["randomuser.me", "images.unsplash.com"],
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
   },
 };
 

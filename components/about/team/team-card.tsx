@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Github, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 
@@ -48,6 +49,20 @@ export default function TeamCard({ member }: { member: TeamMember }) {
           ))}
         </div>
       </div>
+=======
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { TeamMember } from "@/components/types.ts";
+
+export default function TeamCard({ member }: { member: TeamMember }) {
+  return (
+    <div className="border rounded-2xl p-6 text-center hover:shadow-lg transition">
+      <Avatar className="mx-auto mb-4">
+        <AvatarFallback>{member.name[0]}</AvatarFallback>
+      </Avatar>
+
+      <h3 className="font-semibold">{member.name}</h3>
+      <p className="text-sm text-muted-foreground">{member.role}</p>
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
     </div>
   );
 }

@@ -1,25 +1,40 @@
+<<<<<<< HEAD
 import { Brain, Zap, Target, Briefcase } from "lucide-react";
 
+=======
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
 const features = [
   {
     title: "AI-Powered Interviews",
     desc: "Practice with real interview simulations powered by smart AI analysis.",
+<<<<<<< HEAD
     icon: Brain,
+=======
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
   },
   {
     title: "Instant Feedback",
     desc: "Get detailed performance insights immediately after each session.",
+<<<<<<< HEAD
     icon: Zap,
+=======
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
   },
   {
     title: "Personalized Learning",
     desc: "Questions adapt based on your resume, skills and goals.",
+<<<<<<< HEAD
     icon: Target,
+=======
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
   },
   {
     title: "Real-World Experience",
     desc: "Simulates real recruiter behavior and interview pressure.",
+<<<<<<< HEAD
     icon: Briefcase,
+=======
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
   },
 ];
 
@@ -27,13 +42,19 @@ export default function Highlights() {
   return (
     <section className="py-4">
       <div className="text-center mb-14">
+<<<<<<< HEAD
         <h2 className="text-4xl font-bold">Platform Highlights</h2>
         <p className="text-blue-200/60 text-lg md:text-lg mt-3">
+=======
+        <h2 className="text-3xl font-bold">Platform Highlights</h2>
+        <p className="text-muted-foreground mt-3">
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
           Everything you need to prepare smarter, faster, and better.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+<<<<<<< HEAD
         {features.map((item, i) => {
           const Icon = item.icon;
           return (
@@ -47,6 +68,17 @@ export default function Highlights() {
             </div>
           );
         })}
+=======
+        {features.map((item, i) => (
+          <div
+            key={i}
+            className="p-6 border rounded-2xl bg-card hover:shadow-xl hover:-translate-y-1 transition"
+          >
+            <h3 className="font-semibold mb-2">{item.title}</h3>
+            <p className="text-sm text-muted-foreground">{item.desc}</p>
+          </div>
+        ))}
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
       </div>
     </section>
   );

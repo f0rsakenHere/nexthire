@@ -22,7 +22,10 @@
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+<<<<<<< HEAD
     "react-firebase-hooks": "^5.1.1",
+=======
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
     "react-icons": "^5.5.0",
     "shadcn": "^3.8.4",
     "svgl": "^0.0.1",

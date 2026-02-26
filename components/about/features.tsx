@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import { motion } from "framer-motion";
@@ -40,10 +41,20 @@ const features = [
     category: "Security",
     description: "Your data is encrypted and fully protected.",
   },
+=======
+import { Card, CardContent } from "@/components/ui/card";
+
+const features = [
+  "AI Resume Analyzer",
+  "ATS Score Checker",
+  "Mock Interview Bot",
+  "Instant Feedback",
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
 ];
 
 export default function Features() {
   return (
+<<<<<<< HEAD
     <section className="py-4 px-4 relative bg-black">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[800px] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
 
@@ -114,6 +125,18 @@ export default function Features() {
             </motion.div>
           ))}
         </div>
+=======
+    <section>
+      {/* <h2 className="text-3xl pb-8 text-center font-bold">Features</h2> */}
+      <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto px-6">
+        {features.map((f, i) => (
+          <Card key={i}>
+            <CardContent className="p-6 text-center font-medium">
+              {f}
+            </CardContent>
+          </Card>
+        ))}
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
       </div>
     </section>
   );

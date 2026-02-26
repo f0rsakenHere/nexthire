@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import { motion } from "motion/react";
@@ -87,6 +88,21 @@ export default function TechStack() {
             <Card key={i} item={item} />
           ))}
         </motion.div>
+=======
+import { Badge } from "@/components/ui/badge";
+
+const stack = ["Next.js", "TypeScript", "Tailwind", "OpenAI API", "Shadcn UI"];
+
+export default function TechStack() {
+  return (
+    <section className="text-center max-w-3xl mx-auto px-6">
+      <h2 className="text-3xl font-semibold mb-6">Tech Stack</h2>
+
+      <div className="flex flex-wrap gap-3  justify-center">
+        {stack.map((t, i) => (
+          <Badge key={i}>{t}</Badge>
+        ))}
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
       </div>
     </section>
   );

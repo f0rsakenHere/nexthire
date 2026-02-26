@@ -40,5 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
 node_modules
 .env
+=======
+node_modules
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784

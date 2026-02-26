@@ -9,7 +9,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
 export default function Navbar() {
+<<<<<<< HEAD
   const pathname = usePathname();
+=======
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
   const [user] = useState(false); // Auth state simulation
 
   return (
@@ -28,6 +31,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:absolute md:inset-x-0 md:flex md:justify-center items-center space-x-8 pointer-events-none">
+<<<<<<< HEAD
             <div className="pointer-events-auto flex items-center space-x-1 bg-black/20 backdrop-blur-md rounded-full px-2 py-2 border border-white/5">
               {[
                 { label: "Home", href: "/" },
@@ -46,6 +50,15 @@ export default function Navbar() {
                         ? "text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
                         : "text-white/70 hover:text-white hover:bg-white/5",
                     )}
+=======
+            <div className="pointer-events-auto flex items-center space-x-8 bg-black/20 backdrop-blur-md rounded-full px-6 py-2 border border-white/5">
+              {["Product", "How it works", "Features", "Mission", "About"].map(
+                (item) => (
+                  <Link
+                    key={item}
+                    href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="text-white/70 hover:text-white transition-all text-sm font-medium tracking-wide hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+>>>>>>> 573dacd5002552e7cc206a282c014d87106ee784
                   >
                     {item.label}
                   </Link>
