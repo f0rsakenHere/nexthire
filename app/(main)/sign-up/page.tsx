@@ -5,11 +5,18 @@ import { FcGoogle } from "react-icons/fc";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { googleProvider } from "@/app/firebase/config";
+
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth);
+  useCreateUserWithEmailAndPassword(auth);
+
+  const [signInWithGoogle, googleUser, googleLoading, googleError] =
+  useSignInWithGoogle(auth);
+
   const router = useRouter();
   const handleSignUp = async () => {
     try {
@@ -37,6 +44,19 @@ export default function SignUpPage() {
       console.error("Error signing up:", error);
     }
   };
+
+  //Social-login
+  const handleGoogleLogin = async () => {
+  try {
+    const res = await signInWithGoogle();
+    console.log(res);
+    alert("Google login successful!");
+    router.push("/");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-black text-white m">
       {/* Card */}
@@ -101,7 +121,8 @@ export default function SignUpPage() {
         <div className="flex mx-auto gap-3 items-center justify-center">
           <div>
             <button
-              type="submit"
+              type="button"
+              onClick={handleGoogleLogin}
               className="w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg bg-black/40 border focus:outline-none hover:bg-black/50 hover:bg-cyan-400"
             >
               <FcGoogle size={18} />
@@ -119,6 +140,13 @@ export default function SignUpPage() {
               <span className="font-medium hover:text-black">GitHub</span>
             </button>
           </div>
+
+          {/* error handler */}
+          {googleLoading && <p className="text-center">Loading...</p>}
+          {googleError && (
+         <p className="text-red-500 text-center">{googleError.message}</p>
+          )}
+
         </div>
         {/* Footer */}
         <p className="text-gray-400 text-center mt-6">
