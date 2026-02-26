@@ -32,7 +32,9 @@ import {
   ShieldCheckIcon,
   ArrowUpRightIcon,
   ChevronRightIcon,
+  HomeIcon,
 } from "lucide-react";
+import Link from "next/link";
 interface ResumeResult {
   ats_score: number;
   sections: {
@@ -349,12 +351,12 @@ export default function ResumeScorerPage() {
 
         <div className="p-6 lg:p-8 flex flex-col gap-8">
           {/* ── Page title ── */}
-          <div className="flex items-end justify-between">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-primary mb-2">
                 Resume Tools
               </p>
-              <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-foreground">
+              <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-foreground flex items-center gap-3">
                 AI Resume{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">
                   Scorer
@@ -364,14 +366,25 @@ export default function ResumeScorerPage() {
                 Paste your resume · get scored · know exactly what to fix
               </p>
             </div>
-            {result && (
-              <button
-                onClick={reset}
-                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono"
+
+            <div className="flex items-center gap-3">
+              <Link
+                href="/"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-primary/40 dark:hover:border-primary/40 text-sm font-bold text-gray-700 dark:text-gray-200 transition-all group"
               >
-                <RotateCcwIcon className="size-3" /> New resume
-              </button>
-            )}
+                <HomeIcon className="size-4 text-primary group-hover:scale-110 transition-transform" />
+                Return to Home
+              </Link>
+
+              {result && (
+                <button
+                  onClick={reset}
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-transparent hover:border-border hover:bg-muted/50 text-xs text-muted-foreground hover:text-foreground transition-all font-mono"
+                >
+                  <RotateCcwIcon className="size-3" /> New resume
+                </button>
+              )}
+            </div>
           </div>
 
           {!result && (

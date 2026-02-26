@@ -20,9 +20,10 @@ import {
   ActivityIcon,
   ScanSearchIcon,
   StarIcon,
-  ClockIcon,
   ZapIcon,
+  HomeIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 // --- Stat Cards ---
 const stats = [
@@ -93,10 +94,13 @@ export default function DashboardPage() {
               <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
               AI Online
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
-              <ClockIcon className="size-3.5" />
-              Last session: 2h ago
-            </div>
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono"
+            >
+              <HomeIcon className="size-3.5" />
+              Return to Home
+            </Link>
           </div>
         </header>
 
