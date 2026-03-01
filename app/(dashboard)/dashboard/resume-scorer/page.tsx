@@ -339,12 +339,6 @@ export default function ResumeScorerPage() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto px-4 flex items-center gap-2">
-            <span className="size-1.5 rounded-none bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
-            <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-              AI Online
-            </span>
-          </div>
         </header>
 
         <div className="p-6 lg:p-8 flex flex-col gap-8">
