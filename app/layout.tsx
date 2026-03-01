@@ -24,8 +24,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+<<<<<<< HEAD
   title: "NextHire",
   description: "AI-Powered Interview Preparation Platform",
+=======
+  title: "NextHire — AI Interview Coach",
+  description: "AI-Powered Resume Scoring & Mock Interview Platform",
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 };
 
 export default function RootLayout({
@@ -34,9 +39,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} antialiased min-h-screen flex flex-col`}
+<<<<<<< HEAD
+=======
+        suppressHydrationWarning
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
       >
         {children}
       </body>

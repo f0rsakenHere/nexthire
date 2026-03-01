@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"
 
 import {
@@ -5,6 +6,11 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
+=======
+"use client";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,25 +19,51 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+<<<<<<< HEAD
 } from "@/components/ui/dropdown-menu"
+=======
+} from "@/components/ui/dropdown-menu";
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
+<<<<<<< HEAD
 } from "@/components/ui/sidebar"
 import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+=======
+} from "@/components/ui/sidebar";
+import {
+  ChevronsUpDownIcon,
+  SparklesIcon,
+  BadgeCheckIcon,
+  CreditCardIcon,
+  BellIcon,
+  LogOutIcon,
+} from "lucide-react";
+import { auth } from "@/app/firebase/config";
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 
 export function NavUser({
   user,
 }: {
   user: {
+<<<<<<< HEAD
     name: string
     email: string
     avatar: string
   }
 }) {
   const { isMobile } = useSidebar()
+=======
+    name: string;
+    email: string;
+    avatar: string;
+  };
+}) {
+  const { isMobile } = useSidebar();
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 
   return (
     <SidebarMenu>
@@ -44,7 +76,13 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
+<<<<<<< HEAD
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+=======
+                <AvatarFallback className="rounded-lg">
+                  {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                </AvatarFallback>
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -63,7 +101,13 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
+<<<<<<< HEAD
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+=======
+                  <AvatarFallback className="rounded-lg">
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  </AvatarFallback>
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -74,14 +118,19 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
+<<<<<<< HEAD
                 <SparklesIcon
                 />
+=======
+                <SparklesIcon />
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
+<<<<<<< HEAD
                 <BadgeCheckIcon
                 />
                 Account
@@ -94,18 +143,38 @@ export function NavUser({
               <DropdownMenuItem>
                 <BellIcon
                 />
+=======
+                <BadgeCheckIcon />
+                Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <CreditCardIcon />
+                Billing
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <BellIcon />
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
+<<<<<<< HEAD
             <DropdownMenuItem>
               <LogOutIcon
               />
+=======
+            <DropdownMenuItem onClick={() => auth.signOut()}>
+              <LogOutIcon />
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
+<<<<<<< HEAD
   )
+=======
+  );
+>>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 }
