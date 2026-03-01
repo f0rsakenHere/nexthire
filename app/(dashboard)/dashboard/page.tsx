@@ -110,7 +110,7 @@ export default function DashboardPage() {
           <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[500px] bg-primary/8 blur-[120px] rounded-full mix-blend-screen" />
 
           {/* ── Welcome Banner ─────────────────────────────── */}
-          <div className="relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden">
+          <div className="relative rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[200px] bg-primary/10 blur-[80px] rounded-full pointer-events-none mix-blend-screen" />
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
             <div className="relative z-10">
@@ -150,7 +150,7 @@ export default function DashboardPage() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="group relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 p-6 overflow-hidden transition-all duration-500"
+                className="group relative rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 p-6 overflow-hidden transition-all duration-500"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
@@ -179,7 +179,7 @@ export default function DashboardPage() {
           {/* ── Bottom Row: Activity + Readiness ───────────── */}
           <div className="grid gap-6 md:grid-cols-2">
             {/* Recent Activity */}
-            <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden relative">
+            <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden relative">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               <div className="relative z-10">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-primary/60 mb-1 font-mono">
@@ -250,7 +250,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Readiness Breakdown */}
-            <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden relative group">
+            <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden relative group">
               {/* Premium Background Effects */}
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/10 via-transparent to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
@@ -325,24 +325,24 @@ export default function DashboardPage() {
                           </span>
                         </div>
                       </div>
-                      <div className="relative h-3 rounded-full bg-muted/30 border border-border/50 shadow-inner mt-3">
+                      <div className="relative h-3 rounded-none bg-muted/30 border border-border/50 shadow-inner mt-3">
                         <div
-                          className={`absolute inset-y-0 left-0 rounded-full bg-gradient-to-r ${skill.color} shadow-sm ${skill.shadow} transition-all duration-1000 ease-out flex items-center justify-end pr-1`}
+                          className={`absolute inset-y-0 left-0 rounded-none bg-gradient-to-r ${skill.color} shadow-sm ${skill.shadow} transition-all duration-1000 ease-out flex items-center justify-end pr-1`}
                           style={{ width: `${skill.value}%` }}
                         >
                           {/* Inner light reflection for a 3D cylindrical feel */}
-                          <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10 rounded-full pointer-events-none" />
+                          <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10 rounded-none pointer-events-none" />
                           {/* Glowing tip */}
-                          <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white/40 to-transparent rounded-full pointer-events-none" />
+                          <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white/40 to-transparent rounded-none pointer-events-none" />
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-8 relative p-[1px] rounded-2xl bg-gradient-to-r from-primary/30 to-purple-600/30 overflow-hidden">
+                <div className="mt-8 relative p-[1px] rounded-none bg-gradient-to-r from-primary/30 to-purple-600/30 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-purple-600/10 blur-xl" />
-                  <div className="relative bg-card rounded-2xl p-5 border border-white/5 backdrop-blur-sm">
+                  <div className="relative bg-card rounded-none p-5 border border-white/5 backdrop-blur-sm">
                     <p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-primary mb-2 font-mono">
                       <ZapIcon
                         size={12}
