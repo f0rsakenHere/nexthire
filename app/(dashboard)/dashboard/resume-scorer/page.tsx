@@ -32,7 +32,9 @@ import {
   ShieldCheckIcon,
   ArrowUpRightIcon,
   ChevronRightIcon,
+  HomeIcon,
 } from "lucide-react";
+import Link from "next/link";
 interface ResumeResult {
   ats_score: number;
   sections: {
@@ -96,7 +98,7 @@ function ScoreRing({ score }: { score: number }) {
     <div className="relative flex items-center justify-center w-48 h-48">
       {/* Outer glow ring */}
       <div
-        className="absolute inset-0 rounded-none opacity-20 blur-xl"
+        className="absolute inset-0 rounded-full opacity-20 blur-xl"
         style={{ background: g.color }}
       />
       <svg
@@ -131,17 +133,10 @@ function ScoreRing({ score }: { score: number }) {
         />
       </svg>
       <div className="absolute flex flex-col items-center gap-1">
-<<<<<<< HEAD
-        <span className="text-5xl font-black text-white tracking-tight">
-          {score}
-        </span>
-        <span className="text-[10px] text-white/50 font-mono uppercase tracking-[0.25em]">
-=======
         <span className="text-5xl font-black text-foreground tracking-tight">
           {score}
         </span>
         <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-[0.25em]">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
           out of 100
         </span>
       </div>
@@ -162,28 +157,9 @@ function SectionCard({
 }) {
   const g = scoreGrade(score);
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <div
-      className={`relative rounded-2xl ${g.bg} ${g.border} border p-5 overflow-hidden group hover:scale-[1.01] transition-transform duration-300`}
-    >
-      <div className="flex items-start justify-between mb-4">
-        <div className={`p-2 rounded-xl ${g.bg} ${g.border} border`}>
-          <span className={g.text}>{icon}</span>
-        </div>
-        <span className={`text-2xl font-black ${g.text}`}>{score}</span>
-      </div>
-      <p className="text-sm font-semibold text-white/80">{label}</p>
-      {sub && (
-        <p className="text-xs text-white/70 mt-1 leading-relaxed">{sub}</p>
-      )}
-=======
     <div className="relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-5 flex flex-col gap-3 group hover:shadow-md hover:border-primary/30 transition-all duration-300">
-=======
-    <div className="relative rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-5 flex flex-col gap-3 group hover:shadow-md hover:border-primary/30 transition-all duration-300">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
       <div className="flex items-center justify-between">
-        <div className={`p-2 rounded-none ${g.bg} ${g.border} border`}>
+        <div className={`p-2 rounded-xl ${g.bg} ${g.border} border`}>
           <span className={g.text}>{icon}</span>
         </div>
         <span className={`text-3xl font-black ${g.text} tracking-tight`}>
@@ -198,7 +174,6 @@ function SectionCard({
           <p className="text-xs text-gray-500 mt-1 leading-relaxed">{sub}</p>
         )}
       </div>
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
     </div>
   );
 }
@@ -207,23 +182,8 @@ function EmptyHero({ onExampleClick }: { onExampleClick: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 gap-6 text-center">
       <div className="relative">
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-3xl scale-150" />
-        <div className="relative w-24 h-24 rounded-3xl bg-white/[0.03] border border-white/10 flex items-center justify-center">
-          <FileTextIcon className="size-10 text-cyan-400/60" />
-        </div>
-      </div>
-      <div>
-        <h2 className="text-2xl font-bold text-white">Paste your resume</h2>
-        <p className="text-blue-200/65 mt-1 text-sm">
-=======
         <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl scale-150" />
         <div className="relative w-24 h-24 rounded-3xl bg-card border border-border flex items-center justify-center">
-=======
-        <div className="absolute inset-0 rounded-none bg-primary/20 blur-3xl scale-150" />
-        <div className="relative w-24 h-24 rounded-none bg-card border border-border flex items-center justify-center">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
           <FileTextIcon className="size-10 text-primary/60" />
         </div>
       </div>
@@ -232,7 +192,6 @@ function EmptyHero({ onExampleClick }: { onExampleClick: () => void }) {
           Paste your resume
         </h2>
         <p className="text-muted-foreground mt-1 text-sm">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
           Get an instant ATS score + actionable AI feedback
         </p>
       </div>
@@ -245,15 +204,7 @@ function EmptyHero({ onExampleClick }: { onExampleClick: () => void }) {
         ].map((f) => (
           <span
             key={f}
-<<<<<<< HEAD
-<<<<<<< HEAD
-            className="px-3 py-1.5 rounded-full text-xs bg-white/[0.03] border border-white/10 text-white/70"
-=======
             className="px-3 py-1.5 rounded-full text-xs bg-muted border border-border text-muted-foreground"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
-=======
-            className="px-3 py-1.5 rounded-none text-xs bg-muted border border-border text-muted-foreground"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
           >
             ✓ {f}
           </span>
@@ -261,11 +212,7 @@ function EmptyHero({ onExampleClick }: { onExampleClick: () => void }) {
       </div>
       <button
         onClick={onExampleClick}
-<<<<<<< HEAD
-        className="text-xs text-cyan-400/75 hover:text-cyan-300 transition-colors flex items-center gap-1 font-mono"
-=======
         className="text-xs text-primary/60 hover:text-primary transition-colors flex items-center gap-1 font-mono"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
       >
         Try with a sample resume <ChevronRightIcon className="size-3" />
       </button>
@@ -311,12 +258,8 @@ export default function ResumeScorerPage() {
     const el = resumeRef.current;
     if (!el) return;
     el.style.height = "auto";
-<<<<<<< HEAD
-    el.style.height = el.scrollHeight + "px";
-=======
     // Cap at 500px — scroll beyond that
     el.style.height = Math.min(el.scrollHeight, 500) + "px";
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
   }, [resume]);
 
   const steps = [
@@ -371,15 +314,6 @@ export default function ResumeScorerPage() {
   return (
     <SidebarProvider>
       <AppSidebar />
-<<<<<<< HEAD
-      <SidebarInset className="bg-[#050508] text-white min-h-screen">
-        <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-white/[0.06] bg-[#050508]/80 backdrop-blur-xl">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1 text-white/40 hover:text-white hover:bg-white/8 rounded-lg transition-colors" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4 bg-white/[0.08]"
-=======
       <SidebarInset className="bg-background text-foreground min-h-screen">
         <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background/80 backdrop-blur-xl">
           <div className="flex items-center gap-2 px-4">
@@ -387,31 +321,20 @@ export default function ResumeScorerPage() {
             <Separator
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4 bg-border"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
             />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink
                     href="/dashboard"
-<<<<<<< HEAD
-                    className="text-white/55 hover:text-cyan-400 text-sm transition-colors"
-=======
                     className="text-muted-foreground hover:text-primary text-sm transition-colors"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                   >
                     Dashboard
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-<<<<<<< HEAD
-                <BreadcrumbSeparator className="hidden md:block text-white/10" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="text-white/80 text-sm">
-=======
                 <BreadcrumbSeparator className="hidden md:block text-muted-foreground/20" />
                 <BreadcrumbItem>
                   <BreadcrumbPage className="text-foreground/80 text-sm">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                     AI Resume Scorer
                   </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -419,16 +342,8 @@ export default function ResumeScorerPage() {
             </Breadcrumb>
           </div>
           <div className="ml-auto px-4 flex items-center gap-2">
-<<<<<<< HEAD
             <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
-<<<<<<< HEAD
-            <span className="text-[10px] font-mono uppercase tracking-widest text-white/50">
-=======
-=======
-            <span className="size-1.5 rounded-none bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
             <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
               AI Online
             </span>
           </div>
@@ -438,18 +353,6 @@ export default function ResumeScorerPage() {
           {/* ── Page title ── */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-<<<<<<< HEAD
-              <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-cyan-400/80 mb-2">
-                Resume Tools
-              </p>
-              <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-white">
-                AI Resume{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400">
-                  Scorer
-                </span>
-              </h1>
-              <p className="text-white/55 text-sm mt-1.5">
-=======
               <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-primary mb-2">
                 Resume Tools
               </p>
@@ -460,52 +363,41 @@ export default function ResumeScorerPage() {
                 </span>
               </h1>
               <p className="text-muted-foreground text-sm mt-1.5">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                 Paste your resume · get scored · know exactly what to fix
               </p>
             </div>
-            {result && (
-              <button
-                onClick={reset}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                className="flex items-center gap-1.5 text-xs text-white/50 hover:text-cyan-400 transition-colors font-mono"
-=======
-                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
-=======
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-none border border-transparent hover:border-border hover:bg-muted/50 text-xs text-muted-foreground hover:text-foreground transition-all font-mono"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
+
+            <div className="flex items-center gap-3">
+              <Link
+                href="/"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-primary/40 dark:hover:border-primary/40 text-sm font-bold text-gray-700 dark:text-gray-200 transition-all group"
               >
-                <RotateCcwIcon className="size-3" /> New resume
-              </button>
-            )}
+                <HomeIcon className="size-4 text-primary group-hover:scale-110 transition-transform" />
+                Return to Home
+              </Link>
+
+              {result && (
+                <button
+                  onClick={reset}
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-transparent hover:border-border hover:bg-muted/50 text-xs text-muted-foreground hover:text-foreground transition-all font-mono"
+                >
+                  <RotateCcwIcon className="size-3" /> New resume
+                </button>
+              )}
+            </div>
           </div>
 
           {!result && (
-<<<<<<< HEAD
-            <div className="grid lg:grid-cols-[1fr_380px] gap-6">
-              {/* Left — resume input */}
-              <div className="flex flex-col gap-4">
-                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] overflow-hidden focus-within:border-cyan-500/40 transition-colors duration-300">
-                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.06]">
-                    <FileTextIcon className="size-4 text-cyan-400/50" />
-                    <span className="text-xs font-mono uppercase tracking-widest text-white/60">
-                      Resume Text
-                    </span>
-                    <span className="ml-auto text-[10px] font-mono text-white/45">
-=======
             <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
               {/* Left — resume input */}
               <div className="flex flex-col gap-4">
-                <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors duration-300">
+                <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors duration-300">
                   <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border">
                     <FileTextIcon className="size-4 text-primary/50" />
                     <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
                       Resume Text
                     </span>
                     <span className="ml-auto text-[10px] font-mono text-muted-foreground/60">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                       {resume.length} chars
                     </span>
                   </div>
@@ -516,14 +408,8 @@ export default function ResumeScorerPage() {
                       setResume(e.target.value);
                       setError(null);
                     }}
-<<<<<<< HEAD
-                    placeholder="Paste your resume here — plain text works best…"
-                    style={{ minHeight: "320px", overflow: "hidden" }}
-                    className="w-full bg-transparent px-4 py-4 text-sm text-white/85 placeholder:text-white/25 font-mono resize-none focus:outline-none leading-loose"
-=======
                     className="w-full bg-transparent px-4 py-4 text-sm text-foreground placeholder:text-muted-foreground/30 font-mono resize-none focus:outline-none leading-loose overflow-y-auto"
                     style={{ minHeight: "200px", maxHeight: "500px" }}
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                   />
                 </div>
 
@@ -531,11 +417,7 @@ export default function ResumeScorerPage() {
                 <div>
                   <button
                     onClick={() => setShowJD((v) => !v)}
-<<<<<<< HEAD
-                    className="flex items-center gap-2 text-xs font-mono text-cyan-400/70 hover:text-cyan-300 transition-colors uppercase tracking-widest"
-=======
                     className="flex items-center gap-2 text-xs font-mono text-primary/60 hover:text-primary transition-colors uppercase tracking-widest"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                   >
                     <BriefcaseIcon className="size-3.5" />
                     {showJD
@@ -544,21 +426,10 @@ export default function ResumeScorerPage() {
                   </button>
 
                   {showJD && (
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <div className="mt-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] overflow-hidden focus-within:border-cyan-500/40 transition-colors">
-                      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.06]">
-                        <BriefcaseIcon className="size-4 text-cyan-400/50" />
-                        <span className="text-xs font-mono uppercase tracking-widest text-white/60">
-=======
                     <div className="mt-3 rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors">
-=======
-                    <div className="mt-3 rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                       <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border">
                         <BriefcaseIcon className="size-4 text-primary/50" />
                         <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                           Job Description
                         </span>
                       </div>
@@ -572,28 +443,15 @@ export default function ResumeScorerPage() {
                         }}
                         placeholder="Paste the job description to tailor keyword scoring…"
                         style={{ minHeight: "140px", overflow: "hidden" }}
-<<<<<<< HEAD
-                        className="w-full bg-transparent px-4 py-4 text-sm text-white/85 placeholder:text-white/25 font-mono resize-none focus:outline-none leading-loose"
-=======
                         className="w-full bg-transparent px-4 py-4 text-sm text-foreground placeholder:text-muted-foreground/30 font-mono resize-none focus:outline-none leading-loose"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                       />
                     </div>
                   )}
                 </div>
 
                 {error && (
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-rose-500/8 border border-rose-500/20 text-rose-300 text-sm">
-                    <AlertTriangleIcon className="size-4 shrink-0 text-rose-400" />
-=======
                   <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">
-=======
-                  <div className="flex items-center gap-2.5 px-4 py-3 rounded-none bg-rose-50 border border-rose-200 text-rose-700 text-sm">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                     <AlertTriangleIcon className="size-4 shrink-0 text-rose-500" />
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                     {error}
                   </div>
                 )}
@@ -601,19 +459,11 @@ export default function ResumeScorerPage() {
                 <button
                   onClick={handleScore}
                   disabled={loading || resume.trim().length < 50}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  className="group flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl text-white text-sm font-bold shadow-[0_0_24px_rgba(34,211,238,0.25)] hover:shadow-[0_0_40px_rgba(34,211,238,0.45)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed w-fit"
-=======
                   className="group flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-primary to-blue-600 rounded-2xl text-primary-foreground text-sm font-bold shadow-[0_0_30px_oklch(0.62_0.26_278/0.4)] hover:shadow-[0_0_45px_oklch(0.62_0.26_278/0.6)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed w-fit"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
-=======
-                  className="group flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-primary to-blue-600 rounded-none text-primary-foreground text-sm font-bold shadow-[0_0_30px_oklch(0.62_0.26_278/0.4)] hover:shadow-[0_0_45px_oklch(0.62_0.26_278/0.6)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed w-fit"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                 >
                   {loading ? (
                     <>
-                      <span className="size-4 rounded-none border-2 border-white/30 border-t-white animate-spin" />
+                      <span className="size-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
                       <span className="font-mono text-xs tracking-wide">
                         {steps[step]}
                       </span>
@@ -629,23 +479,11 @@ export default function ResumeScorerPage() {
               </div>
 
               {/* Right — empty state / features */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.015] p-6 flex flex-col">
-                <EmptyHero onExampleClick={() => setResume(SAMPLE_RESUME)} />
-
-                {/* Feature list */}
-                <div className="mt-auto space-y-3 pt-8 border-t border-white/[0.06]">
-=======
               <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-6 flex flex-col">
-=======
-              <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-6 flex flex-col">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                 <EmptyHero onExampleClick={() => setResume(SAMPLE_RESUME)} />
 
                 {/* Feature list */}
                 <div className="mt-auto space-y-3 pt-6 border-t border-border">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                   {[
                     {
                       icon: <TagIcon className="size-3.5" />,
@@ -666,15 +504,9 @@ export default function ResumeScorerPage() {
                   ].map((f, i) => (
                     <div
                       key={i}
-<<<<<<< HEAD
-                      className="flex items-center gap-3 text-xs text-white/60"
-                    >
-                      <span className="text-cyan-400/70">{f.icon}</span>
-=======
                       className="flex items-center gap-3 text-xs text-muted-foreground"
                     >
                       <span className="text-primary/70 shrink-0">{f.icon}</span>
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                       {f.text}
                     </div>
                   ))}
@@ -688,38 +520,13 @@ export default function ResumeScorerPage() {
               {/* Row 1: Score + Summary */}
               <div className="grid lg:grid-cols-[auto_1fr] gap-6">
                 {/* Score hero */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <div
-                  className={`relative rounded-3xl ${g.bg} ${g.border} border p-8 flex flex-col items-center gap-4 min-w-[260px]`}
-                >
-                  <div
-                    className="absolute inset-0 rounded-3xl opacity-30"
-                    style={{
-                      background: `radial-gradient(circle at 50% 30%, ${g.color}18, transparent 70%)`,
-                    }}
-                  />
-                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 relative z-10">
-=======
                 <div className="relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 flex flex-col items-center gap-4 min-w-[260px]">
-=======
-                <div className="relative rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 flex flex-col items-center gap-4 min-w-[260px]">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                   <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-gray-400">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                     ATS Score
                   </p>
                   <ScoreRing score={result.ats_score} />
                   <div
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    className={`px-4 py-1.5 rounded-full ${g.bg} ${g.border} border relative z-10`}
-=======
                     className={`px-4 py-1.5 rounded-full ${g.bg} ${g.border} border`}
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
-=======
-                    className={`px-4 py-1.5 rounded-none ${g.bg} ${g.border} border`}
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                   >
                     <span className={`text-sm font-bold ${g.text}`}>
                       {g.label}
@@ -728,63 +535,28 @@ export default function ResumeScorerPage() {
                 </div>
 
                 {/* Summary panel */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <div className="relative rounded-3xl bg-white/[0.02] border border-white/[0.07] p-8 flex flex-col gap-5">
-                  <div>
-                    <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 mb-3">
-                      AI Summary
-                    </p>
-                    <p className="text-white/85 text-sm leading-relaxed">
-=======
                 <div className="relative rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 flex flex-col gap-5">
-=======
-                <div className="relative rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 flex flex-col gap-5">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                   <div>
                     <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-3">
                       AI Summary
                     </p>
                     <p className="text-foreground/85 text-sm leading-relaxed">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                       {result.summary}
                     </p>
                   </div>
 
                   {/* Recruiter verdict */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  <div className="rounded-2xl bg-amber-500/6 border border-amber-500/20 px-5 py-4">
-                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-amber-400/80 mb-2">
-                      Recruiter Verdict
-                    </p>
-                    <p className="text-sm text-white/80 italic leading-relaxed">
-=======
                   <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 px-5 py-4">
-=======
-                  <div className="rounded-none bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 px-5 py-4">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                     <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-amber-500 mb-2">
                       Recruiter Verdict
                     </p>
                     <p className="text-sm text-gray-700 italic leading-relaxed">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                       &ldquo;{result.recruiter_verdict}&rdquo;
                     </p>
                   </div>
 
                   {/* Strengths */}
                   <div>
-<<<<<<< HEAD
-                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-emerald-400/75 mb-3">
-                      Top Strengths
-                    </p>
-                    <div className="flex flex-col gap-2">
-                      {result.top_strengths.map((s, i) => (
-                        <div key={i} className="flex items-start gap-2.5">
-                          <CheckCircleIcon className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                          <span className="text-sm text-white/80">{s}</span>
-=======
                     <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-gray-400 mb-3">
                       Top Strengths
                     </p>
@@ -798,7 +570,6 @@ export default function ResumeScorerPage() {
                           <span className="text-sm text-gray-700 leading-snug">
                             {s}
                           </span>
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                         </div>
                       ))}
                     </div>
@@ -843,41 +614,20 @@ export default function ResumeScorerPage() {
               {/* Row 3: Keywords + Issues */}
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Keywords */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <div className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7">
-                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 mb-5">
-=======
                 <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
-=======
-                <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                   <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-5">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                     Keyword Analysis
                   </p>
                   {result.sections.keywords.found.length > 0 && (
                     <div className="mb-5">
-<<<<<<< HEAD
-                      <p className="text-[9px] font-mono uppercase tracking-widest text-emerald-400/75 mb-3">
-=======
                       <p className="text-[9px] font-mono uppercase tracking-widest text-emerald-700 mb-3">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                         ✓ Found in your resume
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {result.sections.keywords.found.map((k, i) => (
                           <span
                             key={i}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            className="px-3 py-1 rounded-lg text-xs bg-emerald-500/8 border border-emerald-500/20 text-emerald-300 font-mono"
-=======
                             className="px-3 py-1 rounded-lg text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
-=======
-                            className="px-3 py-1 rounded-none text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                           >
                             {k}
                           </span>
@@ -887,26 +637,14 @@ export default function ResumeScorerPage() {
                   )}
                   {result.sections.keywords.missing.length > 0 && (
                     <div>
-<<<<<<< HEAD
-                      <p className="text-[9px] font-mono uppercase tracking-widest text-rose-400/75 mb-3">
-=======
                       <p className="text-[9px] font-mono uppercase tracking-widest text-rose-700 mb-3">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                         ✗ Missing — add these
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {result.sections.keywords.missing.map((k, i) => (
                           <span
                             key={i}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            className="px-3 py-1 rounded-lg text-xs bg-rose-500/8 border border-rose-500/20 text-rose-300 font-mono"
-=======
                             className="px-3 py-1 rounded-lg text-xs bg-rose-50 border border-rose-200 text-rose-700 font-mono"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
-=======
-                            className="px-3 py-1 rounded-none text-xs bg-rose-50 border border-rose-200 text-rose-700 font-mono"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                           >
                             {k}
                           </span>
@@ -917,17 +655,8 @@ export default function ResumeScorerPage() {
                 </div>
 
                 {/* Formatting issues */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <div className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7">
-                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60 mb-5">
-=======
                 <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
-=======
-                <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                   <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-5">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                     Formatting Issues
                   </p>
                   {result.sections.formatting.issues.length === 0 ? (
@@ -935,11 +664,7 @@ export default function ResumeScorerPage() {
                       <CheckCircleIcon className="size-5" />
                       <div>
                         <p className="text-sm font-semibold">No issues found</p>
-<<<<<<< HEAD
-                        <p className="text-xs text-white/60 mt-0.5">
-=======
                         <p className="text-xs text-muted-foreground mt-0.5">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                           Your formatting looks great
                         </p>
                       </div>
@@ -949,21 +674,10 @@ export default function ResumeScorerPage() {
                       {result.sections.formatting.issues.map((issue, i) => (
                         <div
                           key={i}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          className="flex items-start gap-3 p-3 rounded-xl bg-rose-500/5 border border-rose-500/10"
-                        >
-                          <XCircleIcon className="size-4 text-rose-400 shrink-0 mt-0.5" />
-                          <p className="text-sm text-white/80 leading-relaxed">
-=======
                           className="flex items-start gap-3 p-3 rounded-xl bg-rose-50 border border-rose-200"
-=======
-                          className="flex items-start gap-3 p-3 rounded-none bg-rose-50 border border-rose-200"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                         >
                           <XCircleIcon className="size-4 text-rose-500 shrink-0 mt-0.5" />
                           <p className="text-sm text-foreground/80 leading-relaxed">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                             {issue}
                           </p>
                         </div>
@@ -971,19 +685,11 @@ export default function ResumeScorerPage() {
                     </div>
                   )}
 
-<<<<<<< HEAD
-                  <div className="mt-6 pt-6 border-t border-white/[0.06]">
-                    <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-white/55 mb-3">
-                      Impact Feedback
-                    </p>
-                    <p className="text-xs text-white/70 leading-relaxed">
-=======
                   <div className="mt-6 pt-6 border-t border-border">
                     <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-3">
                       Impact Feedback
                     </p>
                     <p className="text-xs text-muted-foreground leading-relaxed">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                       {result.sections.impact.feedback}
                     </p>
                   </div>
@@ -991,25 +697,9 @@ export default function ResumeScorerPage() {
               </div>
 
               {/* Row 4: Improvement plan */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <div className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
-                    <SparklesIcon className="size-5 text-cyan-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">
-                      AI Improvement Plan
-                    </p>
-                    <p className="text-xs text-white/60">
-=======
               <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
-=======
-              <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7">
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2.5 rounded-none bg-primary/10 border border-primary/20">
+                  <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20">
                     <SparklesIcon className="size-5 text-primary" />
                   </div>
                   <div>
@@ -1017,7 +707,6 @@ export default function ResumeScorerPage() {
                       AI Improvement Plan
                     </p>
                     <p className="text-xs text-muted-foreground">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                       Ranked by impact on your ATS score
                     </p>
                   </div>
@@ -1026,29 +715,14 @@ export default function ResumeScorerPage() {
                   {result.top_improvements.map((tip, i) => (
                     <div
                       key={i}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      className="group flex items-start gap-4 p-4 rounded-2xl bg-black/20 border border-white/[0.06] hover:border-cyan-500/20 hover:bg-cyan-500/[0.03] transition-all duration-300 cursor-default"
-                    >
-                      <div className="flex items-center justify-center size-7 rounded-xl bg-white/[0.04] border border-white/[0.08] shrink-0">
-                        <span className="text-xs font-black text-white/60 font-mono">
-                          {i + 1}
-                        </span>
-                      </div>
-                      <p className="text-sm text-white/75 leading-relaxed group-hover:text-white/90 transition-colors">
-=======
                       className="group flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all duration-300 cursor-default"
-=======
-                      className="group flex items-start gap-4 p-4 rounded-none bg-gray-50 border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all duration-300 cursor-default"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                     >
-                      <div className="flex items-center justify-center size-7 rounded-none bg-indigo-100 border border-indigo-200 shrink-0">
+                      <div className="flex items-center justify-center size-7 rounded-xl bg-indigo-100 border border-indigo-200 shrink-0">
                         <span className="text-xs font-black text-indigo-600 font-mono">
                           {i + 1}
                         </span>
                       </div>
                       <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                         {tip}
                       </p>
                     </div>
@@ -1076,19 +750,7 @@ export default function ResumeScorerPage() {
                   return (
                     <div
                       key={s.label}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      className="rounded-3xl bg-white/[0.02] border border-white/[0.07] p-7"
-                    >
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2.5">
-                          <span className="text-white/60">{s.icon}</span>
-                          <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/60">
-=======
                       className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7"
-=======
-                      className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-7"
->>>>>>> 56aeb6ea095a946240509154bb178e79e1d0625b
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2.5">
@@ -1096,7 +758,6 @@ export default function ResumeScorerPage() {
                             {s.icon}
                           </span>
                           <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                             {s.label}
                           </p>
                         </div>
@@ -1104,11 +765,7 @@ export default function ResumeScorerPage() {
                           {s.score}
                         </span>
                       </div>
-<<<<<<< HEAD
-                      <p className="text-sm text-white/75 leading-relaxed">
-=======
                       <p className="text-sm text-foreground/75 leading-relaxed">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                         {s.text}
                       </p>
                     </div>
