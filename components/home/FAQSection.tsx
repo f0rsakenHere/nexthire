@@ -82,11 +82,7 @@ export function FAQSection() {
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
-<<<<<<< HEAD
-                  className="inline-block w-2 h-4 bg-cyan-500 ml-1 align-middle"
-=======
                   className="inline-block w-2 h-4 bg-primary ml-1 align-middle"
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                 />
               </AccordionContent>
             </AccordionItem>

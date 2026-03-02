@@ -2,10 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-<<<<<<< HEAD
-import { useState } from "react";
-=======
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -15,11 +11,7 @@ import { auth } from "@/app/firebase/config";
 
 export default function Navbar() {
   const pathname = usePathname();
-<<<<<<< HEAD
-  const [user] = useState(false); // Auth state simulation
-=======
   const [user, loading] = useAuthState(auth);
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-border transition-all duration-300">
@@ -37,11 +29,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:absolute md:inset-x-0 md:flex md:justify-center items-center space-x-8 pointer-events-none">
-<<<<<<< HEAD
-            <div className="pointer-events-auto flex items-center space-x-1 bg-black/20 backdrop-blur-md rounded-full px-2 py-2 border border-white/5">
-=======
             <div className="pointer-events-auto flex items-center space-x-1 bg-muted/50 backdrop-blur-md rounded-full px-2 py-2 border border-border">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
               {[
                 { label: "Home", href: "/" },
                 { label: "Features", href: "/features" },
@@ -56,13 +44,8 @@ export default function Navbar() {
                     className={cn(
                       "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
                       isActive
-<<<<<<< HEAD
-                        ? "text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
-                        : "text-white/70 hover:text-white hover:bg-white/5",
-=======
                         ? "text-primary-foreground bg-primary shadow-[0_0_10px_rgba(59,130,246,0.2)]"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted",
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                     )}
                   >
                     {item.label}
@@ -149,13 +132,8 @@ export default function Navbar() {
                           className={cn(
                             "text-2xl font-medium transition-colors",
                             isActive
-<<<<<<< HEAD
-                              ? "text-white pl-4 border-l-2 border-blue-500"
-                              : "text-gray-300 hover:text-white",
-=======
                               ? "text-primary pl-4 border-l-2 border-primary"
                               : "text-muted-foreground hover:text-foreground",
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
                           )}
                         >
                           {item.label}

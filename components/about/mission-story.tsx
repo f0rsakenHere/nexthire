@@ -13,18 +13,6 @@ export default function MissionStory() {
           viewport={{ once: true }}
           className="space-y-8"
         >
-<<<<<<< HEAD
-          <div className="inline-block px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium tracking-wider uppercase">
-            Our Mission
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-            Empowering Your <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-              Career Journey
-            </span>
-          </h2>
-          <p className="text-blue-200/70 text-lg leading-relaxed">
-=======
           <div className="inline-block px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium tracking-wider uppercase">
             Our Mission
           </div>
@@ -35,7 +23,6 @@ export default function MissionStory() {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
             Our mission is to empower job seekers with intelligent tools that
             improve confidence, technical skills, and interview performance. We
             believe everyone deserves a fair chance to land their dream job.
@@ -48,19 +35,6 @@ export default function MissionStory() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-<<<<<<< HEAD
-          className="relative p-8 md:p-10 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-sm overflow-hidden group hover:border-cyan-500/20 transition-colors"
-        >
-          {/* Decorative gradients */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none" />
-
-          <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3">
-            <span className="w-8 h-1 bg-cyan-500 rounded-full" />
-            The Origin Story
-          </h3>
-          <p className="text-gray-400 leading-relaxed mb-6">
-=======
           className="relative p-8 md:p-10 rounded-3xl border border-border bg-card backdrop-blur-sm overflow-hidden group hover:border-primary/25 transition-colors shadow-sm"
         >
           {/* Decorative gradients */}
@@ -72,16 +46,11 @@ export default function MissionStory() {
             The Origin Story
           </h3>
           <p className="text-muted-foreground leading-relaxed mb-6">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
             We created NextHire because we noticed a gap. Many talented
             candidates struggle not because of a lack of skill, but because they
             don&apos;t know what recruiters are looking for.
           </p>
-<<<<<<< HEAD
-          <p className="text-gray-400 leading-relaxed">
-=======
           <p className="text-muted-foreground leading-relaxed">
->>>>>>> 9331ffd1f520e9eb2ba8fe35347c8965f744e3d3
             By leveraging advanced AI, we analyze resumes, simulate
             psychologically accurate interviews, and provide the actionable
             feedback that was previously only available through expensive career
