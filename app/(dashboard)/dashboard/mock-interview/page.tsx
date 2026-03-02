@@ -44,7 +44,7 @@ function EmptyHero() {
   return (
     <div className="flex flex-col gap-4 h-full">
       {/* Text Interview Status Card */}
-      <div className="rounded-3xl bg-card border border-border/50 shadow-sm p-8 flex flex-col flex-1 items-center justify-center text-center">
+      <div className="rounded-none bg-card border border-border/50 shadow-sm p-8 flex flex-col flex-1 items-center justify-center text-center">
         <div className="relative my-10">
           <div className="absolute inset-0 bg-blue-500/10 rounded-full scale-150 animate-pulse" />
           <div className="absolute inset-0 bg-blue-500/10 rounded-full scale-[2] animate-pulse delay-75" />
@@ -73,20 +73,6 @@ function EmptyHero() {
             <span className="font-medium text-foreground/80">5 Tailored</span>
           </div>
         </div>
-      </div>
-
-      {/* Pro Tip Card */}
-      <div className="rounded-3xl bg-slate-900 border border-slate-800 p-6 text-left shrink-0">
-        <div className="flex items-center gap-2 mb-3">
-          <ZapIcon className="size-4 text-blue-400 fill-blue-400" />
-          <span className="text-xs font-bold uppercase tracking-widest text-white">
-            Pro Tip
-          </span>
-        </div>
-        <p className="text-sm text-slate-300 leading-relaxed">
-          Providing specific keywords from the job description helps the AI
-          tailor follow-up questions more effectively.
-        </p>
       </div>
     </div>
   );
@@ -258,7 +244,7 @@ export default function MockInterviewPage() {
             <div className="grid lg:grid-cols-[1fr_400px] gap-6 items-start">
               {/* Left — Setup form */}
               <div className="flex flex-col gap-4">
-                <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors duration-300 p-6 flex flex-col gap-6">
+                <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden focus-within:border-primary/40 transition-colors duration-300 p-6 flex flex-col gap-6">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-2">
@@ -269,7 +255,7 @@ export default function MockInterviewPage() {
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                         placeholder="e.g. Product Designer"
-                        className="w-full bg-background border border-border/50 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                        className="w-full bg-background border border-border/50 rounded-none px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       />
                     </div>
 
@@ -282,7 +268,7 @@ export default function MockInterviewPage() {
                         value={company}
                         onChange={(e) => setCompany(e.target.value)}
                         placeholder="e.g. Google, Airbnb"
-                        className="w-full bg-background border border-border/50 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                        className="w-full bg-background border border-border/50 rounded-none px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       />
                     </div>
                   </div>
@@ -297,8 +283,18 @@ export default function MockInterviewPage() {
                       onChange={(e) => setJobDesc(e.target.value)}
                       placeholder="Paste the job description to get highly specific questions..."
                       style={{ minHeight: "120px" }}
-                      className="w-full bg-background border border-border/50 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
+                      className="w-full bg-background border border-border/50 rounded-none px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
                     />
+                    <div className="mt-3 flex items-start gap-2 px-1">
+                      <ZapIcon className="size-3.5 text-blue-500 fill-blue-500 shrink-0 mt-0.5" />
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        <strong className="font-medium text-foreground/80">
+                          Pro Tip:
+                        </strong>{" "}
+                        Providing specific keywords helps the AI tailor the
+                        interview questions more effectively.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -312,7 +308,7 @@ export default function MockInterviewPage() {
                 <button
                   onClick={handleGenerate}
                   disabled={loading || !role.trim()}
-                  className="relative w-full flex items-center justify-center gap-2.5 px-7 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
+                  className="relative w-full flex items-center justify-center gap-2.5 px-7 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-none text-white text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
                 >
                   {loading ? (
                     <>
@@ -342,7 +338,7 @@ export default function MockInterviewPage() {
           {questions && (
             <div className="flex flex-col gap-6">
               {!evaluations ? (
-                <div className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-6 lg:p-10 flex flex-col gap-8">
+                <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-6 lg:p-10 flex flex-col gap-8">
                   <div className="flex items-center justify-between border-b border-border/50 pb-6">
                     <div>
                       <h2 className="text-2xl font-bold text-foreground">
@@ -359,7 +355,7 @@ export default function MockInterviewPage() {
                   </div>
 
                   {error && !evaluations && (
-                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">
+                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-none bg-rose-50 border border-rose-200 text-rose-700 text-sm">
                       <AlertTriangleIcon className="size-4 shrink-0 text-rose-500" />
                       {error}
                     </div>
@@ -391,7 +387,7 @@ export default function MockInterviewPage() {
                               }))
                             }
                             placeholder="Type your response here..."
-                            className="w-full bg-background border border-border/50 rounded-2xl px-5 py-4 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none leading-relaxed min-h-[140px]"
+                            className="w-full bg-background border border-border/50 rounded-none px-5 py-4 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none leading-relaxed min-h-[140px]"
                           />
                         </div>
                       </div>
@@ -402,7 +398,7 @@ export default function MockInterviewPage() {
                     <button
                       onClick={handleEvaluate}
                       disabled={loading}
-                      className="group flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-primary to-blue-600 rounded-2xl text-primary-foreground text-sm font-bold shadow-[0_0_30px_oklch(0.62_0.26_278/0.4)] hover:shadow-[0_0_45px_oklch(0.62_0.26_278/0.6)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="group flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-primary to-blue-600 rounded-none text-primary-foreground text-sm font-bold shadow-[0_0_30px_oklch(0.62_0.26_278/0.4)] hover:shadow-[0_0_45px_oklch(0.62_0.26_278/0.6)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       {loading ? (
                         <>
@@ -422,7 +418,7 @@ export default function MockInterviewPage() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-6">
-                  <div className="rounded-3xl bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 p-8 flex flex-col items-center text-center">
+                  <div className="rounded-none bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 p-8 flex flex-col items-center text-center">
                     <div className="size-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
                       <CheckCircleIcon className="size-8 text-emerald-600" />
                     </div>
@@ -451,7 +447,7 @@ export default function MockInterviewPage() {
                       return (
                         <div
                           key={i}
-                          className="rounded-3xl bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden line-clamp-none"
+                          className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm overflow-hidden line-clamp-none"
                         >
                           <div className="p-6 md:p-8 border-b border-border/50 bg-muted/20">
                             <div className="flex items-start justify-between gap-4">
@@ -465,7 +461,7 @@ export default function MockInterviewPage() {
                                 </h3>
                               </div>
                               <div
-                                className={`shrink-0 flex flex-col items-center justify-center size-14 rounded-2xl border ${scoreColor}`}
+                                className={`shrink-0 flex flex-col items-center justify-center size-14 rounded-none border ${scoreColor}`}
                               >
                                 <span className="text-xl font-bold leading-none">
                                   {review.score}
@@ -482,7 +478,7 @@ export default function MockInterviewPage() {
                               <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-3">
                                 Your Answer
                               </p>
-                              <div className="p-4 rounded-2xl bg-muted/40 text-foreground/80 text-sm leading-relaxed whitespace-pre-wrap font-light italic">
+                              <div className="p-4 rounded-none bg-muted/40 text-foreground/80 text-sm leading-relaxed whitespace-pre-wrap font-light italic">
                                 &quot;{answers[i]}&quot;
                               </div>
                             </div>
