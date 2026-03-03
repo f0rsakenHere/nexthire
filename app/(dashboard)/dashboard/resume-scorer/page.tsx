@@ -225,12 +225,12 @@ SUMMARY
 Full-Stack Software Engineer with 4 years of experience building scalable web applications using React, Node.js, and PostgreSQL. Led development of SaaS product serving 10,000+ users.
 
 EXPERIENCE
-Senior Software Engineer — TechCorp Inc.            2022 – Present
+Senior Software Engineer — TechCorp Inc.            2022 - Present
 - Built customer dashboard that reduced support tickets by 35%
 - Led migration from REST to GraphQL, cutting API response time by 40%
 - Mentored 3 junior engineers and conducted 50+ code reviews
 
-Software Engineer — StartupXYZ                      2020 – 2022
+Software Engineer — StartupXYZ                      2020 - 2022
 - Developed core payment flow processing $2M+ monthly transactions
 - Integrated Stripe, Plaid, and Twilio APIs
 
@@ -238,7 +238,7 @@ SKILLS
 JavaScript, TypeScript, React, Node.js, PostgreSQL, AWS, Docker, GraphQL
 
 EDUCATION
-B.S. Computer Science — State University           2016 – 2020`;
+B.S. Computer Science — State University            2016 - 2020`;
 
 export default function ResumeScorerPage() {
   const [resume, setResume] = useState("");
