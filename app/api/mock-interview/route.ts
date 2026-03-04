@@ -24,7 +24,7 @@ function sanitizeJsonStrings(raw: string): string {
     }
     if (inString) {
       if (ch === "\n") { result += "\\n"; i++; continue; }
-      if (ch === "\r") {               i++; continue; } 
+      if (ch === "\r") { i++; continue; }
       if (ch === "\t") { result += "\\t"; i++; continue; }
     }
     result += ch;
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
     if (action === "generate") {
       const { role, company, jobDescription } = body;
-      
+
       const prompt = `You are an expert technical interviewer hiring for:
 Role: ${role}
 Company: ${company || "A tech company"}
@@ -68,7 +68,7 @@ Format:
         console.error("Model output:", raw);
         throw new Error("Invalid output format from model.");
       }
-      
+
       const jsonStr = noThink.slice(start, end + 1);
       const sanitized = sanitizeJsonStrings(jsonStr);
       const questions = JSON.parse(sanitized);
@@ -77,9 +77,9 @@ Format:
     }
 
     if (action === "evaluate") {
-      const { role, qna } = body; 
+      const { role, qna } = body;
       // qna is [{ question, answer }]
-      
+
       const prompt = `You are an expert technical interviewer evaluating a candidate for the role of ${role}.
 Review the candidate's answers to the following questions. Provide constructive feedback, a score out of 10, and an example of a great answer.
 Return ONLY a valid JSON array of objects matching the input array order, with no markdown formatting or extra text.
