@@ -11,7 +11,7 @@ import { FeatureShowreel } from "./home/FeatureShowreel";
 
 export function Home() {
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-blue-500/30 font-sans">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 font-sans">
       <HeroSection />
 
       <StatsSection />

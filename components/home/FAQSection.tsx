@@ -34,18 +34,21 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section className="py-24 px-4 bg-black relative overflow-hidden" id="faq">
+    <section
+      className="py-24 px-4 bg-background relative overflow-hidden"
+      id="faq"
+    >
       <div className="max-w-3xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold mb-6 text-white"
+            className="text-4xl md:text-5xl font-bold mb-6 text-foreground"
           >
             System Queries
           </motion.h2>
-          <p className="text-blue-200/60">
+          <p className="text-muted-foreground">
             Common questions about the NextHire platform.
           </p>
         </div>
@@ -61,25 +64,25 @@ export function FAQSection() {
               value={`item-${index}`}
               className="border-b-0"
             >
-              <AccordionTrigger className="group py-6 px-6 bg-white/[0.02] hover:bg-white/[0.04] data-[state=open]:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 border border-white/5 rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline [&>svg]:hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500 opacity-0 group-data-[state=open]:opacity-100 transition-opacity" />
+              <AccordionTrigger className="group py-6 px-6 bg-card hover:bg-muted data-[state=open]:bg-primary/10 data-[state=open]:border-primary/50 border border-border rounded-none transition-all duration-300 relative overflow-hidden no-underline hover:no-underline [&>svg]:hidden">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary opacity-0 group-data-[state=open]:opacity-100 transition-opacity" />
 
-                <span className="text-lg font-medium text-gray-400 group-hover:text-gray-200 group-data-[state=open]:text-white transition-colors text-left flex-1 mr-4">
+                <span className="text-lg font-medium text-muted-foreground group-hover:text-foreground group-data-[state=open]:text-foreground transition-colors text-left flex-1 mr-4">
                   {faq.question}
                 </span>
 
                 <div className="relative w-6 h-6 flex items-center justify-center">
-                  <Plus className="w-5 h-5 text-gray-500 group-data-[state=open]:text-cyan-400 group-data-[state=open]:rotate-45 transition-all duration-300 transform origin-center" />
+                  <Plus className="w-5 h-5 text-muted-foreground group-data-[state=open]:text-primary group-data-[state=open]:rotate-45 transition-all duration-300 transform origin-center" />
                 </div>
               </AccordionTrigger>
 
-              <AccordionContent className="bg-white/[0.02] px-6 pb-6 pt-2 border-x border-b border-white/5 group-data-[state=open]:border-cyan-500/20 text-gray-400 leading-relaxed">
-                <span className="text-cyan-400 mr-2">{`>`}</span>
+              <AccordionContent className="bg-card px-6 pb-6 pt-2 border-x border-b border-border group-data-[state=open]:border-primary/20 text-muted-foreground leading-relaxed">
+                <span className="text-primary mr-2">{`>`}</span>
                 {faq.answer}
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
-                  className="inline-block w-2 h-4 bg-cyan-500 ml-1 align-middle"
+                  className="inline-block w-2 h-4 bg-primary ml-1 align-middle"
                 />
               </AccordionContent>
             </AccordionItem>

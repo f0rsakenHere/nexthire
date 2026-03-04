@@ -159,10 +159,10 @@ const companies = [
       <svg
         xmlSpace="preserve"
         viewBox="0 0 304 182"
-        className="w-full h-full text-white"
+        className="w-full h-full text-foreground"
       >
         <path
-          fill="#ffffff"
+          fill="currentColor"
           d="m86 66 2 9c0 3 1 5 3 8v2l-1 3-7 4-2 1-3-1-4-5-3-6c-8 9-18 14-29 14-9 0-16-3-20-8-5-4-8-11-8-19s3-15 9-20c6-6 14-8 25-8a79 79 0 0 1 22 3v-7c0-8-2-13-5-16-3-4-8-5-16-5l-11 1a80 80 0 0 0-14 5h-2c-1 0-2-1-2-3v-5l1-3c0-1 1-2 3-2l12-5 16-2c12 0 20 3 26 8 5 6 8 14 8 25v32zM46 82l10-2c4-1 7-4 10-7l3-6 1-9v-4a84 84 0 0 0-19-2c-6 0-11 1-15 4-3 2-4 6-4 11s1 8 3 11c3 2 6 4 11 4zm80 10-4-1-2-3-23-78-1-4 2-2h10l4 1 2 4 17 66 15-66 2-4 4-1h8l4 1 2 4 16 67 17-67 2-4 4-1h9c2 0 3 1 3 2v2l-1 2-24 78-2 4-4 1h-9l-4-1-1-4-16-65-15 64-2 4-4 1h-9zm129 3a66 66 0 0 1-27-6l-3-3-1-2v-5c0-2 1-3 2-3h2l3 1a54 54 0 0 0 23 5c6 0 11-2 14-4 4-2 5-5 5-9l-2-7-10-5-15-5c-7-2-13-6-16-10a24 24 0 0 1 5-34l10-5a44 44 0 0 1 20-2 110 110 0 0 1 12 3l4 2 3 2 1 4v4c0 3-1 4-2 4l-4-2c-6-2-12-3-19-3-6 0-11 0-14 2s-4 5-4 9c0 3 1 5 3 7s5 4 11 6l14 4c7 3 12 6 15 10s5 9 5 14l-3 12-7 8c-3 3-7 5-11 6l-14 2z"
         />
         <path
@@ -195,9 +195,9 @@ const companies = [
 
 export function TrustedBySection() {
   return (
-    <section className="py-12 bg-black border-y border-white/5 relative overflow-hidden">
+    <section className="py-12 bg-background border-y border-border relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 text-center mb-10">
-        <p className="text-white/40 text-sm uppercase tracking-[0.2em] font-medium">
+        <p className="text-muted-foreground/40 text-sm uppercase tracking-[0.2em] font-medium">
           Candidates hired by top companies
         </p>
       </div>
@@ -205,8 +205,8 @@ export function TrustedBySection() {
       {/* Marquee Container */}
       <div className="relative flex overflow-hidden group max-w-7xl mx-auto mask-gradient py-12">
         {/* Edge Masks */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background via-background/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background via-background/80 to-transparent z-20 pointer-events-none" />
 
         <div className="flex gap-20 animate-marquee hover:[animation-play-state:paused] w-max items-center pl-4">
           {/* Loop 1 */}
@@ -216,7 +216,7 @@ export function TrustedBySection() {
               className="h-14 w-auto min-w-[120px] px-6 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
             >
               {/* Glow Effect on Hover */}
-              <div className="absolute inset-0 bg-white/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
+              <div className="absolute inset-0 bg-primary/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
               {company.svg}
             </div>
           ))}
@@ -227,7 +227,7 @@ export function TrustedBySection() {
               key={`dup-${index}`}
               className="h-14 w-auto min-w-[120px] px-6 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
             >
-              <div className="absolute inset-0 bg-white/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
+              <div className="absolute inset-0 bg-primary/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
               {company.svg}
             </div>
           ))}
@@ -238,7 +238,7 @@ export function TrustedBySection() {
               key={`dup2-${index}`}
               className="h-14 w-auto min-w-[120px] px-6 relative grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group/logo flex items-center justify-center transform hover:scale-110"
             >
-              <div className="absolute inset-0 bg-white/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
+              <div className="absolute inset-0 bg-primary/10 blur-xl opacity-0 group-hover/logo:opacity-50 transition-opacity duration-300 rounded-full" />
               {company.svg}
             </div>
           ))}
