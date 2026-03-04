@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 interface DottedGlowBackgroundProps {
   className?: string;
@@ -26,7 +27,7 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
   colorLightVar = "--color-neutral-300",
   glowColorLightVar = "--color-neutral-400",
   colorDarkVar = "--color-neutral-700",
-  glowColorDarkVar = "--color-emerald-500", // Defaulting to emerald for the theme
+  glowColorDarkVar = "--color-cyan-500", // Defaulting to cyan for the theme
   opacity = 0.5,
   backgroundOpacity = 0,
   speedMin = 0.5,
@@ -37,6 +38,7 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const { resolvedTheme } = useTheme();
 
   // Get color from CSS variable or fallback
   const getColor = (cssVar: string, fallback: string) => {
@@ -79,8 +81,13 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
       glowing: boolean;
     }[] = [];
 
-    const color = getColor(colorDarkVar, "#333333"); // Default dark dot color
-    const glowColor = getColor(glowColorDarkVar, "#10b981"); // Default emerald glow
+    const isDark = resolvedTheme === "dark";
+    const color = isDark
+      ? getColor(colorDarkVar, "#333333")
+      : getColor(colorLightVar, "#cccccc");
+    const glowColor = isDark
+      ? getColor(glowColorDarkVar, "#22d3ee")
+      : getColor(glowColorLightVar, "#0ea5e9");
 
     const initParticles = () => {
       particles = [];
@@ -96,8 +103,7 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
             x: i * gap,
             y: j * gap,
             r: radius,
-            dx: isGlowing ? (Math.random() - 0.5) * speedMin * speedScale : 0, // Only glowing particles move slightly? Or maybe static grid + moving glow?
-            // Let's keep dots static for the grid look, but animate opacity/glow
+            dx: isGlowing ? (Math.random() - 0.5) * speedMin * speedScale : 0,
             dy: 0,
             glowing: isGlowing,
           });
@@ -108,7 +114,7 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
     initParticles();
 
     // Mouse interaction
-    let mouse = { x: -1000, y: -1000 };
+    const mouse = { x: -1000, y: -1000 };
     const handleMouseMove = (e: MouseEvent) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
@@ -117,15 +123,11 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
       }
     };
 
-    // Add event listener to container instead of window to be more contained
-    containerRef.current?.addEventListener("mousemove", handleMouseMove);
+    const container = containerRef.current;
+    container?.addEventListener("mousemove", handleMouseMove);
 
     const draw = () => {
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-
-      // Background
-      //   ctx.fillStyle = `rgba(0,0,0,${backgroundOpacity})`;
-      //   ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
       particles.forEach((p) => {
         // Distance to mouse
@@ -169,7 +171,7 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      containerRef.current?.removeEventListener("mousemove", handleMouseMove);
+      container?.removeEventListener("mousemove", handleMouseMove);
     };
   }, [
     dimensions,
@@ -177,6 +179,9 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
     radius,
     colorDarkVar,
     glowColorDarkVar,
+    colorLightVar,
+    glowColorLightVar,
+    resolvedTheme,
     opacity,
     speedMin,
     speedScale,
@@ -186,7 +191,7 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
     <div
       ref={containerRef}
       className={cn(
-        "relative w-full h-full overflow-hidden bg-black",
+        "relative w-full h-full overflow-hidden bg-background",
         className,
       )}
     >
@@ -197,7 +202,6 @@ export const DottedGlowBackground: React.FC<DottedGlowBackgroundProps> = ({
         className="absolute inset-0 z-0 pointer-events-none"
       />
       <div className="relative z-10 w-full h-full pointer-events-none">
-        {/* Radial mask for fade out edges if needed, though prop handles typical css mask */}
         {children}
       </div>
     </div>
