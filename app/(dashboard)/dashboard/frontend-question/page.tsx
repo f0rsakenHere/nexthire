@@ -257,14 +257,75 @@ const questions: Question[] = [
     answer: "Temporarily saves uncommitted changes.",
     tags: ["git"],
     followUps: ["When is git stash useful?"]
-  }
+  },
+  {
+  role: "Frontend Developer",
+  level: "Mid-level",
+  category: "JavaScript",
+  difficulty: "Medium",
+  question: "What is debouncing in JavaScript?",
+  answer: "Debouncing limits how often a function runs by delaying execution until a pause occurs.",
+  tags: ["javascript", "performance"],
+  followUps: ["Difference between debouncing and throttling?"]
+},
+{
+  role: "Frontend Developer",
+  level: "Mid-level",
+  category: "JavaScript",
+  difficulty: "Medium",
+  question: "What is throttling?",
+  answer: "Throttling ensures a function executes at most once in a given time interval.",
+  tags: ["javascript", "performance"],
+  followUps: ["When should throttling be used?"]
+},
+{
+  role: "Frontend Developer",
+  level: "Mid-level",
+  category: "React",
+  difficulty: "Medium",
+  question: "What is React.memo?",
+  answer: "React.memo prevents unnecessary re-renders by memoizing a component.",
+  tags: ["react", "performance"],
+  followUps: ["When should React.memo not be used?"]
+},
+{
+  role: "Frontend Developer",
+  level: "Mid-level",
+  category: "React",
+  difficulty: "Medium",
+  question: "What is useEffect used for?",
+  answer: "useEffect handles side effects like data fetching, subscriptions, and DOM updates.",
+  tags: ["react", "hooks"],
+  followUps: ["How does dependency array work?"]
+},
+{
+  role: "Frontend Developer",
+  level: "Mid-level",
+  category: "Security",
+  difficulty: "Medium",
+  question: "What is XSS?",
+  answer: "XSS is a security vulnerability where malicious scripts are injected into web pages.",
+  tags: ["security", "xss"],
+  followUps: ["How can XSS be prevented?"]
+},
+{
+  role: "Frontend Developer",
+  level: "Mid-level",
+  category: "Testing",
+  difficulty: "Medium",
+  question: "What is unit testing in frontend?",
+  answer: "Unit testing tests individual components or functions in isolation.",
+  tags: ["testing", "unit-test"],
+  followUps: ["What tools are used for frontend testing?"]
+}
+
 ];
 
 export default function FrontendQuestionPage() {
   return (
     <main className="min-h-screen bg-gray-100 px-6 py-10">
       <h1 className="mb-8 text-center text-3xl font-bold">
-        Frontend Interview Questions (Mid-Level)
+        Frontend Interview Questions <span className="text-blue-400"> (Mid-Level)</span>
       </h1>
 
       <section className="mx-auto max-w-4xl space-y-6">
