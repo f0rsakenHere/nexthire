@@ -90,10 +90,6 @@ export default function DashboardPage() {
             </Breadcrumb>
           </div>
           <div className="ml-auto flex items-center gap-4 px-4">
-            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-              AI Online
-            </div>
             <Link
               href="/"
               className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono"
