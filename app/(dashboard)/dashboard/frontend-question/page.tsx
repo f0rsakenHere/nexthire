@@ -260,4 +260,40 @@ const questions: Question[] = [
   }
 ];
 
+export default function FrontendQuestionPage() {
+  return (
+    <main className="min-h-screen bg-gray-100 px-6 py-10">
+      <h1 className="mb-8 text-center text-3xl font-bold">
+        Frontend Interview Questions (Mid-Level)
+      </h1>
+
+      <section className="mx-auto max-w-4xl space-y-6">
+        {questions.map((q, index) => (
+          <div key={index} className="rounded-lg bg-white p-6 shadow">
+            <div className="mb-2 flex gap-2 text-sm">
+              <span className="rounded bg-blue-100 px-2 py-1">{q.category}</span>
+              <span className="rounded bg-green-100 px-2 py-1">{q.level}</span>
+              <span className="rounded bg-purple-100 px-2 py-1">{q.difficulty}</span>
+            </div>
+
+            <h2 className="font-semibold">
+              Q{index + 1}. {q.question}
+            </h2>
+
+            <p className="mt-2 text-gray-700">
+              <strong>Answer:</strong> {q.answer}
+            </p>
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              {q.tags.map((tag, i) => (
+                <span key={i} className="text-xs text-gray-600">#{tag}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    </main>
+  );
+}
+
 
