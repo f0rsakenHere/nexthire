@@ -62,7 +62,7 @@ export default function KeywordGapAnalysisPage() {
         setAnalysis(null);
 
         try {
-            const res = await fetch("/api/keyword-gap", {
+            const res = await fetch("/api/keyword-gap-analysis", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
