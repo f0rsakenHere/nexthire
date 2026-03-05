@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Frontend Interview Questions — NextHire",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 export default function FrontendQuestionLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return <>{children}</>;
 }
