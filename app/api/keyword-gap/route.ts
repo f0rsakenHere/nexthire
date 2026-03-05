@@ -111,6 +111,8 @@ export async function POST(request: Request) {
             }
             }
 
+            CRITICAL: Never use unescaped double quotes ("...") inside any JSON string. If you need to quote a term inside a sentence or suggestion, use single quotes ('...') instead. The output MUST be 100% strictly valid JSON.
+
             Job Description:
             ${jobDescription}
 
@@ -122,7 +124,7 @@ export async function POST(request: Request) {
             model: "minimaxai/minimax-m2.1",
             messages: [{ role: "user", content: prompt }],
             temperature: 0.3,
-            max_tokens: 3000,
+            max_tokens: 8192,
         });
 
         const raw = completion.choices[0]?.message?.content ?? "";
@@ -138,7 +140,20 @@ export async function POST(request: Request) {
 
         const jsonStr = noThink.slice(start, end + 1);
         const sanitized = sanitizeJsonStrings(jsonStr);
-        const analysis = JSON.parse(sanitized);
+        let analysis;
+        try {
+            analysis = JSON.parse(sanitized);
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            console.error("\n\n--- JSON PARSE ERROR ---");
+            console.error(errorMessage);
+            console.error("--- RAW MODEL OUTPUT ---");
+            console.error(raw);
+            console.error("--- SANITIZED EXTRACT ---");
+            console.error(sanitized);
+            console.error("------------------------\n\n");
+            throw new Error(errorMessage);
+        }
 
         return Response.json({ analysis });
 

@@ -59,7 +59,10 @@ const data = {
           title: "Role-Based Mock Interviews",
           url: "/dashboard/mock-interview",
         },
-        { title: "Real-time Video Interaction", url: "#" },
+        {
+          title: "Real-time Video Interaction",
+          url: "/dashboard/video-interaction",
+        },
         { title: "Practice Interview Questions", url: "#" },
         { title: "Company-Specific Drills", url: "#" },
       ],
