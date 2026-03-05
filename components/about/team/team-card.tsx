@@ -22,6 +22,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
               src={`https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${member.name}`}
               alt={member.name}
               fill
+              unoptimized
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
           </div>

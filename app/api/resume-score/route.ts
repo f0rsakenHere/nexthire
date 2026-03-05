@@ -28,7 +28,8 @@ Formatting rules to apply when analyzing:
 - Section headers (e.g. "EXPERIENCE", "EDUCATION") and role/company lines (e.g. "Company | Title | Date") are structural separators, NOT list items. Do NOT flag them as inconsistent with bulleted sub-items.
 - Only flag genuinely mixed markers such as mixing dashes (-), asterisks (*), and bullets (•) in the SAME section.
 - IMPORTANT: If no job description is provided, do NOT reference "job requirements", "the role", or "the position" anywhere in your output. All feedback must be general resume best-practice advice only.
-- Be strict and actionable on substance. If a job description is provided, tailor keyword analysis to it.`;
+- Be strict and actionable on substance. If a job description is provided, tailor keyword analysis to it.
+- CRITICAL: Never use unescaped double quotes ("...") inside any JSON string value. If quoting, use single quotes ('...').`;
 
 
 const MAX_RESUME_CHARS = 6000;
@@ -97,7 +98,7 @@ export async function POST(request: Request) {
       ],
       temperature: 0.3,
       top_p: 0.9,
-      max_tokens: 1500,
+      max_tokens: 8192,
       stream: false,
     });
 

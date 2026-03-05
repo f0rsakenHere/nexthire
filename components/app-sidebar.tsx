@@ -26,6 +26,7 @@ import {
   MessageSquareQuoteIcon,
   FlameIcon,
   ZapIcon,
+  MessageCircleQuestionMark,
 } from "lucide-react";
 
 const data = {
@@ -42,9 +43,10 @@ const data = {
       isActive: true,
       items: [
         { title: "AI Resume Scorer", url: "/dashboard/resume-scorer" },
-        { title: "Keyword Gap Analysis", url: "#" },
-        { title: "STAR Method Wizard", url: "#" },
-        { title: "Resume Version Control", url: "#" },
+        {
+          title: "Keyword Gap Analysis",
+          url: "/dashboard/keyword-gap-analysis",
+        },
         { title: "Blind Resume Review", url: "#" },
       ],
     },
@@ -57,10 +59,12 @@ const data = {
           title: "Role-Based Mock Interviews",
           url: "/dashboard/mock-interview",
         },
-        { title: "Real-time Voice Interaction", url: "#" },
-        { title: "Instant Feedback Loop", url: "#" },
+        {
+          title: "Real-time Video Interaction",
+          url: "/dashboard/video-interaction",
+        },
+        { title: "Practice Interview Questions", url: "#" },
         { title: "Company-Specific Drills", url: "#" },
-        { title: "Interview Panic Button", url: "#" },
       ],
     },
     {
@@ -79,7 +83,6 @@ const data = {
       icon: <BrainCircuitIcon />,
       items: [
         { title: "Roast My Resume", url: "#" },
-        { title: "Behavioral Tone Detector", url: "#" },
         { title: "Salary Negotiation Sim", url: "#" },
         { title: "Skill Mapper", url: "#" },
         { title: "Code Snippet Validator", url: "#" },
@@ -89,8 +92,13 @@ const data = {
   quickTools: [
     {
       name: "Keyword Gap Analysis",
-      url: "#",
+      url: "/dashboard/keyword-gap-analysis",
       icon: <ScanSearchIcon />,
+    },
+    {
+      name: "Practice Interview Question",
+      url: "#",
+      icon: <MessageCircleQuestionMark />,
     },
     {
       name: "Instant Feedback",
