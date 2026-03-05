@@ -24,7 +24,7 @@ type User = {
 export default async function UsersPage() {
   // MongoDB থেকে users fetch
   const db = await connectDB();
-  const usersData: User[] = await db.collection("users").find({}).toArray();
+  const usersData = await db.collection("users").find({}).toArray();
 
   // MongoDB _id কে string এ convert করা
   const users = usersData.map((user) => ({
