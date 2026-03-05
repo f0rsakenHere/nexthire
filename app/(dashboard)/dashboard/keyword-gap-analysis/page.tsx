@@ -64,39 +64,10 @@ export default function KeywordGapAnalysisPage() {
   const [error, setError] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
 
-    async function handleAnalyze() {
-        if (!resume.trim() || !jobDesc.trim()) {
-            setError("Please provide both resume and job description.");
-            return;
-        }
-
-        setError(null);
-        setLoading(true);
-        setAnalysis(null);
-
-        try {
-            const res = await fetch("/api/keyword-gap-analysis", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    action: "analyze",
-                    role,
-                    industry,
-                    resume,
-                    jobDescription: jobDesc,
-                }),
-            });
-
-            const data = await res.json();
-            if (!res.ok || data.error)
-                throw new Error(data.error || "Analysis failed");
-
-            setAnalysis(data.analysis);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "Something went wrong.");
-        } finally {
-            setLoading(false);
-        }
+  async function handleAnalyze() {
+    if (!resume.trim() || !jobDesc.trim()) {
+      setError("Please provide both resume and job description.");
+      return;
     }
 
     setError(null);
@@ -104,7 +75,7 @@ export default function KeywordGapAnalysisPage() {
     setAnalysis(null);
 
     try {
-      const res = await fetch("/api/keyword-gap", {
+      const res = await fetch("/api/keyword-gap-analysis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
