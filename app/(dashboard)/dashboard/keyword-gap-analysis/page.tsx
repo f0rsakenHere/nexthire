@@ -64,12 +64,6 @@ export default function KeywordGapAnalysisPage() {
   const [error, setError] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
 
-<<<<<<< HEAD
-  async function handleAnalyze() {
-    if (!resume.trim() || !jobDesc.trim()) {
-      setError("Please provide both resume and job description.");
-      return;
-=======
     async function handleAnalyze() {
         if (!resume.trim() || !jobDesc.trim()) {
             setError("Please provide both resume and job description.");
@@ -103,7 +97,6 @@ export default function KeywordGapAnalysisPage() {
         } finally {
             setLoading(false);
         }
->>>>>>> c619eb77565bfb873e38e9caedb04ca84ea13fdf
     }
 
     setError(null);
