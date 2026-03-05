@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, LayoutDashboard, Users, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-export const dynamic = "force-dynamic";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/app/firebase/config";
 
 export default function AdminLayout({
   children,
@@ -13,6 +14,22 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/sign-in");
+      } else {
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  if (loading) return <p className="p-6">Checking auth...</p>;
 
   const navItems = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },

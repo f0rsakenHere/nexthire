@@ -10,13 +10,29 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { MoreHorizontal, Search } from "lucide-react";
 
+import { connectDB } from "@/lib/mongodb"; // <-- MongoDB connection
+
 export const dynamic = "force-dynamic";
 
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+};
+
 export default async function UsersPage() {
-  const users = [
-    { id: 1, name: "Tonmoy", email: "tonmoy@gmail.com", role: "admin" },
-    { id: 2, name: "Saad", email: "saad@gmail.com", role: "user" },
-  ];
+  // MongoDB থেকে users fetch
+  const db = await connectDB();
+  const usersData: User[] = await db.collection("users").find({}).toArray();
+
+  // MongoDB _id কে string এ convert করা
+  const users = usersData.map((user) => ({
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  }));
 
   return (
     <div className="space-y-8">
