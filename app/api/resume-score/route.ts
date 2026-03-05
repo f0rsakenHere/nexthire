@@ -1,5 +1,7 @@
 import OpenAI from "openai";
 
+import clientPromise from "@/lib/mongodb";
+
 const client = new OpenAI({
   baseURL: "https://integrate.api.nvidia.com/v1",
   apiKey: process.env.NVIDIA_API_KEY,
@@ -28,8 +30,7 @@ Formatting rules to apply when analyzing:
 - Section headers (e.g. "EXPERIENCE", "EDUCATION") and role/company lines (e.g. "Company | Title | Date") are structural separators, NOT list items. Do NOT flag them as inconsistent with bulleted sub-items.
 - Only flag genuinely mixed markers such as mixing dashes (-), asterisks (*), and bullets (•) in the SAME section.
 - IMPORTANT: If no job description is provided, do NOT reference "job requirements", "the role", or "the position" anywhere in your output. All feedback must be general resume best-practice advice only.
-- Be strict and actionable on substance. If a job description is provided, tailor keyword analysis to it.
-- CRITICAL: Never use unescaped double quotes ("...") inside any JSON string value. If quoting, use single quotes ('...').`;
+- Be strict and actionable on substance. If a job description is provided, tailor keyword analysis to it.`;
 
 
 const MAX_RESUME_CHARS = 6000;
@@ -71,8 +72,7 @@ function sanitizeJsonStrings(raw: string): string {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { resume, jobDescription } = body;
-
+  const { resume, jobDescription, userId } = body;
   if (!resume || typeof resume !== "string" || resume.trim().length < 50) {
     return Response.json(
       { error: "Please provide a resume with at least 50 characters." },
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
       ],
       temperature: 0.3,
       top_p: 0.9,
-      max_tokens: 8192,
+      max_tokens: 1500,
       stream: false,
     });
 
@@ -119,6 +119,22 @@ export async function POST(request: Request) {
     const sanitized = sanitizeJsonStrings(jsonStr);
 
     const result = JSON.parse(sanitized);
+
+    if (userId) {
+      try {
+        const client = await clientPromise;
+        const db = client.db();
+        await db.collection("resume_scores").insertOne({
+          userId,
+          ...result,
+          createdAt: new Date()
+        })
+      }
+      catch (dbError) {
+        console.error("Failed to save data", dbError);
+      }
+    }
+
     return Response.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

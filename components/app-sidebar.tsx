@@ -63,7 +63,10 @@ const data = {
           title: "Real-time Video Interaction",
           url: "/dashboard/video-interaction",
         },
-        { title: "Practice Interview Questions", url: "#" },
+        {
+          title: "Practice Interview Questions",
+          url: "/dashboard/frontend-question",
+        },
         { title: "Company-Specific Drills", url: "#" },
       ],
     },
@@ -97,7 +100,7 @@ const data = {
     },
     {
       name: "Practice Interview Question",
-      url: "#",
+      url: "/dashboard/frontend-question",
       icon: <MessageCircleQuestionMark />,
     },
     {
