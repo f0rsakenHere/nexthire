@@ -43,7 +43,10 @@ const data = {
       isActive: true,
       items: [
         { title: "AI Resume Scorer", url: "/dashboard/resume-scorer" },
-        { title: "Keyword Gap Analysis", url: "/dashboard/keyword-gap-analysis" },
+        {
+          title: "Keyword Gap Analysis",
+          url: "/dashboard/keyword-gap-analysis",
+        },
         { title: "Blind Resume Review", url: "#" },
       ],
     },

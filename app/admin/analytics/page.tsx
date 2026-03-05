@@ -1,10 +1,30 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, TrendingUp, FileText, Mic } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const dynamic = "force-dynamic";
+type Stats = {
+  dailyActiveUsers: number;
+  averageResumeScore: number;
+  mockInterviews: number;
+  newUsersToday: number;
+  resumesThisWeek: number;
+  interviewsToday: number;
+};
 
 export default function AnalyticsPage() {
+  const [stats, setStats] = useState<Stats | null>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/analytics")
+      .then((res) => res.json())
+      .then((data) => setStats(data));
+  }, []);
+
+  if (!stats) return <p className="p-6">Loading...</p>;
+
   return (
     <div className="space-y-10">
       {/*  Header Section */}
@@ -30,7 +50,7 @@ export default function AnalyticsPage() {
             <Users className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold">12</div>
+            <div className="text-4xl font-bold">{stats.dailyActiveUsers}</div>
             <p className="text-sm text-green-600 flex items-center gap-1 mt-2">
               <TrendingUp className="h-4 w-4" /> +18% from yesterday
             </p>
@@ -43,7 +63,9 @@ export default function AnalyticsPage() {
             <FileText className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold">84%</div>
+            <div className="text-4xl font-bold">
+              {stats.averageResumeScore}%
+            </div>
             <p className="text-sm text-green-600 flex items-center gap-1 mt-2">
               <TrendingUp className="h-4 w-4" /> +6% this week
             </p>
@@ -56,7 +78,7 @@ export default function AnalyticsPage() {
             <Mic className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold">25</div>
+            <div className="text-4xl font-bold">{stats.mockInterviews}</div>
             <p className="text-sm text-green-600 flex items-center gap-1 mt-2">
               <TrendingUp className="h-4 w-4" /> +9% this month
             </p>
@@ -70,9 +92,9 @@ export default function AnalyticsPage() {
           <CardTitle>Platform Overview</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground space-y-2">
-          <p>• 5 new users registered today</p>
-          <p>• 18 resumes analyzed this week</p>
-          <p>• 7 mock interviews completed today</p>
+          <p>• {stats.newUsersToday} new users registered today</p>
+          <p>• {stats.resumesThisWeek} resumes analyzed this week</p>
+          <p>• {stats.interviewsToday} mock interviews completed today</p>
         </CardContent>
       </Card>
     </div>
