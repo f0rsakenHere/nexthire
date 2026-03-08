@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase/config";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   SidebarInset,
@@ -28,6 +30,7 @@ import {
   InfoIcon,
   ArrowUpRightIcon,
   ArrowLeftIcon,
+  HistoryIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -54,7 +57,156 @@ interface AnalysisResponse {
   }[];
 }
 
+function KwLoadingScreen({
+  step,
+  steps,
+  tips,
+  resumeLength,
+}: {
+  step: number;
+  steps: { label: string; detail: string }[];
+  tips: string[];
+  resumeLength: number;
+}) {
+  const [tipIdx, setTipIdx] = useState(0);
+  const [fakeBytes, setFakeBytes] = useState(0);
+  const [barPct, setBarPct] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setTipIdx((i) => (i + 1) % tips.length), 7000);
+    return () => clearInterval(t);
+  }, [tips.length]);
+
+  useEffect(() => {
+    const target = resumeLength;
+    const t = setInterval(() => {
+      setFakeBytes((b) => {
+        const next = b + Math.floor(Math.random() * 22 + 6);
+        return next >= target ? target : next;
+      });
+    }, 40);
+    return () => clearInterval(t);
+  }, [resumeLength]);
+
+  useEffect(() => {
+    const target = Math.min(((step + 1) / steps.length) * 92, 92);
+    const t = setInterval(() => {
+      setBarPct((p) => {
+        if (p >= target) {
+          clearInterval(t);
+          return p;
+        }
+        return Math.min(p + 0.6, target);
+      });
+    }, 30);
+    return () => clearInterval(t);
+  }, [step, steps.length]);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-10 py-10 animate-in fade-in duration-500">
+      {/* Central orb */}
+      <div className="relative flex items-center justify-center">
+        <div className="absolute size-40 rounded-full bg-primary/20 blur-3xl animate-pulse" />
+        <div className="absolute size-24 rounded-full bg-emerald-500/15 blur-2xl animate-pulse delay-300" />
+        <div className="relative size-20 rounded-none border border-primary/30 bg-card/80 backdrop-blur-xl flex flex-col items-center justify-center gap-1 shadow-[0_0_40px_oklch(0.62_0.26_278/0.2)]">
+          <span className="text-2xl font-black tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-primary to-emerald-500">
+            {Math.round(barPct)}
+          </span>
+          <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest">
+            %
+          </span>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="w-full max-w-md flex flex-col gap-2">
+        <div className="h-1 w-full bg-muted rounded-none overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-primary to-emerald-500 transition-all duration-300"
+            style={{ width: `${barPct}%` }}
+          />
+        </div>
+        <div className="flex justify-between">
+          <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+            Analyzing keywords…
+          </span>
+          <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+            {fakeBytes.toLocaleString()} / {resumeLength.toLocaleString()} chars
+          </span>
+        </div>
+      </div>
+
+      {/* Step checklist */}
+      <div className="w-full max-w-md flex flex-col gap-3">
+        {steps.map((s, i) => {
+          const done = i < step;
+          const active = i === step;
+          return (
+            <div
+              key={i}
+              className={`flex items-start gap-3 px-4 py-3 rounded-none border transition-all duration-500 ${
+                done
+                  ? "border-emerald-200 bg-emerald-50/60"
+                  : active
+                    ? "border-primary/40 bg-primary/5 shadow-[0_0_16px_oklch(0.62_0.26_278/0.08)]"
+                    : "border-border/30 opacity-35"
+              }`}
+            >
+              <div className="mt-0.5 shrink-0">
+                {done ? (
+                  <div className="size-4 rounded-none bg-emerald-500 flex items-center justify-center">
+                    <svg
+                      className="size-2.5 text-white"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M1.5 5l2.5 2.5 4.5-4.5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                ) : active ? (
+                  <div className="size-4 rounded-none border-2 border-primary/60 border-t-primary animate-spin" />
+                ) : (
+                  <div className="size-4 rounded-none border border-border/50" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p
+                  className={`text-sm font-semibold ${done ? "text-emerald-700" : active ? "text-foreground" : "text-muted-foreground"}`}
+                >
+                  {s.label}
+                </p>
+                {active && (
+                  <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed animate-in fade-in duration-300">
+                    {s.detail}
+                  </p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Cycling tip */}
+      <div className="w-full max-w-md rounded-none bg-amber-50 border border-amber-100 px-5 py-3.5">
+        <p className="text-[9px] font-mono uppercase tracking-widest text-amber-500 mb-1">
+          💡 Pro Tip
+        </p>
+        <p className="text-xs text-foreground/70 leading-relaxed" key={tipIdx}>
+          {tips[tipIdx]}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function KeywordGapAnalysisPage() {
+  const [user] = useAuthState(auth);
   const [resume, setResume] = useState("");
   const [jobDesc, setJobDesc] = useState("");
   const [role, setRole] = useState("");
@@ -63,6 +215,40 @@ export default function KeywordGapAnalysisPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
+  const [saved, setSaved] = useState(false);
+  const [step, setStep] = useState(0);
+
+  const ANALYSIS_STEPS = [
+    {
+      label: "Parsing job description",
+      detail: "Extracting required & preferred keywords from the JD",
+    },
+    {
+      label: "Scanning your resume",
+      detail: "Identifying skills, achievements & section structure",
+    },
+    {
+      label: "Running keyword matching",
+      detail: "Detecting full, partial & missing keyword matches",
+    },
+    {
+      label: "Scoring ATS alignment",
+      detail: "Benchmarking against industry-standard ATS criteria",
+    },
+    {
+      label: "Generating gap report",
+      detail: "Building rewrite suggestions & section-level gaps",
+    },
+  ];
+
+  const TIPS = [
+    "Mirror the exact phrasing from the job description whenever possible.",
+    "ATS systems often fail on multi-column layouts — keep it single column.",
+    "Putting keywords in a dedicated Skills section boosts ATS match by ~30%.",
+    "High-priority keywords in the JD usually appear 3+ times — match that.",
+    "Spell out acronyms at least once: 'Machine Learning (ML)' beats just 'ML'.",
+    "Tailoring your resume per application can increase callback rates by 3×.",
+  ];
 
   async function handleAnalyze() {
     if (!resume.trim() || !jobDesc.trim()) {
@@ -73,6 +259,13 @@ export default function KeywordGapAnalysisPage() {
     setError(null);
     setLoading(true);
     setAnalysis(null);
+    setSaved(false);
+    setStep(0);
+
+    const stepInterval = setInterval(
+      () => setStep((s) => Math.min(s + 1, ANALYSIS_STEPS.length - 2)),
+      5000,
+    );
 
     try {
       const res = await fetch("/api/keyword-gap-analysis", {
@@ -84,6 +277,7 @@ export default function KeywordGapAnalysisPage() {
           industry,
           resume,
           jobDescription: jobDesc,
+          userId: user?.uid ?? null,
         }),
       });
 
@@ -92,10 +286,16 @@ export default function KeywordGapAnalysisPage() {
         throw new Error(data.error || "Analysis failed");
 
       setAnalysis(data.analysis);
+      if (user?.uid) setSaved(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
-      setLoading(false);
+      clearInterval(stepInterval);
+      setStep(ANALYSIS_STEPS.length - 1);
+      setTimeout(() => {
+        setLoading(false);
+        setStep(0);
+      }, 400);
     }
   }
 
@@ -129,7 +329,14 @@ export default function KeywordGapAnalysisPage() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto px-4 flex items-center gap-2">
+          <div className="ml-auto px-4 flex items-center gap-3">
+            <a
+              href="/dashboard/keyword-history"
+              className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest"
+            >
+              <HistoryIcon className="size-3.5" />
+              History
+            </a>
             <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
               AI Resume Checker Online
@@ -153,8 +360,23 @@ export default function KeywordGapAnalysisPage() {
               Improve your resume with more JD acceptable keywords.
             </p>
           </div>
+          {saved && (
+            <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-none">
+              ✓ Saved to history
+            </span>
+          )}
 
-          {!analysis && (
+          {/* Loading theatre */}
+          {loading && (
+            <KwLoadingScreen
+              step={step}
+              steps={ANALYSIS_STEPS}
+              tips={TIPS}
+              resumeLength={resume.length + jobDesc.length}
+            />
+          )}
+
+          {!analysis && !loading && (
             <div className="flex flex-col gap-8">
               {/* Inputs */}
               <div className="grid lg:grid-cols-2 gap-6 items-start">
@@ -249,23 +471,12 @@ export default function KeywordGapAnalysisPage() {
 
               <button
                 onClick={handleAnalyze}
-                disabled={loading}
+                disabled={!resume.trim() || !jobDesc.trim()}
                 className="group flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-primary to-blue-600 rounded-none text-primary-foreground text-sm font-bold shadow-[0_0_30px_oklch(0.62_0.26_278/0.4)] hover:shadow-[0_0_45px_oklch(0.62_0.26_278/0.6)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed w-fit"
               >
-                {loading ? (
-                  <>
-                    <span className="size-4 rounded-none border-2 border-white/30 border-t-white animate-spin" />
-                    <span className="font-mono text-xs tracking-wide">
-                      Analyzing Alignment...
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <ZapIcon className="size-4 group-hover:scale-110 transition-transform" />
-                    Analyze Alignment
-                    <ArrowUpRightIcon className="size-3.5 opacity-60" />
-                  </>
-                )}
+                <ZapIcon className="size-4 group-hover:scale-110 transition-transform" />
+                Analyze Alignment
+                <ArrowUpRightIcon className="size-3.5 opacity-60" />
               </button>
             </div>
           )}

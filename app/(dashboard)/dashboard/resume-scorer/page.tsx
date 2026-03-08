@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase/config";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -32,6 +34,7 @@ import {
   ShieldCheckIcon,
   ArrowUpRightIcon,
   ChevronRightIcon,
+  HistoryIcon,
 } from "lucide-react";
 interface ResumeResult {
   ats_score: number;
@@ -240,7 +243,163 @@ JavaScript, TypeScript, React, Node.js, PostgreSQL, AWS, Docker, GraphQL
 EDUCATION
 B.S. Computer Science — State University            2016 - 2020`;
 
+function AnalysisLoadingScreen({
+  step,
+  steps,
+  tips,
+  resumeLength,
+}: {
+  step: number;
+  steps: { label: string; detail: string }[];
+  tips: string[];
+  resumeLength: number;
+}) {
+  const [tipIdx, setTipIdx] = useState(0);
+  const [fakeBytes, setFakeBytes] = useState(0);
+  const [barPct, setBarPct] = useState(0);
+
+  // Rotate tips every 7s
+  useEffect(() => {
+    const t = setInterval(() => setTipIdx((i) => (i + 1) % tips.length), 7000);
+    return () => clearInterval(t);
+  }, [tips.length]);
+
+  // Smooth fake bytes counter (runs until resumeLength)
+  useEffect(() => {
+    const target = resumeLength;
+    const t = setInterval(() => {
+      setFakeBytes((b) => {
+        const next = b + Math.floor(Math.random() * 18 + 4);
+        return next >= target ? target : next;
+      });
+    }, 40);
+    return () => clearInterval(t);
+  }, [resumeLength]);
+
+  // Progress bar: each step covers ~20% of bar, smoothly animated
+  useEffect(() => {
+    const target = Math.min(((step + 1) / steps.length) * 92, 92);
+    const t = setInterval(() => {
+      setBarPct((p) => {
+        if (p >= target) {
+          clearInterval(t);
+          return p;
+        }
+        return Math.min(p + 0.6, target);
+      });
+    }, 30);
+    return () => clearInterval(t);
+  }, [step, steps.length]);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-10 py-10 animate-in fade-in duration-500">
+      {/* Central glow orb */}
+      <div className="relative flex items-center justify-center">
+        <div className="absolute size-40 rounded-full bg-primary/20 blur-3xl animate-pulse" />
+        <div className="absolute size-24 rounded-full bg-blue-500/15 blur-2xl animate-pulse delay-300" />
+        <div className="relative size-20 rounded-none border border-primary/30 bg-card/80 backdrop-blur-xl flex flex-col items-center justify-center gap-1 shadow-[0_0_40px_oklch(0.62_0.26_278/0.2)]">
+          <span className="text-2xl font-black tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-primary to-blue-500">
+            {Math.round(barPct)}
+          </span>
+          <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest">
+            %
+          </span>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="w-full max-w-md flex flex-col gap-2">
+        <div className="h-1 w-full bg-muted rounded-none overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-primary to-blue-500 transition-all duration-300"
+            style={{ width: `${barPct}%` }}
+          />
+        </div>
+        <div className="flex justify-between">
+          <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+            Analyzing resume…
+          </span>
+          <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+            {fakeBytes.toLocaleString()} / {resumeLength.toLocaleString()} bytes
+          </span>
+        </div>
+      </div>
+
+      {/* Step checklist */}
+      <div className="w-full max-w-md flex flex-col gap-3">
+        {steps.map((s, i) => {
+          const done = i < step;
+          const active = i === step;
+          return (
+            <div
+              key={i}
+              className={`flex items-start gap-3 px-4 py-3 rounded-none border transition-all duration-500 ${
+                done
+                  ? "border-emerald-200 bg-emerald-50/60"
+                  : active
+                    ? "border-primary/40 bg-primary/5 shadow-[0_0_16px_oklch(0.62_0.26_278/0.08)]"
+                    : "border-border/30 opacity-35"
+              }`}
+            >
+              {/* Status icon */}
+              <div className="mt-0.5 shrink-0">
+                {done ? (
+                  <div className="size-4 rounded-none bg-emerald-500 flex items-center justify-center">
+                    <svg
+                      className="size-2.5 text-white"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M1.5 5l2.5 2.5 4.5-4.5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                ) : active ? (
+                  <div className="size-4 rounded-none border-2 border-primary/60 border-t-primary animate-spin" />
+                ) : (
+                  <div className="size-4 rounded-none border border-border/50" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p
+                  className={`text-sm font-semibold ${done ? "text-emerald-700" : active ? "text-foreground" : "text-muted-foreground"}`}
+                >
+                  {s.label}
+                </p>
+                {active && (
+                  <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed animate-in fade-in duration-300">
+                    {s.detail}
+                  </p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Cycling tip */}
+      <div className="w-full max-w-md rounded-none bg-amber-50 border border-amber-100 px-5 py-3.5">
+        <p className="text-[9px] font-mono uppercase tracking-widest text-amber-500 mb-1">
+          💡 Did you know?
+        </p>
+        <p
+          className="text-xs text-foreground/70 leading-relaxed transition-all duration-500"
+          key={tipIdx}
+        >
+          {tips[tipIdx]}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function ResumeScorerPage() {
+  const [user] = useAuthState(auth);
   const [resume, setResume] = useState("");
   const [jobDesc, setJobDesc] = useState("");
   const [showJD, setShowJD] = useState(false);
@@ -248,6 +407,7 @@ export default function ResumeScorerPage() {
   const [result, setResult] = useState<ResumeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(0);
+  const [saved, setSaved] = useState(false);
 
   const resumeRef = useRef<HTMLTextAreaElement>(null);
 
@@ -260,11 +420,36 @@ export default function ResumeScorerPage() {
     el.style.height = Math.min(el.scrollHeight, 500) + "px";
   }, [resume]);
 
-  const steps = [
-    "Reading resume…",
-    "Running ATS checks…",
-    "Analyzing keywords…",
-    "Generating report…",
+  const ANALYSIS_STEPS = [
+    {
+      label: "Parsing resume structure",
+      detail: "Identifying sections, headers & formatting patterns",
+    },
+    {
+      label: "Running ATS compatibility checks",
+      detail: "Checking keyword density across 40+ ATS filters",
+    },
+    {
+      label: "Scoring section impact",
+      detail: "Evaluating bullet strength, quantification & action verbs",
+    },
+    {
+      label: "Keyword gap analysis",
+      detail: "Matching against industry-standard keyword databases",
+    },
+    {
+      label: "Generating AI report",
+      detail: "Compiling scores, verdicts & personalized recommendations",
+    },
+  ];
+
+  const TIPS = [
+    "Resumes with quantified achievements score 40% higher on average.",
+    "ATS systems reject ~75% of resumes before a human ever sees them.",
+    "Using the exact job title from the listing boosts keyword match significantly.",
+    "Single-column layouts outperform multi-column in most ATS systems.",
+    "Adding a Skills section increases ATS match score by up to 30%.",
+    "Action verbs like 'engineered', 'led', and 'shipped' signal high impact.",
   ];
 
   async function handleScore() {
@@ -275,28 +460,39 @@ export default function ResumeScorerPage() {
     setError(null);
     setResult(null);
     setLoading(true);
+    setSaved(false);
     setStep(0);
 
+    // Advance through steps: first 4 steps in ~20s, last step holds until done
     const stepInterval = setInterval(
-      () => setStep((s) => Math.min(s + 1, steps.length - 1)),
-      4000,
+      () => setStep((s) => Math.min(s + 1, ANALYSIS_STEPS.length - 2)),
+      5000,
     );
 
     try {
       const res = await fetch("/api/resume-score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ resume, jobDescription: jobDesc || undefined }),
+        body: JSON.stringify({
+          resume,
+          jobDescription: jobDesc || undefined,
+          userId: user?.uid ?? null,
+        }),
       });
       const data = await res.json();
       if (!res.ok || data.error) throw new Error(data.error ?? "Unknown error");
       setResult(data);
+      if (user?.uid) setSaved(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       clearInterval(stepInterval);
-      setLoading(false);
-      setStep(0);
+      // Jump to last step briefly so user sees completion
+      setStep(ANALYSIS_STEPS.length - 1);
+      setTimeout(() => {
+        setLoading(false);
+        setStep(0);
+      }, 400);
     }
   }
 
@@ -339,7 +535,14 @@ export default function ResumeScorerPage() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto px-4 flex items-center gap-2">
+          <div className="ml-auto px-4 flex items-center gap-3">
+            <a
+              href="/dashboard/resume-history"
+              className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest"
+            >
+              <HistoryIcon className="size-3.5" />
+              History
+            </a>
             <span className="size-1.5 rounded-none bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
             <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
               AI Online
@@ -364,17 +567,34 @@ export default function ResumeScorerPage() {
                 Paste your resume · get scored · know exactly what to fix
               </p>
             </div>
-            {result && (
-              <button
-                onClick={reset}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-none border border-transparent hover:border-border hover:bg-muted/50 text-xs text-muted-foreground hover:text-foreground transition-all font-mono"
-              >
-                <RotateCcwIcon className="size-3" /> New resume
-              </button>
-            )}
+            <div className="flex items-center gap-3">
+              {saved && (
+                <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-none">
+                  ✓ Saved to history
+                </span>
+              )}
+              {result && (
+                <button
+                  onClick={reset}
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-none border border-transparent hover:border-border hover:bg-muted/50 text-xs text-muted-foreground hover:text-foreground transition-all font-mono"
+                >
+                  <RotateCcwIcon className="size-3" /> New resume
+                </button>
+              )}
+            </div>
           </div>
 
-          {!result && (
+          {/* ── Full-page analysis theatre (during loading) ── */}
+          {loading && (
+            <AnalysisLoadingScreen
+              step={step}
+              steps={ANALYSIS_STEPS}
+              tips={TIPS}
+              resumeLength={resume.length}
+            />
+          )}
+
+          {!result && !loading && (
             <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
               {/* Left — resume input */}
               <div className="flex flex-col gap-4">
@@ -424,7 +644,6 @@ export default function ResumeScorerPage() {
                         value={jobDesc}
                         onChange={(e) => {
                           setJobDesc(e.target.value);
-                          // auto-grow
                           e.target.style.height = "auto";
                           e.target.style.height = e.target.scrollHeight + "px";
                         }}
@@ -445,23 +664,12 @@ export default function ResumeScorerPage() {
 
                 <button
                   onClick={handleScore}
-                  disabled={loading || resume.trim().length < 50}
+                  disabled={resume.trim().length < 50}
                   className="group flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-primary to-blue-600 rounded-none text-primary-foreground text-sm font-bold shadow-[0_0_30px_oklch(0.62_0.26_278/0.4)] hover:shadow-[0_0_45px_oklch(0.62_0.26_278/0.6)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed w-fit"
                 >
-                  {loading ? (
-                    <>
-                      <span className="size-4 rounded-none border-2 border-white/30 border-t-white animate-spin" />
-                      <span className="font-mono text-xs tracking-wide">
-                        {steps[step]}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <ZapIcon className="size-4 group-hover:scale-110 transition-transform" />
-                      Score My Resume
-                      <ArrowUpRightIcon className="size-3.5 opacity-60" />
-                    </>
-                  )}
+                  <ZapIcon className="size-4 group-hover:scale-110 transition-transform" />
+                  Score My Resume
+                  <ArrowUpRightIcon className="size-3.5 opacity-60" />
                 </button>
               </div>
 

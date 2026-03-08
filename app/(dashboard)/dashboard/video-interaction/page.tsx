@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase/config";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -46,13 +48,43 @@ interface Review {
 }
 
 export default function VideoInteractionPage() {
+  const [user] = useAuthState(auth);
   const [role, setRole] = useState("");
   const [company, setCompany] = useState("");
   const [jobDesc, setJobDesc] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [stepText, setStepText] = useState("");
+  const [stepIndex, setStepIndex] = useState(0);
+  const stepTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const GEN_STEPS = [
+    "Analysing role & company...",
+    "Crafting tailored questions...",
+    "Calibrating difficulty levels...",
+    "Finalising your interview set...",
+  ];
+
+  const EVAL_STEPS = [
+    "Reading your answers...",
+    "Evaluating depth & accuracy...",
+    "Scoring each response...",
+    "Writing personalised feedback...",
+    "Compiling your results...",
+  ];
+
+  function startStepper(steps: string[], intervalMs = 4000) {
+    setStepIndex(0);
+    let i = 0;
+    stepTimerRef.current = setInterval(() => {
+      i = Math.min(i + 1, steps.length - 1);
+      setStepIndex(i);
+    }, intervalMs);
+  }
+
+  function stopStepper() {
+    if (stepTimerRef.current) clearInterval(stepTimerRef.current);
+  }
 
   const [questions, setQuestions] = useState<Question[] | null>(null);
   const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -90,7 +122,6 @@ export default function VideoInteractionPage() {
     } else if (!questions && !evaluations && stream && lobbyVideoRef.current) {
       lobbyVideoRef.current.srcObject = stream;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions, evaluations, stream]);
 
   const startCamera = async (
@@ -207,10 +238,10 @@ export default function VideoInteractionPage() {
     }
     setError(null);
     setLoading(true);
-    setStepText("Generating tailored questions...");
+    startStepper(GEN_STEPS, 3500);
 
     try {
-      const res = await fetch("/api/mock-interview", {
+      const res = await fetch("/api/video-interview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -230,6 +261,7 @@ export default function VideoInteractionPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
+      stopStepper();
       setLoading(false);
     }
   }
@@ -246,7 +278,7 @@ export default function VideoInteractionPage() {
 
     setError(null);
     setLoading(true);
-    setStepText("Evaluating your responses...");
+    startStepper(EVAL_STEPS, 5000);
 
     const qna = questions.map((q, i) => ({
       question: q.question,
@@ -254,10 +286,17 @@ export default function VideoInteractionPage() {
     }));
 
     try {
-      const res = await fetch("/api/mock-interview", {
+      const res = await fetch("/api/video-interview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "evaluate", role, qna }),
+        body: JSON.stringify({
+          action: "evaluate",
+          role,
+          company,
+          interviewType: "video",
+          userId: user?.uid ?? null,
+          qna,
+        }),
       });
       const data = await res.json();
       if (!res.ok || data.error)
@@ -266,6 +305,7 @@ export default function VideoInteractionPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
+      stopStepper();
       setLoading(false);
     }
   }
@@ -286,10 +326,136 @@ export default function VideoInteractionPage() {
     ? questions.every((_, i) => answers[i]?.trim().length > 5)
     : false;
 
+  // \u2500\u2500 Stepper Overlay \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  const currentSteps = !questions ? GEN_STEPS : EVAL_STEPS;
+  const StepperOverlay = loading ? (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/85 backdrop-blur-md">
+      <div className="relative w-full max-w-[360px] mx-4 bg-background border border-border/60 shadow-[0_8px_40px_rgba(0,0,0,0.10)] overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+        {/* Top gradient accent */}
+        <div className="h-0.5 w-full bg-gradient-to-r from-primary via-blue-500 to-indigo-500" />
+
+        <div className="px-8 pt-8 pb-7 flex flex-col items-center gap-6">
+          {/* Spinner */}
+          <div className="relative">
+            <div className="absolute inset-0 rounded-full bg-primary/10 blur-2xl scale-150" />
+            <svg
+              className="size-14 -rotate-90 animate-spin"
+              style={{ animationDuration: "1.4s" }}
+              viewBox="0 0 64 64"
+            >
+              <circle
+                cx="32"
+                cy="32"
+                r="28"
+                fill="none"
+                stroke="currentColor"
+                strokeOpacity="0.08"
+                strokeWidth="3"
+              />
+              <circle
+                cx="32"
+                cy="32"
+                r="28"
+                fill="none"
+                stroke="url(#wring-grad)"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray="60 120"
+              />
+              <defs>
+                <linearGradient
+                  id="wring-grad"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stopColor="oklch(0.62 0.26 278)" />
+                  <stop offset="100%" stopColor="#3b82f6" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <VideoIcon className="size-5 text-primary/60" />
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="text-center">
+            <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-primary mb-1">
+              {!questions ? "Generating Interview" : "Analysing Performance"}
+            </p>
+            <p className="text-muted-foreground text-xs">
+              Please wait a moment…
+            </p>
+          </div>
+
+          {/* Steps */}
+          <div className="w-full flex flex-col gap-2">
+            {currentSteps.map((step, i) => (
+              <div
+                key={step}
+                className={`flex items-center gap-3 transition-all duration-500 ${
+                  i < stepIndex
+                    ? "opacity-30"
+                    : i === stepIndex
+                      ? "opacity-100"
+                      : "opacity-20"
+                }`}
+              >
+                <div
+                  className={`size-5 shrink-0 flex items-center justify-center text-[9px] font-bold font-mono border transition-all duration-300 ${
+                    i < stepIndex
+                      ? "bg-emerald-50 border-emerald-300 text-emerald-600"
+                      : i === stepIndex
+                        ? "border-primary/50 bg-primary/5 text-primary"
+                        : "border-border/40 text-muted-foreground/30"
+                  }`}
+                >
+                  {i < stepIndex ? (
+                    <svg
+                      className="size-2.5 text-emerald-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  ) : i === stepIndex ? (
+                    <div className="size-1.5 rounded-full bg-primary animate-pulse" />
+                  ) : (
+                    <span>{i + 1}</span>
+                  )}
+                </div>
+
+                <span
+                  className={`text-xs font-mono ${
+                    i === stepIndex
+                      ? "text-foreground font-semibold"
+                      : "text-muted-foreground/50"
+                  }`}
+                >
+                  {step}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="bg-background text-foreground min-h-screen">
+        {/* Stepper overlay — shown during AI generation & evaluation */}
+        {StepperOverlay}
         <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-border/50 bg-background/80 backdrop-blur-xl">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground transition-colors" />
@@ -549,7 +715,7 @@ export default function VideoInteractionPage() {
                     <>
                       <span className="size-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
                       <span className="font-medium tracking-wide">
-                        {stepText}
+                        Generating questions...
                       </span>
                     </>
                   ) : (

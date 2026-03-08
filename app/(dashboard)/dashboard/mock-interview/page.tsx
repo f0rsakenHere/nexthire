@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase/config";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -26,6 +29,7 @@ import {
   RotateCcwIcon,
   MessageSquareIcon,
   SendIcon,
+  HistoryIcon,
 } from "lucide-react";
 
 interface Question {
@@ -79,13 +83,24 @@ function EmptyHero() {
 }
 
 export default function MockInterviewPage() {
-  const [role, setRole] = useState("");
-  const [company, setCompany] = useState("");
+  const [user] = useAuthState(auth);
+  const searchParams = useSearchParams();
+  const [role, setRole] = useState(searchParams.get("role") ?? "");
+  const [company, setCompany] = useState(searchParams.get("company") ?? "");
   const [jobDesc, setJobDesc] = useState("");
+
+  // Re-apply if params change (navigation from tracker)
+  useEffect(() => {
+    const r = searchParams.get("role");
+    const c = searchParams.get("company");
+    if (r) setRole(r);
+    if (c) setCompany(c);
+  }, [searchParams]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [stepText, setStepText] = useState("");
+  const [saved, setSaved] = useState(false);
 
   const [questions, setQuestions] = useState<Question[] | null>(null);
   const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -151,12 +166,29 @@ export default function MockInterviewPage() {
       const res = await fetch("/api/mock-interview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "evaluate", role, qna }),
+        body: JSON.stringify({
+          action: "evaluate",
+          role,
+          company,
+          interviewType: "text",
+          userId: user?.uid ?? null,
+          qna,
+        }),
       });
+
+      // Guard against plain-text / HTML error responses (e.g. Next.js timeout pages)
+      const contentType = res.headers.get("content-type") ?? "";
+      if (!contentType.includes("application/json")) {
+        throw new Error(
+          `Server returned an unexpected response (${res.status}). The evaluation may have timed out — please try again.`,
+        );
+      }
+
       const data = await res.json();
       if (!res.ok || data.error)
         throw new Error(data.error ?? "Failed to evaluate answers");
       setEvaluations(data.reviews);
+      if (user?.uid) setSaved(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -204,7 +236,14 @@ export default function MockInterviewPage() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto px-4 flex items-center gap-2">
+          <div className="ml-auto px-4 flex items-center gap-3">
+            <a
+              href="/dashboard/interview-history"
+              className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest"
+            >
+              <HistoryIcon className="size-3.5" />
+              History
+            </a>
             <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
             <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
               AI Interviewer Online
@@ -230,14 +269,21 @@ export default function MockInterviewPage() {
                 feedback.
               </p>
             </div>
-            {(questions || evaluations) && (
-              <button
-                onClick={reset}
-                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono"
-              >
-                <RotateCcwIcon className="size-3" /> New Session
-              </button>
-            )}
+            <div className="flex items-center gap-3">
+              {saved && (
+                <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-none">
+                  ✓ Saved to history
+                </span>
+              )}
+              {(questions || evaluations) && (
+                <button
+                  onClick={reset}
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono"
+                >
+                  <RotateCcwIcon className="size-3" /> New Session
+                </button>
+              )}
+            </div>
           </div>
 
           {!questions && (
