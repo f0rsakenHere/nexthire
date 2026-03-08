@@ -6,7 +6,7 @@ import clientPromise from "@/lib/mongodb";
 // Allow up to 120 seconds — MiniMax evaluation can take 60–90s
 export const maxDuration = 120;
 
-// Groq — ultra-fast, used for question generation
+// Groq — ultra-fast, used for question generation only
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 // MiniMax via NVIDIA — high-quality, used for evaluation
@@ -15,12 +15,12 @@ const nvidia = new OpenAI({
   apiKey: process.env.NVIDIA_API_KEY,
 });
 
-// Cerebras — ultra-fast fallback for evaluation
+// Cerebras — ultra-fast fallback for evaluation when MiniMax times out
 const cerebras = new Cerebras({
   apiKey: process.env.CEREBRAS_API_KEY,
 });
 
-// Race a promise against a timeout — if it takes too long, reject
+// Race a promise against a timeout — if MiniMax hangs, reject fast
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
     promise,
@@ -63,17 +63,18 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { action } = body;
 
-    // ── GENERATE: Groq (fast) ────────────────────────────────────────────────
+    // ── GENERATE QUESTIONS: Groq (fast) ──────────────────────────────────────
     if (action === "generate") {
       const { role, company, jobDescription } = body;
 
-      const prompt = `You are an expert technical interviewer hiring for:
+      const prompt = `You are an expert technical interviewer conducting a VIDEO interview for:
 Role: ${role}
 Company: ${company || "A tech company"}
 ${jobDescription ? `Job Description: ${jobDescription}` : ""}
 
-Generate exactly 5 tailored interview questions for this specific role. Include a mix of technical, behavioral, and situational questions.
-Return ONLY a valid JSON array of objects, with no markdown formatting, no code fences, no extra text before or after.
+Generate exactly 5 tailored interview questions suited for a video format (conversational, open-ended, allow candidates to demonstrate communication skills).
+Include a mix of technical, behavioral, and situational questions.
+Return ONLY a valid JSON array of objects, with no markdown formatting, no code fences, no extra text.
 Format:
 [
   { "id": "1", "question": "...", "category": "Technical | Behavioral | Situational" },
@@ -86,7 +87,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
         model: "llama-3.3-70b-versatile",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.6,
-        max_tokens: 900, // 5 questions need ~400-600 tokens max
+        max_tokens: 900,
       });
 
       const raw = completion.choices[0]?.message?.content ?? "";
@@ -94,7 +95,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
       const start = noFences.indexOf("[");
       const end = noFences.lastIndexOf("]");
       if (start === -1 || end === -1) {
-        console.error("Groq output:", raw);
+        console.error("[video-interview] Groq generate output:", raw);
         throw new Error("Invalid output format from model.");
       }
 
@@ -105,13 +106,14 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
       return Response.json({ questions });
     }
 
-    // ── EVALUATE: MiniMax via NVIDIA (high quality) ──────────────────────────
+    // ── EVALUATE SPOKEN ANSWERS: MiniMax → Cerebras fallback ─────────────────
     if (action === "evaluate") {
-      const { role, qna, userId, company, interviewType } = body;
+      const { role, qna, userId, company } = body;
 
-      const prompt = `You are an expert technical interviewer evaluating a candidate for the role of ${role}.
-Review the candidate's answers to the following questions. Provide constructive feedback, a score out of 10, and specific advice on how they can improve.
-Return ONLY a valid JSON array of objects matching the input array order, with no markdown formatting or extra text.
+      const prompt = `You are an expert interviewer evaluating a candidate's SPOKEN video interview answers for the role of ${role} at ${company || "a tech company"}.
+The answers were transcribed from speech so may contain minor transcription errors — evaluate the content and intent, not perfect grammar.
+Provide constructive feedback, a score out of 10, and specific actionable advice.
+Return ONLY a valid JSON array of objects matching the input array order, with no markdown or extra text.
 
 Candidate Q&A:
 ${JSON.stringify(qna, null, 2)}
@@ -131,7 +133,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
       let rawEval = "";
 
       try {
-        // Primary: MiniMax via NVIDIA — 45s timeout, then fall back
+        // Primary: MiniMax via NVIDIA — 45s timeout, then fall back to Cerebras
         const completion = await withTimeout(
           nvidia.chat.completions.create({
             model: "minimaxai/minimax-m2.1",
@@ -142,10 +144,10 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
           45_000,
         );
         rawEval = completion.choices[0]?.message?.content ?? "";
-        console.log("[mock-interview] Used MiniMax via NVIDIA");
+        console.log("[video-interview] Used MiniMax via NVIDIA");
       } catch (nvidiaErr) {
         // Fallback: Cerebras gpt-oss-120b (ultra-fast)
-        console.warn("[evaluate] MiniMax failed, falling back to Cerebras:", nvidiaErr);
+        console.warn("[video-interview] MiniMax failed, falling back to Cerebras:", nvidiaErr);
         const fallback = await cerebras.chat.completions.create({
           model: "gpt-oss-120b",
           messages: [{ role: "user", content: prompt }],
@@ -155,7 +157,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         rawEval = ((fallback as any).choices?.[0]?.message?.content as string) ?? "";
-        console.log("[evaluate] Used Cerebras fallback");
+        console.log("[video-interview] Used Cerebras fallback");
       }
 
       const noThink = rawEval.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
@@ -163,7 +165,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
       const start = noFences.indexOf("[");
       const end = noFences.lastIndexOf("]");
       if (start === -1 || end === -1) {
-        console.error("Evaluate model raw output:", rawEval);
+        console.error("[video-interview] Evaluate raw output:", rawEval);
         throw new Error("Invalid output format from evaluation model. Please try again.");
       }
 
@@ -183,7 +185,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
             userId,
             role,
             company: company ?? "",
-            interviewType: interviewType ?? "text",
+            interviewType: "video",
             questions: qna.map((q: { question: string; answer: string }, i: number) => ({
               question: q.question,
               answer: q.answer,
@@ -196,7 +198,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
             createdAt: new Date(),
           });
         } catch (dbErr) {
-          console.error("[mock-interview] Failed to save session:", dbErr);
+          console.error("[video-interview] Failed to save session:", dbErr);
         }
       }
 
@@ -206,7 +208,7 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
     return Response.json({ error: "Invalid action" }, { status: 400 });
 
   } catch (err) {
-    console.error(err);
+    console.error("[video-interview]", err);
     const message = err instanceof Error ? err.message : "Unknown error";
     return Response.json({ error: `Operation failed: ${message}` }, { status: 500 });
   }
