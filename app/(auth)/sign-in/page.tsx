@@ -123,7 +123,7 @@ export default function SignInPage() {
         // token set
         document.cookie = `token=${res.user.uid}; path=/`;
 
-        router.push("/admin");
+        router.push("/dashboard");
       }
     } catch (err: unknown) {
       setErrorMsg(
@@ -140,7 +140,7 @@ export default function SignInPage() {
 
         document.cookie = `token=${res.user.uid}; path=/`;
 
-        router.push("/admin");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("Google sign-in error:", error);
@@ -155,7 +155,7 @@ export default function SignInPage() {
 
         document.cookie = `token=${res.user.uid}; path=/`;
 
-        router.push("/admin");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("GitHub sign-in error:", error);
