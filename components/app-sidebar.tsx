@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
+import { useEffect, useState } from "react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -20,13 +21,11 @@ import {
 import {
   FileTextIcon,
   MicIcon,
-  BarChart3Icon,
-  BrainCircuitIcon,
   ScanSearchIcon,
-  MessageSquareQuoteIcon,
-  FlameIcon,
   ZapIcon,
   MessageCircleQuestionMark,
+  HistoryIcon,
+  KanbanSquareIcon,
 } from "lucide-react";
 
 const data = {
@@ -47,7 +46,6 @@ const data = {
           title: "Keyword Gap Analysis",
           url: "/dashboard/keyword-gap-analysis",
         },
-        { title: "Blind Resume Review", url: "#" },
       ],
     },
     {
@@ -55,40 +53,25 @@ const data = {
       url: "#",
       icon: <MicIcon />,
       items: [
-        {
-          title: "Role-Based Mock Interviews",
-          url: "/dashboard/mock-interview",
-        },
-        {
-          title: "Real-time Video Interaction",
-          url: "/dashboard/video-interaction",
-        },
-        {
-          title: "Practice Interview Questions",
-          url: "/dashboard/frontend-question",
-        },
-        { title: "Company-Specific Drills", url: "#" },
+        { title: "Mock Interviews", url: "/dashboard/mock-interview" },
+        { title: "Video Interaction", url: "/dashboard/video-interaction" },
+        { title: "Practice Questions", url: "/dashboard/frontend-question" },
       ],
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: <BarChart3Icon />,
-      items: [
-        { title: "Progress Analytics", url: "#" },
-        { title: "Confidence Tracker", url: "#" },
-        { title: "Skill Growth Chart", url: "#" },
-      ],
+      title: "Job Tracker",
+      url: "/dashboard/tracker",
+      icon: <KanbanSquareIcon />,
+      items: [{ title: "Application Tracker", url: "/dashboard/tracker" }],
     },
     {
-      title: "AI Innovations",
+      title: "History",
       url: "#",
-      icon: <BrainCircuitIcon />,
+      icon: <HistoryIcon />,
       items: [
-        { title: "Roast My Resume", url: "#" },
-        { title: "Salary Negotiation Sim", url: "#" },
-        { title: "Skill Mapper", url: "#" },
-        { title: "Code Snippet Validator", url: "#" },
+        { title: "Resume Score History", url: "/dashboard/resume-history" },
+        { title: "Interview Sessions", url: "/dashboard/interview-history" },
+        { title: "Keyword Gap History", url: "/dashboard/keyword-history" },
       ],
     },
   ],
@@ -99,25 +82,31 @@ const data = {
       icon: <ScanSearchIcon />,
     },
     {
-      name: "Practice Interview Question",
+      name: "Practice Questions",
       url: "/dashboard/frontend-question",
       icon: <MessageCircleQuestionMark />,
     },
     {
-      name: "Instant Feedback",
-      url: "#",
-      icon: <MessageSquareQuoteIcon />,
-    },
-    {
-      name: "Roast My Resume",
-      url: "#",
-      icon: <FlameIcon />,
+      name: "Application Tracker",
+      url: "/dashboard/tracker",
+      icon: <KanbanSquareIcon />,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user] = useAuthState(auth);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user?.email) return;
+    fetch("/api/admin/check", {
+      headers: { "x-user-email": user.email },
+    })
+      .then((r) => r.json())
+      .then((d) => setIsAdmin(d.isAdmin === true))
+      .catch(() => {});
+  }, [user?.email]);
 
   const userData = user
     ? {
@@ -154,7 +143,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.quickTools} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={userData} />
+        <NavUser user={userData} isAdmin={isAdmin} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -1,11 +1,34 @@
 import OpenAI from "openai";
-
+import Groq from "groq-sdk";
+import Cerebras from "@cerebras/cerebras_cloud_sdk";
 import clientPromise from "@/lib/mongodb";
 
-const client = new OpenAI({
+
+export const maxDuration = 120;
+
+
+const nvidia = new OpenAI({
   baseURL: "https://integrate.api.nvidia.com/v1",
   apiKey: process.env.NVIDIA_API_KEY,
 });
+
+
+const cerebras = new Cerebras({
+  apiKey: process.env.CEREBRAS_API_KEY,
+});
+
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms)
+    ),
+  ]);
+}
 
 const SYSTEM_PROMPT = `You are an expert ATS resume analyst. Analyze the resume and return ONLY a valid JSON object with no extra text, no markdown fences.
 
@@ -90,19 +113,68 @@ export async function POST(request: Request) {
     : `RESUME:\n${trimmedResume}`;
 
   try {
-    const completion = await client.chat.completions.create({
-      model: "minimaxai/minimax-m2.1",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userMessage },
-      ],
-      temperature: 0.3,
-      top_p: 0.9,
-      max_tokens: 1500,
-      stream: false,
-    });
+    let raw = "";
+    let modelUsed = "";
 
-    const raw = completion.choices[0]?.message?.content ?? "";
+    
+    try {
+      const completion = await withTimeout(
+        nvidia.chat.completions.create({
+          model: "minimaxai/minimax-m2.1",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userMessage },
+          ],
+          temperature: 0,
+          top_p: 1,
+          max_tokens: 1500,
+          stream: false,
+        }),
+        55_000,
+      );
+      raw = completion.choices[0]?.message?.content ?? "";
+      modelUsed = "MiniMax/NVIDIA";
+    } catch (nvidiaErr) {
+      console.warn("[resume-score] MiniMax unavailable/timeout, trying Cerebras:", (nvidiaErr as Error).message);
+
+      
+      try {
+        const cbCompletion = await cerebras.chat.completions.create({
+          model: "gpt-oss-120b",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userMessage },
+          ],
+          temperature: 0,
+          top_p: 1,
+          max_completion_tokens: 1500,
+          stream: false,
+        });
+        // Cerebras SDK types choices as unknown — cast to any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        raw = ((cbCompletion as any).choices?.[0]?.message?.content as string) ?? "";
+        modelUsed = "Cerebras/gpt-oss-120b";
+      } catch (cerebrasErr) {
+        console.warn("[resume-score] Cerebras failed, falling back to Groq:", (cerebrasErr as Error).message);
+
+        
+        const fallback = await groq.chat.completions.create({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userMessage },
+          ],
+          temperature: 0,
+          top_p: 1,
+          seed: 42,
+          max_tokens: 1500,
+        });
+        raw = fallback.choices[0]?.message?.content ?? "";
+        modelUsed = "Groq/llama-3.3-70b";
+      }
+    }
+
+    console.log(`[resume-score] Model used: ${modelUsed}`);
   
     const noThink = raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
 
@@ -122,16 +194,29 @@ export async function POST(request: Request) {
 
     if (userId) {
       try {
-        const client = await clientPromise;
-        const db = client.db();
+        const mongoClient = await clientPromise;
+        const db = mongoClient.db("nexthire");
         await db.collection("resume_scores").insertOne({
           userId,
-          ...result,
-          createdAt: new Date()
-        })
-      }
-      catch (dbError) {
-        console.error("Failed to save data", dbError);
+          ats_score: result.ats_score,
+          sections: {
+            formatting: result.sections?.formatting?.score ?? 0,
+            impact: result.sections?.impact?.score ?? 0,
+            keywords: result.sections?.keywords?.score ?? 0,
+            experience: result.sections?.experience?.score ?? 0,
+            education: result.sections?.education?.score ?? 0,
+          },
+          top_strengths: result.top_strengths ?? [],
+          top_improvements: result.top_improvements ?? [],
+          recruiter_verdict: result.recruiter_verdict ?? "",
+          keywords_found: result.sections?.keywords?.found ?? [],
+          keywords_missing: result.sections?.keywords?.missing ?? [],
+          resume_preview: trimmedResume.slice(0, 200),
+          had_job_description: !!trimmedJD,
+          createdAt: new Date(),
+        });
+      } catch (dbError) {
+        console.error("[resume-score] Failed to save to MongoDB:", dbError);
       }
     }
 

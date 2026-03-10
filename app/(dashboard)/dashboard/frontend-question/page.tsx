@@ -22,10 +22,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDownIcon, ChevronUpIcon, SearchIcon } from "lucide-react";
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-// Extracted here for easy replacement with a MongoDB fetch in the future.
-// Shape matches the planned DB schema: { category, difficulty, question, answer, tags, followUps }
-
 type Question = {
   id: number;
   category: string;

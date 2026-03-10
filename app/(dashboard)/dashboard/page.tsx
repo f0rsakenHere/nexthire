@@ -62,7 +62,6 @@ export default function DashboardPage() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="bg-background text-foreground">
-        {/* ── Header ─────────────────────────────────────────── */}
         <header className="flex h-16 shrink-0 items-center gap-2 border-b border-border bg-background/60 backdrop-blur-sm transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground" />
@@ -100,12 +99,9 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* ── Main Content ────────────────────────────────────── */}
         <div className="flex flex-1 flex-col gap-8 p-6 bg-background relative overflow-hidden">
-          {/* Ambient background glow */}
           <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[500px] bg-primary/8 blur-[120px] rounded-full mix-blend-screen" />
 
-          {/* ── Welcome Banner ─────────────────────────────── */}
           <div className="relative rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[200px] bg-primary/10 blur-[80px] rounded-full pointer-events-none mix-blend-screen" />
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
@@ -141,7 +137,6 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* ── Stat Cards ─────────────────────────────────── */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
               <div
@@ -172,9 +167,7 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          {/* ── Bottom Row: Activity + Readiness ───────────── */}
           <div className="grid gap-6 md:grid-cols-2">
-            {/* Recent Activity */}
             <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden relative">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               <div className="relative z-10">
@@ -245,9 +238,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Readiness Breakdown */}
             <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden relative group">
-              {/* Premium Background Effects */}
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/10 via-transparent to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
@@ -326,9 +317,7 @@ export default function DashboardPage() {
                           className={`absolute inset-y-0 left-0 rounded-none bg-gradient-to-r ${skill.color} shadow-sm ${skill.shadow} transition-all duration-1000 ease-out flex items-center justify-end pr-1`}
                           style={{ width: `${skill.value}%` }}
                         >
-                          {/* Inner light reflection for a 3D cylindrical feel */}
                           <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10 rounded-none pointer-events-none" />
-                          {/* Glowing tip */}
                           <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white/40 to-transparent rounded-none pointer-events-none" />
                         </div>
                       </div>
@@ -357,7 +346,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Mini bar chart for sessions over the week */}
                 <div className="mt-8 pt-6 border-t border-border/50">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60 mb-4 font-mono">
                     Activity Heatmap

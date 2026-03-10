@@ -23,17 +23,20 @@ import {
   CreditCardIcon,
   BellIcon,
   LogOutIcon,
+  ShieldIcon,
 } from "lucide-react";
 import { auth } from "@/app/firebase/config";
 
 export function NavUser({
   user,
+  isAdmin = false,
 }: {
   user: {
     name: string;
     email: string;
     avatar: string;
   };
+  isAdmin?: boolean;
 }) {
   const { isMobile } = useSidebar();
 
@@ -53,7 +56,14 @@ export function NavUser({
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="truncate font-medium">{user.name}</span>
+                  {isAdmin && (
+                    <span className="text-[9px] font-bold font-mono uppercase tracking-widest text-violet-400 bg-violet-500/15 border border-violet-500/30 px-1 py-0.5 rounded leading-none">
+                      Admin
+                    </span>
+                  )}
+                </div>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDownIcon className="ml-auto size-4" />
@@ -74,7 +84,14 @@ export function NavUser({
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="truncate font-medium">{user.name}</span>
+                    {isAdmin && (
+                      <span className="text-[9px] font-bold font-mono uppercase tracking-widest text-violet-400 bg-violet-500/15 border border-violet-500/30 px-1 py-0.5 rounded leading-none">
+                        Admin
+                      </span>
+                    )}
+                  </div>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
@@ -85,6 +102,19 @@ export function NavUser({
                 <SparklesIcon />
                 Upgrade to Pro
               </DropdownMenuItem>
+              {isAdmin && (
+                <DropdownMenuItem asChild>
+                  <a
+                    href="/nexthire-admin"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <ShieldIcon className="size-4 text-violet-400" />
+                    <span className="text-violet-400 font-medium">
+                      Admin Panel
+                    </span>
+                  </a>
+                </DropdownMenuItem>
+              )}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
