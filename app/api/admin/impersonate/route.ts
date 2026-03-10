@@ -6,6 +6,19 @@ export async function POST(req: NextRequest) {
   try {
     const { targetUid } = await req.json();
     const db = await connectDB();
+
+    //request mail
+    const requesterEmail = req.headers.get("x-user-email");
+    const requester = await db.collection("users").findOne({
+  email: requesterEmail,
+});
+
+if (!requester || requester.role !== "admin") {
+  return NextResponse.json(
+    { error: "Unauthorized" },
+    { status: 403 }
+  );
+}
 }
 
 //    catch (error) {
