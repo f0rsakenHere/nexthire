@@ -9,6 +9,8 @@ export async function POST(req: NextRequest) {
 
     //request mail
     const requesterEmail = req.headers.get("x-user-email");
+    
+    //check requester role
     const requester = await db.collection("users").findOne({
   email: requesterEmail,
 });
@@ -19,6 +21,14 @@ if (!requester || requester.role !== "admin") {
     { status: 403 }
   );
 }
+const targetUser = await db.collection("users").findOne({
+  uid: targetUid,
+});
+
+const customToken = await admin
+  .auth()
+  .createCustomToken(targetUser.uid);
+ return NextResponse.json({ customToken });
 }
 
 //    catch (error) {
@@ -26,5 +36,5 @@ if (!requester || requester.role !== "admin") {
 //     return NextResponse.json({ error: "Server error" }, { status: 500 });
 //   }
 
-  return NextResponse.json({ message: "Impersonation API created" });
+//   return NextResponse.json({ message: "Impersonation API created" });
 }
