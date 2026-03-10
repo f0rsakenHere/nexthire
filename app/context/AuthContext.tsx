@@ -21,6 +21,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     adminUid: null,
     actingAsUid: null,
   });
+  useEffect(() => {
+    const saved = localStorage.getItem("impersonation");
+
+    if (saved) {
+      const parsed = JSON.parse(saved) as Impersonation;
+      setImpersonation(parsed);
+    }
+  }, []);
 
   const startImpersonation = (targetUid: string) => {
     const adminUid = auth.currentUser?.uid ?? null;
