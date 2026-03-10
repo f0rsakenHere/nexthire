@@ -1,52 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
-import admin from "@/lib/firebase-admin";
-import { connectDB } from "@/lib/mongodb";
+import { NextResponse } from "next/server";
+import admin from "@/lib/firebase-admin"; // যেখান থেকে admin export করছো
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const { targetUid } = await req.json();
+    const body = await req.json();
+    const { targetUid } = body;
 
-    const db = await connectDB();
-
-    // requester email
-    const requesterEmail = req.headers.get("x-user-email");
-
-    if (!requesterEmail) {
+    if (!targetUid)
       return NextResponse.json(
-        { error: "Missing requester email" },
-        { status: 401 },
+        { error: "targetUid is required" },
+        { status: 400 },
       );
-    }
 
-    // check requester role
-    const requester = await db.collection("users").findOne({
-      email: requesterEmail,
-    });
-
-    if (!requester || requester.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
-
-    // find target user
-    const targetUser = await db.collection("users").findOne({
-      uid: targetUid,
-    });
-
-    if (!targetUser) {
-      return NextResponse.json(
-        { error: "Target user not found" },
-        { status: 404 },
-      );
-    }
-    console.log("Requester:", requesterEmail);
-    console.log("Target UID:", targetUid);
-
-    // create firebase custom token
-    const customToken = await admin.auth().createCustomToken(targetUser.uid);
+    // create custom token
+    const customToken = await admin.auth().createCustomToken(targetUid);
 
     return NextResponse.json({ customToken });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  } catch (err: any) {
+    console.error("Impersonation API error:", err);
+    return NextResponse.json(
+      { error: err.message || "Server error" },
+      { status: 500 },
+    );
   }
 }
