@@ -16,6 +16,7 @@ export const dynamic = "force-dynamic";
 
 type User = {
   _id: string;
+  uid: string;
   name: string;
   email: string;
   role: string;
@@ -29,6 +30,7 @@ export default async function UsersPage() {
   // MongoDB _id কে string এ convert করা
   const users = usersData.map((user) => ({
     id: user._id.toString(),
+    uid: user.uid,
     name: user.name,
     email: user.email,
     role: user.role,
