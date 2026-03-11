@@ -17,9 +17,7 @@ const cerebras = new Cerebras({
   apiKey: process.env.CEREBRAS_API_KEY,
 });
 
-
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
 
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
@@ -54,7 +52,6 @@ Formatting rules to apply when analyzing:
 - Only flag genuinely mixed markers such as mixing dashes (-), asterisks (*), and bullets (•) in the SAME section.
 - IMPORTANT: If no job description is provided, do NOT reference "job requirements", "the role", or "the position" anywhere in your output. All feedback must be general resume best-practice advice only.
 - Be strict and actionable on substance. If a job description is provided, tailor keyword analysis to it.`;
-
 
 const MAX_RESUME_CHARS = 6000;
 const MAX_JD_CHARS = 3000;
@@ -150,9 +147,10 @@ export async function POST(request: Request) {
           max_completion_tokens: 1500,
           stream: false,
         });
-        // Cerebras SDK types choices as unknown — cast to any
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        raw = ((cbCompletion as any).choices?.[0]?.message?.content as string) ?? "";
+        interface CerebrasResponse {
+          choices?: Array<{ message?: { content?: string | null } }>;
+        }
+        raw = ((cbCompletion as unknown as CerebrasResponse).choices?.[0]?.message?.content) ?? "";
         modelUsed = "Cerebras/gpt-oss-120b";
       } catch (cerebrasErr) {
         console.warn("[resume-score] Cerebras failed, falling back to Groq:", (cerebrasErr as Error).message);

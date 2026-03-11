@@ -57,57 +57,6 @@ export default function SignInPage() {
     return "Login failed. Please try again.";
   };
 
-  // const handleSignIn = async () => {
-  //   if (!email || !password) {
-  //     setErrorMsg("Email and password are required");
-  //     return;
-  //   }
-  //   setErrorMsg("");
-  //   try {
-  //     const res = await signInWithEmailAndPassword(email, password);
-  //     if (res?.user) {
-  //       await saveUserToDatabase(res.user, "email");
-  //       setEmail("");
-  //       setPassword("");
-  //       router.push("/admin");
-  //     }
-  //     if (res?.user) {
-  //       await saveUserToDatabase(res.user, "email");
-  //       router.push("/admin"); // change here
-  //     }
-  //   } catch (err: unknown) {
-  //     setErrorMsg(
-  //       err instanceof Error ? err.message : "An unknown error occurred",
-  //     );
-  //   }
-  // };
-
-  // const handleGoogleSignIn = async () => {
-  //   try {
-  //     const res = await signInWithGoogle();
-  //     if (res?.user) {
-  //       await saveUserToDatabase(res.user, "google");
-  //       router.push("/dashboard");
-  //     }
-  //   } catch (error) {
-  //     console.error("Google sign-in error:", error);
-  //     setErrorMsg("Failed to sign in with Google");
-  //   }
-  // };
-
-  // const handleGithubSignIn = async () => {
-  //   try {
-  //     const res = await signInWithGithub();
-  //     if (res?.user) {
-  //       await saveUserToDatabase(res.user, "github");
-  //       router.push("/dashboard");
-  //     }
-  //   } catch (error) {
-  //     console.error("GitHub sign-in error:", error);
-  //     setErrorMsg("Failed to sign in with GitHub");
-  //   }
-  // };
-
   const handleSignIn = async () => {
     if (!email || !password) {
       setErrorMsg("Email and password are required");
@@ -123,7 +72,7 @@ export default function SignInPage() {
         // token set
         document.cookie = `token=${res.user.uid}; path=/`;
 
-        router.push("/admin");
+        router.push("/dashboard");
       }
     } catch (err: unknown) {
       setErrorMsg(
@@ -131,6 +80,7 @@ export default function SignInPage() {
       );
     }
   };
+
   const handleGoogleSignIn = async () => {
     try {
       const res = await signInWithGoogle();
@@ -140,12 +90,14 @@ export default function SignInPage() {
 
         document.cookie = `token=${res.user.uid}; path=/`;
 
-        router.push("/admin");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("Google sign-in error:", error);
+      setErrorMsg("Failed to sign in with Google");
     }
   };
+
   const handleGithubSignIn = async () => {
     try {
       const res = await signInWithGithub();
@@ -155,10 +107,11 @@ export default function SignInPage() {
 
         document.cookie = `token=${res.user.uid}; path=/`;
 
-        router.push("/admin");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("GitHub sign-in error:", error);
+      setErrorMsg("Failed to sign in with GitHub");
     }
   };
   const displayError = errorMsg || getFirebaseError(firebaseError);
