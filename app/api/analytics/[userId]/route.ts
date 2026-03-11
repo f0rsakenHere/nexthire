@@ -3,7 +3,7 @@ import clientPromise from "@/lib/mongodb";
 
 export async function GET(
   req: Request,
-  context: { params: Promise <{ userId: string }> }
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
     const { userId } = await context.params;
@@ -22,6 +22,7 @@ export async function GET(
 
     const interviews = await interviewCollection
       .find({ userId })
+      .sort({ createdAt: 1 })
       .toArray();
 
     const totalInterviews = interviews.length;
@@ -33,7 +34,12 @@ export async function GET(
 
     const avgInterviewScore =
       interviews.reduce((sum, item) => sum + (item.avgScore || 0), 0) /
-        (interviews.length || 1);
+      (interviews.length || 1);
+
+    const interviewTrend = interviews.map((i: any, index) => ({
+      date: `Session ${index + 1}`,
+      score: i.avgScore || 0,
+    }));
 
     // =========================
     // Applications
@@ -47,22 +53,27 @@ export async function GET(
 
     const statusBreakdown: Record<string, number> = {};
 
-    applications.forEach((app) => {
+    applications.forEach((app: any) => {
       const status = app.status || "unknown";
       statusBreakdown[status] = (statusBreakdown[status] || 0) + 1;
     });
 
     // =========================
-    // Resume Score
+    // Resume Scores (Trend)
     // =========================
 
-    const resume = await resumeCollection
+    const resumes = await resumeCollection
       .find({ userId })
-      .sort({ createdAt: -1 })
-      .limit(1)
+      .sort({ createdAt: 1 })
+      .limit(10)
       .toArray();
 
-    const latestResume = resume[0] || null;
+    const latestResume = resumes[resumes.length - 1] || null;
+
+    const resumeTrend = resumes.map((r: any, index) => ({
+      version: `Resume ${index + 1}`,
+      score: r.ats_score || 0,
+    }));
 
     // =========================
     // Keyword Analysis
@@ -76,6 +87,9 @@ export async function GET(
 
     const latestKeyword = keyword[0] || null;
 
+    const foundKeywords = latestResume?.keywords_found?.length || 0;
+    const missingKeywords = latestResume?.keywords_missing?.length || 0;
+
     // =========================
     // Final Analytics Object
     // =========================
@@ -87,24 +101,25 @@ export async function GET(
         avgInterviewScore: Number(avgInterviewScore.toFixed(2)),
       },
 
+      interviewTrend,
+
       applications: {
         totalApplications,
         statusBreakdown,
       },
 
       resume: {
-        atsScore: latestResume?.ats_score || null,
+        atsScore: latestResume?.ats_score || 0,
         strengths: latestResume?.top_strengths || [],
         improvements: latestResume?.top_improvements || [],
       },
 
+      resumeTrend,
+
       keywords: {
-        atsScore: latestKeyword?.atsScore || null,
-        totalKeywords: latestKeyword?.totalKeywords || 0,
-        missingKeywords:
-          latestKeyword?.keywords?.filter(
-            (k: any) => k.matchType === "Missing"
-          ).length || 0,
+        found: foundKeywords,
+        missing: missingKeywords,
+        atsScore: latestResume?.ats_score || 0,
       },
     };
 
