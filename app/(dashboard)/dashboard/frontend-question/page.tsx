@@ -15,7 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { 
   ChevronDownIcon, ChevronUpIcon, SearchIcon, Code2, 
-  X, Play, RotateCcw, BookOpen 
+  X, Play, RotateCcw, BookOpen, 
+  CheckCircle2
 } from "lucide-react";
 
 // --- ক্যাটাগরি ম্যাপ ---
@@ -28,6 +29,7 @@ const CATEGORY_MAP = {
 
 //Sample Data
 const initialQuestions = [
+  // --- FRONTEND QUESTIONS ---
   { 
     id: 1, 
     mainCategory: "Frontend", 
@@ -35,11 +37,80 @@ const initialQuestions = [
     difficulty: "Medium", 
     question: "How to implement a Debounce function in JavaScript?", 
     answer: "Debouncing limits the rate at which a function gets invoked. It waits for a specific time after the last call.", 
-    tags: ["performance"], 
+    tags: ["performance", "functions"], 
     followUps: ["Difference between debounce and throttle?", "Use cases for debounce?"], 
     isCoding: true 
   },
+  { 
+    id: 2, 
+    mainCategory: "Frontend", 
+    subCategory: "React", 
+    difficulty: "Hard", 
+    question: "Explain the difference between useMemo and useCallback.", 
+    answer: "useMemo returns a memoized value, while useCallback returns a memoized callback function. Both are used for performance optimization to prevent unnecessary re-renders.", 
+    tags: ["hooks", "optimization"], 
+    followUps: ["When should you NOT use them?", "How does shallow comparison work in React?"], 
+    isCoding: true 
+  },
+  { 
+    id: 3, 
+    mainCategory: "Frontend", 
+    subCategory: "CSS", 
+    difficulty: "Easy", 
+    question: "Explain the CSS Box Model.", 
+    answer: "The CSS box model is a container that contains multiple properties including margins, borders, padding, and the actual content.", 
+    tags: ["layout", "basics"], 
+    followUps: ["What is box-sizing: border-box?", "Difference between margin and padding?"], 
+    isCoding: false 
+  },
 
+  // --- BACKEND QUESTIONS ---
+  { 
+    id: 4, 
+    mainCategory: "Backend", 
+    subCategory: "Node.js", 
+    difficulty: "Hard", 
+    question: "How does the Node.js Event Loop work?", 
+    answer: "The event loop allows Node.js to perform non-blocking I/O operations despite being single-threaded by offloading tasks to the system kernel whenever possible.", 
+    tags: ["architecture", "async"], 
+    followUps: ["What are the phases of the event loop?", "What is process.nextTick()?"], 
+    isCoding: false 
+  },
+  { 
+    id: 5, 
+    mainCategory: "Backend", 
+    subCategory: "Auth", 
+    difficulty: "Medium", 
+    question: "What is the difference between JWT and Session-based authentication?", 
+    answer: "Sessions are stored on the server side, while JWT is stateless and stored on the client side (usually in cookies or local storage).", 
+    tags: ["security", "auth"], 
+    followUps: ["Where is the safest place to store a JWT?", "What is a Refresh Token?"], 
+    isCoding: true 
+  },
+
+  // --- DATABASE QUESTIONS ---
+  { 
+    id: 6, 
+    mainCategory: "Database", 
+    subCategory: "MongoDB", 
+    difficulty: "Medium", 
+    question: "What is an Index in MongoDB and why is it used?", 
+    answer: "Indexes are special data structures that store a small portion of the collection's data set in an easy-to-traverse form to improve query performance.", 
+    tags: ["performance", "queries"], 
+    followUps: ["What is a Compound Index?", "Does indexing slow down write operations?"], 
+    isCoding: false 
+  },
+  { 
+    id: 7, 
+    mainCategory: "Database", 
+    subCategory: "PostgreSQL", 
+    difficulty: "Hard", 
+    question: "Explain ACID properties in relational databases.", 
+    answer: "ACID stands for Atomicity, Consistency, Isolation, and Durability. It ensures that database transactions are processed reliably.", 
+    tags: ["sql", "transactions"], 
+    followUps: ["What is the difference between INNER and LEFT JOIN?", "What is a Foreign Key?"], 
+    isCoding: true 
+  }
 ];
 
 // 1.Practice modal component editor
@@ -92,47 +163,106 @@ function PracticeModal({ question, onClose }: { question: any; onClose: () => vo
 //2.Question Card Component
 function QuestionCard({ q }: { q: any }) {
   const [show, setShow] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [isPracticeOpen, setIsPracticeOpen] = useState(false);
 
   return (
-    <>
-      <Card className="hover:shadow-lg transition-all border-l-4 border-l-transparent hover:border-l-primary">
-        <CardHeader className="pb-2">
-          <div className="flex justify-between">
-            <Badge variant="secondary" className="text-[10px]">{q.subCategory}</Badge>
-            <Badge variant="outline" className="text-[10px]">{q.difficulty}</Badge>
+    <div className="w-full"> {/* Parent wrapper to ensure independent height */}
+      <Card 
+        className={`relative overflow-hidden transition-all duration-300 border-l-4 shadow-sm hover:shadow-md ${
+          isCompleted 
+            ? "border-l-emerald-500 bg-emerald-50/20" 
+            : "border-l-transparent hover:border-l-primary"
+        }`}
+      >
+        {/* Completion Checkmark */}
+        <div className="absolute top-4 right-4 z-10">
+          <button 
+            onClick={() => setIsCompleted(!isCompleted)}
+            className={`p-1.5 rounded-full border transition-all ${
+              isCompleted 
+                ? "bg-emerald-500 border-emerald-500 text-white" 
+                : "bg-background text-muted-foreground hover:border-primary hover:text-primary"
+            }`}
+          >
+            <CheckCircle2 className="h-3.5 w-3.5" />
+          </button>
+        </div>
+
+        <CardHeader className="pb-3">
+          <div className="flex gap-2 mb-2">
+            <Badge variant="secondary" className="text-[10px] font-bold uppercase px-2 py-0">
+              {q.subCategory}
+            </Badge>
+            <Badge 
+              variant="outline" 
+              className={`text-[10px] font-bold px-2 py-0 ${
+                q.difficulty === 'Hard' ? 'text-rose-600 bg-rose-50' : 
+                q.difficulty === 'Medium' ? 'text-amber-600 bg-amber-50' : 
+                'text-emerald-600 bg-emerald-50'
+              }`}
+            >
+              {q.difficulty}
+            </Badge>
           </div>
-          <h3 className="font-bold pt-3 leading-tight">{q.question}</h3>
+          <h3 className="font-bold text-base leading-snug pr-10">
+            {q.question}
+          </h3>
         </CardHeader>
-        <CardContent>
-          {show && <div className="p-3 bg-muted/50 rounded-lg text-sm border animate-in slide-in-from-top-1">{q.answer}</div>}
+
+        <CardContent className="pb-4">
+          {/* স্মুথ এবং ইনডিপেন্ডেন্ট রিভিল এনিমেশন */}
+          <div 
+            className={`grid transition-all duration-300 ease-in-out ${
+              show ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border text-sm leading-relaxed">
+                <span className="font-bold text-primary block mb-1">Answer:</span>
+                {q.answer}
+              </div>
+              
+              {q.followUps?.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Follow-up</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {q.followUps.map((fu: string, i: number) => (
+                      <span key={i} className="text-[11px] bg-background border px-2 py-1 rounded-md text-slate-500">
+                        {fu}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </CardContent>
-        <CardFooter className="flex items-center gap-2 border-t pt-4 px-4 bg-muted/5">
-  {/* View/Hide Answer Button */}
-  <Button 
-    variant="ghost" 
-    className="flex-1 text-xs h-9 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" 
-    onClick={() => setShow(!show)}
-  >
-    {show ? (
-      <><ChevronUpIcon className="mr-2 h-4 w-4" /> Hide Answer</>
-    ) : (
-      <><ChevronDownIcon className="mr-2 h-4 w-4" /> View Answer</>
-    )}
-  </Button>
-  
-   {/* Practice Button  */}
-  <Button 
-    className="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white shadow-sm flex items-center justify-center gap-2 min-w-[100px]" 
-    onClick={() => setIsPracticeOpen(true)}
-  >
-    <Code2 className="h-4 w-4" />
-    <span className="text-xs font-medium">Practice</span>
-  </Button>
-</CardFooter>
+
+        <CardFooter className="flex gap-2 p-4 pt-0">
+          <Button 
+            variant={show ? "secondary" : "default"} 
+            className="flex-1 text-xs h-9 font-bold transition-all" 
+            onClick={() => setShow(!show)}
+          >
+            {show ? "Hide Solution" : "View Solution"}
+          </Button>
+          
+          <Button 
+            variant="outline"
+            className="h-9 px-4 border-primary/30 text-primary hover:bg-primary hover:text-white transition-all"
+            onClick={() => setIsPracticeOpen(true)}
+          >
+            <Code2 className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline text-xs font-bold">Practice</span>
+          </Button>
+        </CardFooter>
       </Card>
-      {isPracticeOpen && <PracticeModal question={q} onClose={() => setIsPracticeOpen(false)} />}
-    </>
+
+      {isPracticeOpen && (
+        <PracticeModal question={q} onClose={() => setIsPracticeOpen(false)} />
+      )}
+    </div>
   );
 }
 
