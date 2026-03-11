@@ -26,6 +26,7 @@ import {
   MessageCircleQuestionMark,
   HistoryIcon,
   KanbanSquareIcon,
+  LineChartIcon,
 } from "lucide-react";
 
 const data = {
@@ -72,6 +73,14 @@ const data = {
         { title: "Resume Score History", url: "/dashboard/resume-history" },
         { title: "Interview Sessions", url: "/dashboard/interview-history" },
         { title: "Keyword Gap History", url: "/dashboard/keyword-history" },
+      ],
+    },
+    {
+      title: "Insights",
+      url: "#",
+      icon: <LineChartIcon />,
+      items: [
+        { title: "Analytics", url: "/dashboard/analytics" },
       ],
     },
   ],
