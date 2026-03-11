@@ -11,6 +11,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "UID  required" }, { status: 400 });
     }
 
+    // connect database
+    const client = await clientPromise;
+    const db = client.db("nexthire");
+
+    // find target user
+    const targetUser = await db.collection("users").findOne({ uid: targetUid });
+
+    if (!targetUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     // create custom token
     const customToken = await admin.auth().createCustomToken(targetUid);
 
