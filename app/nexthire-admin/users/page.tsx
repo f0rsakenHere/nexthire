@@ -15,12 +15,10 @@ import {
   Calendar,
 } from "lucide-react";
 import ImpersonateButton from "@/components/admin/impersonate-button";
-import { signInWithCustomToken } from "firebase/auth";
-import { auth } from "@/app/firebase/config";
-import { useRouter } from "next/navigation";
 
 type UserRecord = {
   id: string;
+  uid: string;
   name: string;
   email: string;
   role: string;
@@ -38,6 +36,7 @@ export default function UsersPage() {
     text: string;
     type: "success" | "error";
   } | null>(null);
+
   const [sortField, setSortField] = useState<SortField>("createdAt");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [filterRole, setFilterRole] = useState<"all" | "admin" | "user">("all");
