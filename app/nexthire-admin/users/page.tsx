@@ -153,6 +153,40 @@ export default function UsersPage() {
 
   const router = useRouter();
 
+  async function impersonateUser(targetUid: string) {
+    try {
+      showToast("Initiating impersonation...", "success");
+
+      // 1. Request custom token from backend
+      const res = await fetch("/api/admin/impersonate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ targetUid }),
+      });
+
+      if (!res.ok) throw new Error("Failed to get authorization token");
+
+      const { customToken } = await res.json();
+
+      // 2. Sign in with the custom token
+      const userCredential = await signInWithCustomToken(auth, customToken);
+
+      // 3. Set standard NextHire cookies & localStorage
+      document.cookie = `token=${userCredential.user.uid}; path=/`;
+
+      // Important: Mark this session as an impersonation
+      localStorage.setItem("isImpersonating", "true");
+
+      // 4. Redirect to the main dashboard as the user
+      router.push("/dashboard");
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to impersonate user", "error");
+    }
+  }
+
   return (
     <div className="flex flex-col gap-8 relative">
       {toastMsg && (
