@@ -3,7 +3,7 @@
 import { signInWithCustomToken } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
-import { UserCheck } from "lucide-react"; // <-- import icon
+import { UserCheck } from "lucide-react";
 
 export default function ImpersonateButton({ uid }: { uid: string }) {
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function ImpersonateButton({ uid }: { uid: string }) {
       onClick={handleImpersonate}
       className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-blue-600 hover:bg-blue-50 transition-colors"
     >
-      <UserCheck className="size-4" /> {/* <-- icon */}
+      <UserCheck className="size-4" />
       Impersonate
     </button>
   );

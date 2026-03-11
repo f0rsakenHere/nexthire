@@ -52,6 +52,7 @@ export default function UsersPage() {
       setUsers(
         data.map((u: any) => ({
           id: u._id ?? u.id ?? "",
+          uid: u.uid ?? "",
           name: u.name || u.email?.split("@")[0] || "Unknown",
           email: u.email,
           role: u.role || "user",
