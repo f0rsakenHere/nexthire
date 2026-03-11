@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react"; // useEffect যোগ করা হয়েছে
+import { useState, useMemo, useEffect } from "react"; 
 import Editor from "@monaco-editor/react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { 
@@ -17,7 +17,7 @@ import {
   SearchIcon, Code2, X, Play, BookOpen, CheckCircle2
 } from "lucide-react";
 
-// --- ক্যাটাগরি ম্যাপ ---
+// Category Map
 const CATEGORY_MAP = {
   Frontend: ["All", "HTML","CSS","JavaScript", "React", "Next.js"],
   Backend: ["All", "Node.js", "Express", "API Design", "Authentication"],
@@ -110,7 +110,7 @@ function PracticeModal({ question, onClose }: { question: any; onClose: () => vo
   );
 }
 
-// 2. Question Card Component (একই থাকছে)
+// 2. Question Card Component 
 function QuestionCard({ q }: { q: any }) {
   const [show, setShow] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -217,8 +217,8 @@ export default function FullStackQuestionPage() {
 
         <main className="p-6 max-w-7xl mx-auto w-full">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight">Full Stack Interview Hub</h1>
-            <p className="text-muted-foreground text-sm">Practice questions by track and category.</p>
+            <h1 className="text-3xl font-bold tracking-tight">Full Stack Developer Interview Questions & Answers | Frontend & Backend</h1>
+            <p className="text-muted-foreground text-sm">Get ready for Full Stack Developer interviews with curated Frontend & Backend questions. React, Node.js, Express, MongoDB, and more.</p>
           </div>
 
           <div className="flex border-b mb-6 overflow-x-auto">
