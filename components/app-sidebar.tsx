@@ -104,7 +104,21 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user] = useAuthState(auth);
   const [isAdmin, setIsAdmin] = useState(false);
- 
+  const [isImpersonating, setIsImpersonating] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("isImpersonating") === "true") {
+      setIsImpersonating(true);
+    }
+  }, []);
+
+  const endImpersonation = async () => {
+    localStorage.removeItem("isImpersonating");
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // clear cookie
+    await auth.signOut();
+    window.location.href = "/sign-in"; // Redirect to login page to log back in as Admin
+  };
+
   useEffect(() => {
     if (!user?.email) return;
     fetch("/api/admin/check", {
