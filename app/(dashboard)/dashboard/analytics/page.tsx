@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { AppSidebar } from "@/components/app-sidebar";
 
 import {
@@ -47,7 +46,20 @@ import {
   Radar,
   PolarGrid,
   PolarAngleAxis,
+  CartesianGrid,
 } from "recharts";
+
+
+// Chart wrapper to prevent width(-1) error
+function ChartContainer({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="w-full h-[340px] min-w-0">
+      <ResponsiveContainer width="100%" height="100%">
+        {children as any}
+      </ResponsiveContainer>
+    </div>
+  );
+}
 
 export default function AnalyticsPage() {
 
@@ -76,20 +88,21 @@ export default function AnalyticsPage() {
   }, [userId]);
 
   const interviewTrend = analyticsData?.interviewTrend || [];
+  const resumeTrend = analyticsData?.resumeTrend || [];
 
   const applicationPipeline =
     analyticsData?.applications?.statusBreakdown
-      ? Object.entries(
-        analyticsData.applications.statusBreakdown
-      ).map(([status, value]) => ({
-        status,
-        value,
-      }))
+      ? Object.entries(analyticsData.applications.statusBreakdown).map(
+        ([status, value]) => ({
+          status,
+          value,
+        })
+      )
       : [];
 
   const keywordRadar = [
-    { subject: "Found", value: analyticsData?.keywords?.totalKeywords || 0 },
-    { subject: "Missing", value: analyticsData?.keywords?.missingKeywords || 0 },
+    { subject: "Found", value: analyticsData?.keywords?.found || 0 },
+    { subject: "Missing", value: analyticsData?.keywords?.missing || 0 },
     { subject: "ATS", value: analyticsData?.keywords?.atsScore || 0 },
   ];
 
@@ -101,7 +114,9 @@ export default function AnalyticsPage() {
       <SidebarInset className="bg-background text-foreground min-h-screen">
 
         {/* Header */}
+
         <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b border-border bg-background/80 backdrop-blur-xl">
+
           <div className="flex items-center gap-2 px-4">
 
             <SidebarTrigger className="-ml-1" />
@@ -129,11 +144,13 @@ export default function AnalyticsPage() {
             </Breadcrumb>
 
           </div>
+
         </header>
 
         <div className="p-6 lg:p-8 flex flex-col gap-8">
 
           {/* Title */}
+
           <div>
 
             <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-primary mb-2">
@@ -150,14 +167,13 @@ export default function AnalyticsPage() {
 
           </div>
 
-
           {/* Summary Cards */}
 
           <div className="grid gap-4 md:grid-cols-4">
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm text-muted-foreground">
                   Interviews
                 </CardTitle>
               </CardHeader>
@@ -165,7 +181,7 @@ export default function AnalyticsPage() {
                 {loading ? (
                   <Skeleton className="h-8 w-16" />
                 ) : (
-                  <p className="text-3xl font-bold">
+                  <p className="text-4xl font-bold">
                     {analyticsData?.interviews?.totalInterviews || 0}
                   </p>
                 )}
@@ -174,7 +190,7 @@ export default function AnalyticsPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm text-muted-foreground">
                   Avg Interview Score
                 </CardTitle>
               </CardHeader>
@@ -182,7 +198,7 @@ export default function AnalyticsPage() {
                 {loading ? (
                   <Skeleton className="h-8 w-16" />
                 ) : (
-                  <p className="text-3xl font-bold">
+                  <p className="text-4xl font-bold">
                     {analyticsData?.interviews?.avgInterviewScore || 0}
                   </p>
                 )}
@@ -191,7 +207,7 @@ export default function AnalyticsPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm text-muted-foreground">
                   Applications
                 </CardTitle>
               </CardHeader>
@@ -199,7 +215,7 @@ export default function AnalyticsPage() {
                 {loading ? (
                   <Skeleton className="h-8 w-16" />
                 ) : (
-                  <p className="text-3xl font-bold">
+                  <p className="text-4xl font-bold">
                     {analyticsData?.applications?.totalApplications || 0}
                   </p>
                 )}
@@ -208,7 +224,7 @@ export default function AnalyticsPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm text-muted-foreground">
                   ATS Resume Score
                 </CardTitle>
               </CardHeader>
@@ -216,7 +232,7 @@ export default function AnalyticsPage() {
                 {loading ? (
                   <Skeleton className="h-8 w-16" />
                 ) : (
-                  <p className="text-3xl font-bold">
+                  <p className="text-4xl font-bold">
                     {analyticsData?.resume?.atsScore || 0}
                   </p>
                 )}
@@ -234,24 +250,73 @@ export default function AnalyticsPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Interview Score Trend</CardTitle>
+                <CardTitle>Interview Score Progress</CardTitle>
               </CardHeader>
 
-              <CardContent className="h-[260px]">
+              <CardContent>
 
-                <ResponsiveContainer width="100%" height="100%">
+                <ChartContainer>
+
                   <LineChart data={interviewTrend}>
-                    <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" />
-                    <YAxis />
+
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+
+                    <XAxis dataKey="date" />
+
+                    <YAxis domain={[0, 100]} />
+
                     <Tooltip />
+
                     <Line
                       type="monotone"
                       dataKey="score"
                       stroke="hsl(var(--primary))"
                       strokeWidth={3}
+                      dot={{ r: 6 }}
+                      activeDot={{ r: 8 }}
                     />
+
                   </LineChart>
-                </ResponsiveContainer>
+
+                </ChartContainer>
+
+              </CardContent>
+            </Card>
+
+
+            {/* Resume Progress */}
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Resume ATS Improvement</CardTitle>
+              </CardHeader>
+
+              <CardContent>
+
+                <ChartContainer>
+
+                  <LineChart data={resumeTrend}>
+
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+
+                    <XAxis dataKey="version" />
+
+                    <YAxis domain={[0, 100]} />
+
+                    <Tooltip />
+
+                    <Line
+                      type="monotone"
+                      dataKey="score"
+                      stroke="hsl(var(--primary))"
+                      strokeWidth={4}
+                      dot={{ r: 7 }}
+                      activeDot={{ r: 9 }}
+                    />
+
+                  </LineChart>
+
+                </ChartContainer>
 
               </CardContent>
             </Card>
@@ -264,52 +329,29 @@ export default function AnalyticsPage() {
                 <CardTitle>Application Pipeline</CardTitle>
               </CardHeader>
 
-              <CardContent className="h-[260px]">
+              <CardContent>
 
-                <ResponsiveContainer width="100%" height="100%">
+                <ChartContainer>
+
                   <BarChart data={applicationPipeline}>
+
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+
                     <XAxis dataKey="status" />
+
                     <YAxis />
+
                     <Tooltip />
+
                     <Bar
                       dataKey="value"
                       fill="hsl(var(--primary))"
+                      radius={[6, 6, 0, 0]}
                     />
+
                   </BarChart>
-                </ResponsiveContainer>
 
-              </CardContent>
-            </Card>
-
-
-            {/* ATS Score */}
-
-            <Card>
-              <CardHeader>
-                <CardTitle>ATS Resume Score</CardTitle>
-              </CardHeader>
-
-              <CardContent className="h-[260px]">
-
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={[
-                      {
-                        date: "Latest",
-                        score: analyticsData?.resume?.atsScore || 0,
-                      },
-                    ]}
-                  >
-                    <XAxis dataKey="date" />
-                    <YAxis domain={[0, 100]} />
-                    <Tooltip />
-                    <Line
-                      dataKey="score"
-                      stroke="hsl(var(--primary))"
-                      strokeWidth={3}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                </ChartContainer>
 
               </CardContent>
             </Card>
@@ -322,25 +364,75 @@ export default function AnalyticsPage() {
                 <CardTitle>Keyword Coverage</CardTitle>
               </CardHeader>
 
-              <CardContent className="h-[260px]">
+              <CardContent>
 
-                <ResponsiveContainer width="100%" height="100%">
+                <ChartContainer>
+
                   <RadarChart data={keywordRadar}>
+
                     <PolarGrid />
+
                     <PolarAngleAxis dataKey="subject" />
+
                     <Radar
                       dataKey="value"
                       stroke="hsl(var(--primary))"
                       fill="hsl(var(--primary))"
-                      fillOpacity={0.3}
+                      fillOpacity={0.4}
                     />
+
                   </RadarChart>
-                </ResponsiveContainer>
+
+                </ChartContainer>
 
               </CardContent>
             </Card>
 
           </div>
+
+
+          {/* Resume Insights */}
+
+          {!loading && analyticsData?.resume && (
+
+            <div className="grid lg:grid-cols-2 gap-6">
+
+              <Card>
+
+                <CardHeader>
+                  <CardTitle>Top Strengths</CardTitle>
+                </CardHeader>
+
+                <CardContent className="space-y-2 text-sm">
+
+                  {analyticsData.resume.strengths?.map((item: any, index: number) => (
+                    <p key={index}>✔ {item}</p>
+                  ))}
+
+                </CardContent>
+
+              </Card>
+
+
+              <Card>
+
+                <CardHeader>
+                  <CardTitle>Areas to Improve</CardTitle>
+                </CardHeader>
+
+                <CardContent className="space-y-2 text-sm">
+
+                  {analyticsData.resume.improvements?.map((item: any, index: number) => (
+                    <p key={index}>⚠ {item}</p>
+                  ))}
+
+                </CardContent>
+
+              </Card>
+
+            </div>
+
+          )}
 
         </div>
 
