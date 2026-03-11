@@ -127,7 +127,7 @@
   }
 }
 
-/* ── Custom Scrollbars ─────────────────────────────────────────────────── */
+/* ── Custom Scrollbars: thin & visible ────────────────────────────────── */
 
 /* Webkit (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
@@ -140,13 +140,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 211, 238, 0.18);
+  background: rgba(0, 0, 0, 0.18);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 211, 238, 0.5);
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+  background: oklch(0.55 0.22 278 / 0.55);
 }
 
 ::-webkit-scrollbar-corner {
@@ -156,5 +155,14 @@
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(34, 211, 238, 0.18) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+
+/* Utility: completely hide scrollbar */
+.no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
 }
