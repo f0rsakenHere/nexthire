@@ -32,92 +32,53 @@ System: ["All", "System Design", "Scalability", "Security"]
 //Sample Data
 const initialQuestions = [
   // --- FRONTEND QUESTIONS ---
- {
-  id: 1,
-  mainCategory: "Frontend", 
-  subCategory: "Javascript", 
-   difficulty: "Hard",
-  question: "How to implement a Debounce function?",
-  isCoding: true,
-  answer: "Implement a function that delays execution...",
-  hints: ["Use a timer variable", "Return a new function"],
-  solutionCode: "function debounce(func, wait) {\n  let timeout;\n  return function(...args) {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => func.apply(this, args), wait);\n  };\n}",
-  initialCode: "function debounce(fn, delay) {\n  // Start coding...\n}"
-},
-  { 
-    id: 2, 
-    mainCategory: "Frontend", 
-    subCategory: "React", 
-    difficulty: "Hard", 
-    question: "Explain the difference between useMemo and useCallback.", 
-    answer: "useMemo returns a memoized value, while useCallback returns a memoized callback function. Both are used for performance optimization to prevent unnecessary re-renders.", 
-    tags: ["hooks", "optimization"], 
-    followUps: ["When should you NOT use them?", "How does shallow comparison work in React?"],
-    isCoding: true,
-      hints: ["Use a timer variable", "Return a new function"],
-  solutionCode: "function debounce(func, wait) {\n  let timeout;\n  return function(...args) {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => func.apply(this, args), wait);\n  };\n}",
-  initialCode: "function debounce(fn, delay) {\n  // Start coding...\n}"
+
+  // { 
+  //   id: 2, 
+  //   mainCategory: "Frontend", 
+  //   subCategory: "React", 
+  //   difficulty: "Hard", 
+  //   question: "Explain the difference between useMemo and useCallback.", 
+  //   answer: "useMemo returns a memoized value, while useCallback returns a memoized callback function. Both are used for performance optimization to prevent unnecessary re-renders.", 
+  //   tags: ["hooks", "optimization"], 
+  //   followUps: ["When should you NOT use them?", "How does shallow comparison work in React?"],
+  //   isCoding: true,
+  //     hints: ["Use a timer variable", "Return a new function"],
+  // solutionCode: "function debounce(func, wait) {\n  let timeout;\n  return function(...args) {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => func.apply(this, args), wait);\n  };\n}",
+  // initialCode: "function debounce(fn, delay) {\n  // Start coding...\n}"
      
-  },
-  { 
-    id: 3, 
-    mainCategory: "Frontend", 
-    subCategory: "CSS", 
-    difficulty: "Easy", 
-    question: "Explain the CSS Box Model.", 
-    answer: "The CSS box model is a container that contains multiple properties including margins, borders, padding, and the actual content.", 
-    tags: ["layout", "basics"], 
-    followUps: ["What is box-sizing: border-box?", "Difference between margin and padding?"], 
-    isCoding: false 
-  },
+  // }, 
+  
+{ id:1,
+  mainCategory: "Frontend",
+  subCategory: "React",
+  difficulty: "Hard",
 
-  // --- BACKEND QUESTIONS ---
-  { 
-    id: 4, 
-    mainCategory: "Backend", 
-    subCategory: "Node.js", 
-    difficulty: "Hard", 
-    question: "How does the Node.js Event Loop work?", 
-    answer: "The event loop allows Node.js to perform non-blocking I/O operations despite being single-threaded by offloading tasks to the system kernel whenever possible.", 
-    tags: ["architecture", "async"], 
-    followUps: ["What are the phases of the event loop?", "What is process.nextTick()?"], 
-    isCoding: false 
-  },
-  { 
-    id: 5, 
-    mainCategory: "Backend", 
-    subCategory: "Auth", 
-    difficulty: "Medium", 
-    question: "What is the difference between JWT and Session-based authentication?", 
-    answer: "Sessions are stored on the server side, while JWT is stateless and stored on the client side (usually in cookies or local storage).", 
-    tags: ["security", "auth"], 
-    followUps: ["Where is the safest place to store a JWT?", "What is a Refresh Token?"], 
-    isCoding: true 
-  },
+  question: "Explain the difference between useMemo and useCallback.",
 
-  // --- DATABASE QUESTIONS ---
-  { 
-    id: 6, 
-    mainCategory: "Database", 
-    subCategory: "MongoDB", 
-    difficulty: "Medium", 
-    question: "What is an Index in MongoDB and why is it used?", 
-    answer: "Indexes are special data structures that store a small portion of the collection's data set in an easy-to-traverse form to improve query performance.", 
-    tags: ["performance", "queries"], 
-    followUps: ["What is a Compound Index?", "Does indexing slow down write operations?"], 
-    isCoding: false 
-  },
-  { 
-    id: 7, 
-    mainCategory: "Database", 
-    subCategory: "PostgreSQL", 
-    difficulty: "Hard", 
-    question: "Explain ACID properties in relational databases.", 
-    answer: "ACID stands for Atomicity, Consistency, Isolation, and Durability. It ensures that database transactions are processed reliably.", 
-    tags: ["sql", "transactions"], 
-    followUps: ["What is the difference between INNER and LEFT JOIN?", "What is a Foreign Key?"], 
-    isCoding: true 
+  answer: "useMemo returns a memoized value while useCallback returns a memoized function. Both are used for performance optimization to prevent unnecessary re-renders in React components.",
+
+  tags: ["react","hooks","performance"],
+
+  followUps: [
+    "When should you NOT use useMemo?",
+    "How does React dependency array work?"
+  ],
+    title: "Implement a Debounce Function",
+    description: "Write a debounce function that delays the execution of a function until after a specified delay.",
+
+    hints: [
+      "Use setTimeout",
+      "Clear the previous timeout"
+    ],
+
+    initialCode: "function debounce(fn, delay) {\n // start coding\n}",
+
+    solutionCode: "function debounce(fn, delay) {\n let timer;\n return function(...args){\n clearTimeout(timer);\n timer = setTimeout(()=>fn.apply(this,args),delay);\n }\n}"
   }
+
+
+
 ];
 
 // 1.Practice modal component editor
