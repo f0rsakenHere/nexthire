@@ -104,21 +104,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user] = useAuthState(auth);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isImpersonating, setIsImpersonating] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem("isImpersonating") === "true") {
-      setIsImpersonating(true);
-    }
-  }, []);
-
-  const endImpersonation = async () => {
-    localStorage.removeItem("isImpersonating");
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // clear cookie
-    await auth.signOut();
-    window.location.href = "/sign-in"; // Redirect to login page to log back in as Admin
-  };
-
+ 
   useEffect(() => {
     if (!user?.email) return;
     fetch("/api/admin/check", {
@@ -138,49 +124,48 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     : data.user;
 
   return (
-    <>
-      {isImpersonating && (
-        <div className="bg-orange-500/20 text-orange-400 text-sm font-semibold p-2 text-center flex items-center justify-center gap-4 z-50 relative border-b border-orange-500/50">
-          ⚠️ You are currently impersonating a user.
-          <button
-            onClick={endImpersonation}
-            className="underline hover:text-orange-300"
-          >
-            End Session
-          </button>
-        </div>
-      )}
-
-      <Sidebar collapsible="icon" {...props}>
-        <SidebarHeader>
-          {/* NextHire Brand Logo */}
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton size="lg" asChild>
-                <a href="/dashboard">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-primary-foreground shadow-sm">
-                    <ZapIcon className="size-4" />
-                  </div>
-                  <div className="flex flex-col gap-0.5 leading-none">
-                    <span className="font-semibold text-sm">NextHire</span>
-                    <span className="text-[10px] uppercase tracking-widest text-primary/60 font-mono">
-                      AI Coach
-                    </span>
-                  </div>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarHeader>
-        <SidebarContent>
-          <NavMain items={data.navMain} />
-          <NavProjects projects={data.quickTools} />
-        </SidebarContent>
-        <SidebarFooter>
-          <NavUser user={userData} isAdmin={isAdmin} />
-        </SidebarFooter>
-        <SidebarRail />
-      </Sidebar>
-    </>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        {/* NextHire Brand Logo */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+             {isImpersonating && (
+              <div className="bg-orange-300/20 text-orange-600 text-sm font-semibold p-2  flex items-center justify-center  z-50 relative border-b border-orange-500/50">
+                ⚠️ You are currently impersonating a user.
+                <button
+                  onClick={endImpersonation}
+                  className="underline  hover:text-orange-300"
+                >
+                  End Session
+                </button>
+              </div>
+            )}
+            <SidebarMenuButton size="lg" asChild>
+              <a href="/dashboard">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-primary-foreground shadow-sm">
+                  <ZapIcon className="size-4" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="font-semibold text-sm">NextHire</span>
+                  <span className="text-[10px] uppercase tracking-widest text-primary/60 font-mono">
+                    AI Coach
+                  </span>
+                </div>
+              </a>
+            </SidebarMenuButton>
+           
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.quickTools} />
+        
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={userData} isAdmin={isAdmin} />
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
   );
 }
