@@ -120,7 +120,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               {/* Back to Admin button */}
-              {localStorage.getItem("adminToken") && (
+              {typeof window !== "undefined" && localStorage.getItem("adminToken") && (
                 <DropdownMenuItem className="flex items-center gap-2">
                   <ArrowLeftIcon className="size-4 " />
                   <span className=" ">Back to Admin</span>

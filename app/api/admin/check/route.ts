@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     const db = await connectDB();
     const user = await db.collection("users").findOne({ email });
     const isAdmin = user?.role === "admin";
-    return NextResponse.json({ isAdmin });
+    return NextResponse.json({ isAdmin, name: user?.name ?? null });
   } catch (error) {
     console.error("[admin/check]", error);
     return NextResponse.json({ isAdmin: false }, { status: 500 });

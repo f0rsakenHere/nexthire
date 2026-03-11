@@ -32,15 +32,292 @@ function PracticeModal({ question, onClose }: { question: any; onClose: () => vo
   const [code, setCode] = useState(question.initialCode || `// Write your code here...`);
   const [output, setOutput] = useState("");
 
-  const handleToggleSolution = () => {
-    if (!showFullSolution) {
-      setShowFullSolution(true);
-      setCode(question.solutionCode || "// Complete solution code not found");
-    } else {
-      setShowFullSolution(false);
-      setCode(question.initialCode || `// Write your code here...`);
-    }
-  };
+  // React
+  {
+    id: 9,
+    category: "React",
+    difficulty: "Medium",
+    question: "What is the Virtual DOM?",
+    answer:
+      "The Virtual DOM is an in-memory representation of the real DOM. React diffs the new virtual tree against the previous one and applies only the minimal set of real DOM updates needed.",
+    tags: ["virtual-dom", "rendering"],
+    followUps: ["How does React reconciliation work?"],
+  },
+  {
+    id: 10,
+    category: "React",
+    difficulty: "Easy",
+    question: "What are React hooks?",
+    answer:
+      "Hooks let you use state and lifecycle features in functional components. Core hooks include useState, useEffect, useContext, useRef, useMemo, and useCallback.",
+    tags: ["hooks"],
+    followUps: ["What are the rules of hooks?"],
+  },
+  {
+    id: 11,
+    category: "React",
+    difficulty: "Medium",
+    question: "Difference between useState and useReducer?",
+    answer:
+      "useState is ideal for simple, independent state values. useReducer is better for complex state with multiple sub-values or when next state depends on the previous one in non-trivial ways.",
+    tags: ["state", "hooks"],
+    followUps: ["When would you migrate from useState to useReducer?"],
+  },
+  {
+    id: 12,
+    category: "React",
+    difficulty: "Easy",
+    question: "What is prop drilling?",
+    answer:
+      "Prop drilling is passing data through multiple component layers via props, even though intermediate components don't need it. It makes code harder to maintain.",
+    tags: ["props", "architecture"],
+    followUps: ["How can you avoid prop drilling?"],
+  },
+  {
+    id: 13,
+    category: "React",
+    difficulty: "Medium",
+    question: "What is the Context API?",
+    answer:
+      "Context API provides a way to share values across the component tree without explicit prop passing. It consists of React.createContext, a Provider, and the useContext hook.",
+    tags: ["context", "state"],
+    followUps: [
+      "When should you not use Context?",
+      "How does Context compare to Redux?",
+    ],
+  },
+  {
+    id: 14,
+    category: "React",
+    difficulty: "Medium",
+    question: "What is React.memo?",
+    answer:
+      "React.memo is a HOC that prevents a functional component from re-rendering if its props haven't changed, using shallow comparison.",
+    tags: ["performance", "memoization"],
+    followUps: ["What is the difference between React.memo and useMemo?"],
+  },
+  {
+    id: 15,
+    category: "React",
+    difficulty: "Medium",
+    question: "What is useEffect used for?",
+    answer:
+      "useEffect runs side effects after render — data fetching, subscriptions, or manual DOM manipulation. The dependency array controls when it re-runs.",
+    tags: ["hooks", "lifecycle"],
+    followUps: [
+      "How do you clean up a useEffect?",
+      "What happens with an empty dependency array?",
+    ],
+  },
+
+  // CSS
+  {
+    id: 16,
+    category: "CSS",
+    difficulty: "Easy",
+    question: "What is the CSS box model?",
+    answer:
+      "Every element is a rectangular box composed of content, padding, border, and margin. box-sizing: border-box includes padding and border in the element's total width.",
+    tags: ["box-model", "layout"],
+    followUps: ["What does box-sizing: border-box change?"],
+  },
+  {
+    id: 17,
+    category: "CSS",
+    difficulty: "Easy",
+    question: "Difference between display:none and visibility:hidden?",
+    answer:
+      "display:none removes the element from the document flow entirely. visibility:hidden hides it but the space it occupied remains.",
+    tags: ["display", "layout"],
+    followUps: ["Which one affects accessibility?"],
+  },
+  {
+    id: 18,
+    category: "CSS",
+    difficulty: "Medium",
+    question: "What is Flexbox and when do you use it?",
+    answer:
+      "Flexbox is a one-dimensional layout model for distributing space along a row or column. Use it for navigation bars, card rows, or centering elements.",
+    tags: ["flexbox", "layout"],
+    followUps: ["What is the difference between Flexbox and CSS Grid?"],
+  },
+  {
+    id: 19,
+    category: "CSS",
+    difficulty: "Medium",
+    question: "What is CSS specificity?",
+    answer:
+      "Specificity is a weight assigned to CSS selectors that determines which rule applies. Order (lowest to highest): element < class < ID < inline styles < !important.",
+    tags: ["specificity", "selectors"],
+    followUps: ["Which selector has the highest specificity?"],
+  },
+  {
+    id: 20,
+    category: "CSS",
+    difficulty: "Easy",
+    question: "What is responsive design?",
+    answer:
+      "Responsive design adapts layout and content to different viewport sizes using fluid grids, flexible images, and CSS media queries.",
+    tags: ["responsive", "media-queries"],
+    followUps: ["What are CSS breakpoints?"],
+  },
+
+  // HTML
+  {
+    id: 21,
+    category: "HTML",
+    difficulty: "Easy",
+    question: "What are semantic HTML elements?",
+    answer:
+      "Semantic elements clearly describe their purpose to both the browser and developer — e.g. <header>, <nav>, <main>, <article>, <footer>. They improve accessibility and SEO.",
+    tags: ["semantic", "accessibility"],
+    followUps: ["Why are semantic elements important for SEO?"],
+  },
+  {
+    id: 22,
+    category: "HTML",
+    difficulty: "Easy",
+    question: "Difference between <div> and <span>?",
+    answer:
+      "<div> is a block-level container, taking full width. <span> is an inline container for text or inline elements. Neither has semantic meaning.",
+    tags: ["elements"],
+    followUps: ["Can span be styled as block?"],
+  },
+  {
+    id: 23,
+    category: "HTML",
+    difficulty: "Medium",
+    question: "What is web accessibility (a11y)?",
+    answer:
+      "Accessibility means making web apps usable by people with disabilities. This includes proper use of ARIA roles, keyboard navigation, color contrast, and alt text.",
+    tags: ["accessibility", "aria"],
+    followUps: ["What is ARIA and when should you use it?"],
+  },
+
+  // Browser
+  {
+    id: 24,
+    category: "Browser",
+    difficulty: "Medium",
+    question: "What is CORS?",
+    answer:
+      "Cross-Origin Resource Sharing is a browser security mechanism that restricts HTTP requests made from one origin to a different origin. Servers must explicitly allow cross-origin requests via response headers.",
+    tags: ["cors", "security", "http"],
+    followUps: ["How do you fix a CORS error?", "What is a preflight request?"],
+  },
+  {
+    id: 25,
+    category: "Browser",
+    difficulty: "Easy",
+    question: "Difference between localStorage and sessionStorage?",
+    answer:
+      "Both are Web Storage APIs. localStorage persists data with no expiry across sessions. sessionStorage stores data only for the duration of the browser tab.",
+    tags: ["storage", "web-api"],
+    followUps: ["Is localStorage secure for sensitive data?"],
+  },
+
+  // Performance
+  {
+    id: 26,
+    category: "Performance",
+    difficulty: "Medium",
+    question: "How do you improve frontend performance?",
+    answer:
+      "Key techniques: code splitting, lazy loading, image optimization, memoization, avoiding layout thrashing, using a CDN, and reducing bundle size with tree shaking.",
+    tags: ["performance", "optimization"],
+    followUps: ["What is lazy loading?", "What is tree shaking?"],
+  },
+  {
+    id: 27,
+    category: "Performance",
+    difficulty: "Medium",
+    question: "What causes unnecessary re-renders in React?",
+    answer:
+      "Re-renders occur when state or props change. Unnecessary ones happen when parent re-renders pass new object/function references to children. Fix with React.memo, useMemo, and useCallback.",
+    tags: ["react", "performance", "rendering"],
+    followUps: ["How does useCallback help prevent re-renders?"],
+  },
+
+  // Git
+  {
+    id: 28,
+    category: "Git",
+    difficulty: "Easy",
+    question: "Difference between git merge and git rebase?",
+    answer:
+      "git merge creates a merge commit, preserving full history. git rebase rewrites commits onto the target branch for a linear history. Rebasing makes history cleaner but should not be used on shared branches.",
+    tags: ["git", "version-control"],
+    followUps: ["When is rebasing dangerous?"],
+  },
+  {
+    id: 29,
+    category: "Git",
+    difficulty: "Easy",
+    question: "What is git stash?",
+    answer:
+      "git stash temporarily shelves uncommitted changes so you can switch context without committing. Use git stash pop to reapply the latest stash.",
+    tags: ["git"],
+    followUps: ["How do you name a stash?"],
+  },
+
+  // Security
+  {
+    id: 30,
+    category: "Security",
+    difficulty: "Medium",
+    question: "What is XSS and how do you prevent it?",
+    answer:
+      "Cross-Site Scripting (XSS) is an attack where malicious scripts are injected into pages viewed by other users. Prevent it by sanitizing user input, using Content Security Policy headers, and avoiding dangerouslySetInnerHTML in React.",
+    tags: ["security", "xss"],
+    followUps: ["What is the difference between stored and reflected XSS?"],
+  },
+
+  // Testing
+  {
+    id: 31,
+    category: "Testing",
+    difficulty: "Medium",
+    question: "What is unit testing in frontend?",
+    answer:
+      "Unit testing verifies individual functions or components in isolation. Popular tools include Jest for test running and assertions, and React Testing Library for component behavior testing.",
+    tags: ["testing", "jest"],
+    followUps: ["What is the difference between unit and integration tests?"],
+  },
+];
+
+const CATEGORIES = [
+  "All",
+  "JavaScript",
+  "React",
+  "CSS",
+  "HTML",
+  "Browser",
+  "Performance",
+  "Git",
+  "Security",
+  "Testing",
+];
+
+const DIFFICULTY_COLORS: Record<string, string> = {
+  Easy: "bg-emerald-500 text-white",
+  Medium: "bg-orange-500 text-white",
+  Hard: "bg-red-600 text-white",
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  JavaScript: "bg-blue-600 text-white",
+  React: "bg-cyan-600 text-white",
+  CSS: "bg-purple-600 text-white",
+  HTML: "bg-orange-500 text-white",
+  Browser: "bg-indigo-600 text-white",
+  Performance: "bg-pink-600 text-white",
+  Git: "bg-zinc-600 text-white",
+  Security: "bg-red-700 text-white",
+  Testing: "bg-teal-600 text-white",
+};
+
+function QuestionCard({ q, index }: { q: Question; index: number }) {
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="fixed inset-0 z-[100] bg-background flex flex-col">
@@ -110,56 +387,7 @@ function PracticeModal({ question, onClose }: { question: any; onClose: () => vo
   );
 }
 
-// 2. Question Card Component 
-function QuestionCard({ q }: { q: any }) {
-  const [show, setShow] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [isPracticeOpen, setIsPracticeOpen] = useState(false);
-
-  return (
-    <div className="w-full"> 
-      <Card className={`relative overflow-hidden transition-all duration-300 border-l-4 shadow-sm hover:shadow-md ${isCompleted ? "border-l-emerald-500 bg-emerald-50/20" : "border-l-transparent hover:border-l-primary"}`}>
-        <div className="absolute top-4 right-4 z-10">
-          <button onClick={() => setIsCompleted(!isCompleted)} className={`p-1.5 rounded-full border transition-all ${isCompleted ? "bg-emerald-500 border-emerald-500 text-white" : "bg-background text-muted-foreground hover:border-primary hover:text-primary"}`}>
-            <CheckCircle2 className="h-3.5 w-3.5" />
-          </button>
-        </div>
-        <CardHeader className="pb-3 min-h-[90px] flex flex-col justify-start">
-          <div className="flex gap-2 mb-2">
-            <Badge variant="secondary" className="text-[10px] font-bold uppercase px-2 py-0">{q.subCategory}</Badge>
-            <Badge variant="outline" className={`text-[10px] font-bold px-2 py-0 ${q.difficulty === 'Hard' ? 'text-rose-600 bg-rose-50' : q.difficulty === 'Medium' ? 'text-amber-600 bg-amber-50' : 'text-emerald-600 bg-emerald-50'}`}>{q.difficulty}</Badge>
-          </div>
-          <h3 className="font-bold text-base leading-snug pr-10">{q.question}</h3>
-        </CardHeader>
-        <CardContent className="pb-4">
-          <div className={`grid transition-all duration-300 ease-in-out ${show ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0"}`}>
-            <div className="overflow-hidden">
-              <div className="p-4 rounded-xl bg-slate-100/80 border text-sm leading-relaxed">
-                <span className="font-bold text-primary block mb-1">Answer:</span>
-                {q.answer}
-              </div>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="flex gap-2 p-4 pt-0">
-          <Button variant={show ? "secondary" : "default"} className="flex-1 text-xs h-9 font-bold rounded-full" onClick={() => setShow(!show)}>
-            {show ? "Hide Answer" : "View Answer"}
-          </Button>
-          <Button variant="outline" className="h-9 px-4 border-primary/30 text-primary transition-all rounded-full" onClick={() => setIsPracticeOpen(true)}>
-            <Code2 className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline text-xs font-bold">Practice</span>
-          </Button>
-        </CardFooter>
-      </Card>
-      {isPracticeOpen && <PracticeModal question={q} onClose={() => setIsPracticeOpen(false)} />}
-    </div>
-  );
-}
-
-// 3. Main Page Component
-export default function FullStackQuestionPage() {
-  const [questions, setQuestions] = useState<any[]>([]); 
-  const [loading, setLoading] = useState(true);
+export default function FrontendQuestionPage() {
   const [search, setSearch] = useState("");
   const [activeMain, setActiveMain] = useState<keyof typeof CATEGORY_MAP>("Frontend");
   const [activeSub, setActiveSub] = useState("All");

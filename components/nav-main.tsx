@@ -1,21 +1,15 @@
 "use client";
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { ChevronRightIcon } from "lucide-react";
 
 export function NavMain({
   items,
@@ -24,47 +18,44 @@ export function NavMain({
     title: string;
     url: string;
     icon?: React.ReactNode;
-    isActive?: boolean;
     items?: {
       title: string;
       url: string;
     }[];
   }[];
 }) {
+  const pathname = usePathname();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Tools &amp; Practice</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                  <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
+        {items.map((section) => (
+          <div key={section.title}>
+            {/* Section label — subtle, small, with icon, not clickable */}
+            <div className="flex items-center gap-1.5 px-2 pt-3 pb-1">
+              <span className="text-muted-foreground/40 shrink-0 [&>svg]:size-3">
+                {section.icon}
+              </span>
+              <span className="text-[11px] font-medium text-muted-foreground/60 tracking-wide truncate">
+                {section.title}
+              </span>
+            </div>
+
+            {/* Indented nav items */}
+            <SidebarMenuSub className="mx-0 border-l border-border/50 ml-3">
+              {section.items?.map((item) => {
+                const isActive = pathname === item.url;
+                return (
+                  <SidebarMenuSubItem key={item.title}>
+                    <SidebarMenuSubButton asChild isActive={isActive}>
+                      <Link href={item.url}>{item.title}</Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                );
+              })}
+            </SidebarMenuSub>
+          </div>
         ))}
       </SidebarMenu>
     </SidebarGroup>

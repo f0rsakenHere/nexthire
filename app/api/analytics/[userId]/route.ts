@@ -9,11 +9,10 @@ export async function GET(
     const { userId } = await context.params;
 
     const client = await clientPromise;
-    const db = client.db();
+    const db = client.db("nexthire");
 
     const interviewCollection = db.collection("interview_sessions");
     const applicationCollection = db.collection("applications");
-    const keywordCollection = db.collection("keyword_analyses");
     const resumeCollection = db.collection("resume_scores");
 
     // =========================
@@ -36,9 +35,9 @@ export async function GET(
       interviews.reduce((sum, item) => sum + (item.avgScore || 0), 0) /
       (interviews.length || 1);
 
-    const interviewTrend = interviews.map((i: any, index) => ({
+    const interviewTrend = interviews.map((i, index) => ({
       date: `Session ${index + 1}`,
-      score: i.avgScore || 0,
+      score: (i as { avgScore?: number }).avgScore || 0,
     }));
 
     // =========================
@@ -53,8 +52,8 @@ export async function GET(
 
     const statusBreakdown: Record<string, number> = {};
 
-    applications.forEach((app: any) => {
-      const status = app.status || "unknown";
+    applications.forEach((app) => {
+      const status = (app as { status?: string }).status || "unknown";
       statusBreakdown[status] = (statusBreakdown[status] || 0) + 1;
     });
 
@@ -70,22 +69,14 @@ export async function GET(
 
     const latestResume = resumes[resumes.length - 1] || null;
 
-    const resumeTrend = resumes.map((r: any, index) => ({
+    const resumeTrend = resumes.map((r, index) => ({
       version: `Resume ${index + 1}`,
-      score: r.ats_score || 0,
+      score: (r as { ats_score?: number }).ats_score || 0,
     }));
 
     // =========================
     // Keyword Analysis
     // =========================
-
-    const keyword = await keywordCollection
-      .find({ userId })
-      .sort({ createdAt: -1 })
-      .limit(1)
-      .toArray();
-
-    const latestKeyword = keyword[0] || null;
 
     const foundKeywords = latestResume?.keywords_found?.length || 0;
     const missingKeywords = latestResume?.keywords_missing?.length || 0;
