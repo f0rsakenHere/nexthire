@@ -162,11 +162,35 @@ function BandLegend({ bands }: { bands: { label: string; range: string; color: s
 // ===========================================================================
 // Main page
 // ===========================================================================
+
+export interface AnalyticsData {
+  interviews?: {
+    totalInterviews?: number;
+    avgInterviewScore?: number;
+  };
+  applications?: {
+    totalApplications?: number;
+    statusBreakdown?: Record<string, number>;
+  };
+  resume?: {
+    atsScore?: number;
+    strengths?: string[];
+    improvements?: string[];
+  };
+  interviewTrend?: Record<string, number>[];
+  resumeTrend?: Record<string, number>[];
+  keywords?: {
+    found?: number;
+    missing?: number;
+    atsScore?: number;
+  };
+}
+
 export default function AnalyticsPage() {
   const [user] = useAuthState(auth);
   const userId = user?.uid;
 
-  const [analyticsData, setAnalyticsData] = useState<Record<string, unknown> | null>(null);
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -185,27 +209,23 @@ export default function AnalyticsPage() {
     fetchAnalytics();
   }, [userId]);
 
-  const interviewTrend: Record<string, number>[] =
-    (analyticsData?.interviewTrend as Record<string, number>[]) || [];
-  const resumeTrend: Record<string, number>[] =
-    (analyticsData?.resumeTrend as Record<string, number>[]) || [];
+  const interviewTrend = analyticsData?.interviewTrend || [];
+  const resumeTrend = analyticsData?.resumeTrend || [];
 
   const applicationPipeline = (() => {
-    const breakdown = (analyticsData?.applications as { statusBreakdown?: Record<string, number> })
-      ?.statusBreakdown;
+    const breakdown = analyticsData?.applications?.statusBreakdown;
     return breakdown
       ? Object.entries(breakdown).map(([status, value]) => ({ status, value }))
       : [];
   })();
 
   const keywordRadar = [
-    { subject: "Found", value: (analyticsData?.keywords as { found?: number })?.found || 0 },
-    { subject: "Missing", value: (analyticsData?.keywords as { missing?: number })?.missing || 0 },
-    { subject: "ATS", value: (analyticsData?.keywords as { atsScore?: number })?.atsScore || 0 },
+    { subject: "Found", value: analyticsData?.keywords?.found || 0 },
+    { subject: "Missing", value: analyticsData?.keywords?.missing || 0 },
+    { subject: "ATS", value: analyticsData?.keywords?.atsScore || 0 },
   ];
 
-  const avgScore =
-    (analyticsData?.interviews as { avgInterviewScore?: number })?.avgInterviewScore || 0;
+  const avgScore = analyticsData?.interviews?.avgInterviewScore || 0;
 
   return (
     <SidebarProvider>
@@ -256,7 +276,7 @@ export default function AnalyticsPage() {
                   <Skeleton className="h-8 w-16" />
                 ) : (
                   <p className="text-4xl font-bold">
-                    {(analyticsData?.interviews as { totalInterviews?: number })?.totalInterviews || 0}
+                    {analyticsData?.interviews?.totalInterviews || 0}
                   </p>
                 )}
               </CardContent>
@@ -287,7 +307,7 @@ export default function AnalyticsPage() {
                   <Skeleton className="h-8 w-16" />
                 ) : (
                   <p className="text-4xl font-bold">
-                    {(analyticsData?.applications as { totalApplications?: number })?.totalApplications || 0}
+                    {analyticsData?.applications?.totalApplications || 0}
                   </p>
                 )}
               </CardContent>
@@ -302,7 +322,7 @@ export default function AnalyticsPage() {
                   <Skeleton className="h-8 w-16" />
                 ) : (
                   <p className="text-4xl font-bold">
-                    {(analyticsData?.resume as { atsScore?: number })?.atsScore || 0}
+                    {analyticsData?.resume?.atsScore || 0}
                     <span className="text-lg text-muted-foreground">%</span>
                   </p>
                 )}
@@ -708,7 +728,7 @@ export default function AnalyticsPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-2.5">
-                  {(analyticsData.resume as { strengths?: string[] }).strengths?.map(
+                  {analyticsData.resume?.strengths?.map(
                     (item: string, index: number) => (
                       <div
                         key={index}
@@ -742,7 +762,7 @@ export default function AnalyticsPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-2.5">
-                  {(analyticsData.resume as { improvements?: string[] }).improvements?.map(
+                  {analyticsData.resume?.improvements?.map(
                     (item: string, index: number) => (
                       <div
                         key={index}
