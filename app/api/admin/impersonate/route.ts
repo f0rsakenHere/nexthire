@@ -22,6 +22,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // security: prevent admin impersonation
+    if (targetUser.role === "admin") {
+      return NextResponse.json(
+        { error: "Cannot impersonate admin" },
+        { status: 403 },
+      );
+    }
+
     // create custom token
     const customToken = await admin.auth().createCustomToken(targetUid);
 
