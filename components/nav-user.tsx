@@ -24,6 +24,7 @@ import {
   BellIcon,
   LogOutIcon,
   ShieldIcon,
+  ArrowLeftIcon,
 } from "lucide-react";
 import { auth } from "@/app/firebase/config";
 
@@ -118,6 +119,13 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              {/* Back to Admin button */}
+              {localStorage.getItem("adminToken") && (
+                <DropdownMenuItem className="flex items-center gap-2">
+                  <ArrowLeftIcon className="size-4 " />
+                  <span className=" ">Back to Admin</span>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem>
                 <BadgeCheckIcon />
                 Account
