@@ -30,17 +30,18 @@ const CATEGORY_MAP = {
 //Sample Data
 const initialQuestions = [
   // --- FRONTEND QUESTIONS ---
-  { 
-    id: 1, 
-    mainCategory: "Frontend", 
-    subCategory: "JavaScript", 
-    difficulty: "Medium", 
-    question: "How to implement a Debounce function in JavaScript?", 
-    answer: "Debouncing limits the rate at which a function gets invoked. It waits for a specific time after the last call.", 
-    tags: ["performance", "functions"], 
-    followUps: ["Difference between debounce and throttle?", "Use cases for debounce?"], 
-    isCoding: true 
-  },
+ {
+  id: 1,
+  mainCategory: "Frontend", 
+  subCategory: "Javascript", 
+   difficulty: "Hard",
+  question: "How to implement a Debounce function?",
+  isCoding: true,
+  answer: "Implement a function that delays execution...",
+  hints: ["Use a timer variable", "Return a new function"],
+  solutionCode: "function debounce(func, wait) {\n  let timeout;\n  return function(...args) {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => func.apply(this, args), wait);\n  };\n}",
+  initialCode: "function debounce(fn, delay) {\n  // Start coding...\n}"
+},
   { 
     id: 2, 
     mainCategory: "Frontend", 
@@ -115,44 +116,92 @@ const initialQuestions = [
 
 // 1.Practice modal component editor
 function PracticeModal({ question, onClose }: { question: any; onClose: () => void }) {
-  const [code, setCode] = useState(`// Problem: ${question.question}\n\nfunction solution() {\n  // Write your code here\n  console.log("Hello NextHire!");\n}\n`);
+  const [showFullSolution, setShowFullSolution] = useState(false);
+  
+  const [code, setCode] = useState(question.initialCode || `// Write your code here...`);
   const [output, setOutput] = useState("");
 
-  const runCode = () => {
-    setOutput("Running...\n> Success: Your code looks good!");
+  // Hide and revealed solution
+  const handleToggleSolution = () => {
+    if (!showFullSolution) {
+
+      setShowFullSolution(true);
+      setCode(question.solutionCode || "// Complete solution code not found");
+    } else {
+      
+      setShowFullSolution(false);
+      setCode(question.initialCode || `// Write your code here...`);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-[100] bg-background flex flex-col">
+      
       <div className="h-14 border-b flex items-center justify-between px-6 bg-muted/30">
         <div className="flex items-center gap-3">
-          <Badge className="bg-primary/10 text-primary">PRACTICE MODE</Badge>
-          <h2 className="text-sm font-bold truncate max-w-[300px]">{question.question}</h2>
+          <Badge className="bg-indigo-100 text-indigo-700">PRACTICE MODE</Badge>
+          <h2 className="text-sm font-bold truncate max-w-[400px]">{question.question}</h2>
         </div>
         <Button variant="ghost" size="icon" onClick={onClose}><X className="h-5 w-5" /></Button>
       </div>
+
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-1/3 border-r p-6 overflow-y-auto hidden md:block bg-slate-50/20">
-          <h3 className="text-lg font-bold mb-4">Description</h3>
-          <p className="text-sm text-muted-foreground mb-6">{question.answer}</p>
-          <p className="text-xs font-bold uppercase text-muted-foreground mb-2">Hints</p>
-          {question.followUps.map((fu: string, i: number) => (
-            <div key={i} className="p-2 border rounded mb-2 text-xs bg-background">{fu}</div>
-          ))}
+        {/* Left Side: Description, Hints & Toggle Button */}
+        <div className="w-1/3 border-r p-6 overflow-y-auto bg-slate-50/50">
+          <div className="mb-6">
+            <h3 className="text-lg font-bold mb-2 flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-primary" /> Task Description
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {question.isCoding ? question.answer : `Task: Demonstrate "${question.question}" through code.`}
+            </p>
+          </div>
+          
+          {/* Real Hints Section */}
+          <div className="space-y-4 mb-8">
+            <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Helpful Hints</h4>
+            {(question.hints || ["Think about the core concept", "Check for syntax errors"]).map((hint: string, i: number) => (
+              <div key={i} className="p-3 rounded-lg border border-amber-200 bg-amber-50 text-xs text-amber-800 flex gap-2">
+                <span className="font-bold">💡</span> {hint}
+              </div>
+            ))}
+          </div>
+
+          {/* Toggle View Solution Button */}
+          <div className="mt-auto">
+            <Button 
+              variant={showFullSolution ? "secondary" : "outline"} 
+              className={`w-full border-dashed transition-all ${showFullSolution ? 'bg-slate-200' : 'border-primary/50 text-primary hover:bg-primary/5'}`}
+              onClick={handleToggleSolution}
+            >
+              <Code2 className="mr-2 h-4 w-4" /> 
+              {showFullSolution ? "Hide Solution & Clear" : "Stuck? See Solution"}
+            </Button>
+          </div>
         </div>
+
+        {/* Right Side: Monaco Editor */}
         <div className="flex-1 flex flex-col">
           <div className="flex-1">
-            <Editor height="100%" defaultLanguage="javascript" theme="vs-dark" value={code} onChange={(v) => setCode(v || "")} />
+            <Editor 
+              height="100%" 
+              defaultLanguage="javascript" 
+              theme="vs-dark" 
+              value={code} 
+              onChange={(v) => setCode(v || "")}
+              options={{ minimap: { enabled: false }, fontSize: 14 }}
+            />
           </div>
-          <div className="h-32 border-t bg-zinc-950 text-green-500 p-4 font-mono text-xs overflow-y-auto">
-             <div className="flex justify-between items-center mb-2 border-b border-white/10 pb-1">
-                <span className="text-white/40">CONSOLE OUTPUT</span>
-                <div className="flex gap-2">
-                  <Button size="sm" variant="ghost" className="h-6 text-[10px] text-white" onClick={() => setCode("")}><RotateCcw className="h-3 w-3 mr-1" /> Reset</Button>
-                  <Button size="sm" className="h-6 text-[10px] bg-green-600 text-white" onClick={runCode}><Play className="h-3 w-3 mr-1" /> Run Code</Button>
-                </div>
+          
+          {/* Console Area */}
+          <div className="h-40 border-t bg-[#1e1e1e] p-4 font-mono text-xs overflow-y-auto">
+             <div className="flex justify-between items-center mb-2 border-b border-white/10 pb-2">
+                <span className="text-white/40 uppercase tracking-tighter">Console Output</span>
+                <Button size="sm" className="h-7 bg-green-600 hover:bg-green-700 text-white" onClick={() => setOutput("> Execution Successful!")}>
+                  <Play className="h-3 w-3 mr-2" /> Run Code
+                </Button>
              </div>
-             <pre>{output || "> Ready..."}</pre>
+             <pre className="text-green-400">{output || "> Ready to test..."}</pre>
           </div>
         </div>
       </div>
@@ -167,7 +216,7 @@ function QuestionCard({ q }: { q: any }) {
   const [isPracticeOpen, setIsPracticeOpen] = useState(false);
 
   return (
-    <div className="w-full"> {/* Parent wrapper to ensure independent height */}
+    <div className="w-full"> 
       <Card 
         className={`relative overflow-hidden transition-all duration-300 border-l-4 shadow-sm hover:shadow-md ${
           isCompleted 
@@ -189,7 +238,7 @@ function QuestionCard({ q }: { q: any }) {
           </button>
         </div>
 
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-3 min-h-[90px] flex flex-col justify-start">
           <div className="flex gap-2 mb-2">
             <Badge variant="secondary" className="text-[10px] font-bold uppercase px-2 py-0">
               {q.subCategory}
@@ -211,7 +260,7 @@ function QuestionCard({ q }: { q: any }) {
         </CardHeader>
 
         <CardContent className="pb-4">
-          {/* স্মুথ এবং ইনডিপেন্ডেন্ট রিভিল এনিমেশন */}
+          {/* smooth animation */}
           <div 
             className={`grid transition-all duration-300 ease-in-out ${
               show ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0"
@@ -242,15 +291,15 @@ function QuestionCard({ q }: { q: any }) {
         <CardFooter className="flex gap-2 p-4 pt-0">
           <Button 
             variant={show ? "secondary" : "default"} 
-            className="flex-1 text-xs h-9 font-bold transition-all" 
+            className="flex-1 text-xs h-9 font-bold transition-all rounded-full" 
             onClick={() => setShow(!show)}
           >
-            {show ? "Hide Solution" : "View Solution"}
+            {show ?"Hide Answer" : "View Answer"}
           </Button>
           
           <Button 
             variant="outline"
-            className="h-9 px-4 border-primary/30 text-primary hover:bg-primary hover:text-white transition-all"
+            className="h-9 px-4 border-primary/30 text-primary hover:bg-gray-600  transition-all rounded-full"
             onClick={() => setIsPracticeOpen(true)}
           >
             <Code2 className="h-4 w-4 sm:mr-2" />
