@@ -15,6 +15,9 @@ import {
   Calendar,
 } from "lucide-react";
 import ImpersonateButton from "@/components/admin/impersonate-button";
+import { signInWithCustomToken } from "firebase/auth";
+import { auth } from "@/app/firebase/config";
+import { useRouter } from "next/navigation";
 
 type UserRecord = {
   id: string;

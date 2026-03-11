@@ -1,43 +1,60 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import admin from "@/lib/firebase-admin";
 import clientPromise from "@/lib/mongodb";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { targetUid } = body;
+    const { targetUserId } = await req.json();
 
-    if (!targetUid) {
-      return NextResponse.json({ error: "UID  required" }, { status: 400 });
-    }
-
-    // connect database
-    const client = await clientPromise;
-    const db = client.db("nexthire");
-
-    // find target user
-    const targetUser = await db.collection("users").findOne({ uid: targetUid });
-
-    if (!targetUser) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    // security: prevent admin impersonation
-    if (targetUser.role === "admin") {
+    if (!targetUserId) {
       return NextResponse.json(
-        { error: "Cannot impersonate admin" },
+        { error: "Target user ID required" },
+        { status: 400 },
+      );
+    }
+
+    const token = req.cookies.get("token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const requesterEmail = decodedToken.email;
+
+    const client = await clientPromise;
+    const db = client.db();
+
+    const requester = await db
+      .collection("users")
+      .findOne({ email: requesterEmail });
+
+    if (!requester || requester.role !== "admin") {
+      return NextResponse.json(
+        { error: "Forbidden: Admin only" },
         { status: 403 },
       );
     }
 
-    // create custom token
-    const customToken = await admin.auth().createCustomToken(targetUid);
+    const targetUser = await db
+      .collection("users")
+      .findOne({ _id: targetUserId });
+
+    if (!targetUser) {
+      return NextResponse.json(
+        { error: "Target user not found" },
+        { status: 404 },
+      );
+    }
+
+    const customToken = await admin.auth().createCustomToken(targetUser.uid);
 
     return NextResponse.json({ customToken });
-  } catch (err: any) {
-    console.error("Impersonation API error:", err);
+  } catch (error) {
+    console.error("Impersonation error:", error);
+
     return NextResponse.json(
-      { error: err.message || "Server error" },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }
