@@ -125,11 +125,11 @@ export default function DashboardPage() {
                 week. Keep the momentum going.
               </p>
               <div className="flex flex-wrap gap-3">
-                <button className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-blue-600 rounded-full text-primary-foreground text-sm font-semibold shadow-[0_0_30px_oklch(0.62_0.26_278/0.35)] transition-all">
+                <button className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-blue-600  text-primary-foreground text-sm font-semibold shadow-[0_0_30px_oklch(0.62_0.26_278/0.35)] transition-all">
                   <MicIcon className="size-4" />
                   Start Mock Interview
                 </button>
-                <button className="flex items-center gap-2 px-6 py-2.5 bg-muted border border-border hover:border-primary/30 hover:bg-muted/80 rounded-full text-foreground text-sm font-medium transition-all">
+                <button className="flex items-center gap-2 px-6 py-2.5 bg-muted border border-border hover:border-primary/30 hover:bg-muted/80  text-foreground text-sm font-medium transition-all">
                   <FileTextIcon className="size-4" />
                   Score My Resume
                 </button>
