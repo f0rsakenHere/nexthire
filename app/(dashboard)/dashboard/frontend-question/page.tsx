@@ -21,10 +21,12 @@ import {
 
 // --- ক্যাটাগরি ম্যাপ ---
 const CATEGORY_MAP = {
-  Frontend: ["All", "JavaScript", "React", "Next.js", "CSS", "HTML"],
-  Backend: ["All", "Node.js", "Express", "Python", "Java", "Auth"],
-  Database: ["All", "MongoDB", "PostgreSQL", "Redis"],
-  Others: ["All", "Git", "System Design", "Security"]
+  Frontend: ["All", "HTML","CSS","JavaScript", "React", "Next.js"],
+  Backend: ["All", "Node.js", "Express", "API Design", "Authentication"],
+Database: ["All", "MongoDB", "PostgreSQL", "SQL", "NoSQL"],
+Tools: ["All", "Git", "Docker"],
+System: ["All", "System Design", "Scalability", "Security"]
+
 };
 
 //Sample Data
@@ -50,8 +52,12 @@ const initialQuestions = [
     question: "Explain the difference between useMemo and useCallback.", 
     answer: "useMemo returns a memoized value, while useCallback returns a memoized callback function. Both are used for performance optimization to prevent unnecessary re-renders.", 
     tags: ["hooks", "optimization"], 
-    followUps: ["When should you NOT use them?", "How does shallow comparison work in React?"], 
-    isCoding: true 
+    followUps: ["When should you NOT use them?", "How does shallow comparison work in React?"],
+    isCoding: true,
+      hints: ["Use a timer variable", "Return a new function"],
+  solutionCode: "function debounce(func, wait) {\n  let timeout;\n  return function(...args) {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => func.apply(this, args), wait);\n  };\n}",
+  initialCode: "function debounce(fn, delay) {\n  // Start coding...\n}"
+     
   },
   { 
     id: 3, 
@@ -320,15 +326,28 @@ export default function FullStackQuestionPage() {
   const [search, setSearch] = useState("");
   const [activeMain, setActiveMain] = useState<keyof typeof CATEGORY_MAP>("Frontend");
   const [activeSub, setActiveSub] = useState("All");
+ 
 
-  const filtered = useMemo(() => {
-    return initialQuestions.filter((q) => {
-      const matchesMain = q.mainCategory === activeMain;
-      const matchesSub = activeSub === "All" || q.subCategory === activeSub;
-      const matchesSearch = q.question.toLowerCase().includes(search.toLowerCase());
-      return matchesMain && matchesSub && matchesSearch;
-    });
-  }, [activeMain, activeSub, search]);
+const difficultyOrder: Record<string, number> = { 
+  "Easy": 1, 
+  "Medium": 2, 
+  "Hard": 3 
+};
+
+const filteredAndSorted = useMemo(() => {
+  // 1.Filtering Part
+  const matches = initialQuestions.filter((q) => {
+    const matchesMain = q.mainCategory === activeMain;
+    const matchesSub = activeSub === "All" || q.subCategory === activeSub;
+    const matchesSearch = q.question.toLowerCase().includes(search.toLowerCase());
+    return matchesMain && matchesSub && matchesSearch;
+  });
+
+  //2.Sorting Part (Easy -> Medium -> Hard)
+  return matches.sort((a, b) => {
+    return (difficultyOrder[a.difficulty] || 0) - (difficultyOrder[b.difficulty] || 0);
+  });
+}, [activeMain, activeSub, search]);
 
   return (
     <SidebarProvider>
@@ -395,7 +414,7 @@ export default function FullStackQuestionPage() {
 
           {/* Question Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((q) => (
+            {filteredAndSorted.map((q) => (
               <QuestionCard key={q.id} q={q} />
             ))}
           </div>
