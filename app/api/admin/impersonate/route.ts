@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import admin from "@/lib/firebase-admin";
 import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function POST(req: NextRequest) {
   try {
-    // Get target user id from frontend
     const { targetUserId } = await req.json();
 
     if (!targetUserId) {
@@ -14,25 +14,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get Firebase ID token from cookies
-    const token = req.cookies.get("token")?.value;
+    // get token from header
+    const authHeader = req.headers.get("authorization");
 
-    if (!token) {
-      return NextResponse.json(
-        { error: "Unauthorized: No token provided" },
-        { status: 401 },
-      );
+    if (!authHeader?.startsWith("Bearer ")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify Firebase token
+    const token = authHeader.split("Bearer ")[1];
+
+    // verify firebase token
     const decodedToken = await admin.auth().verifyIdToken(token);
     const requesterEmail = decodedToken.email;
 
-    // Connect MongoDB
     const client = await clientPromise;
     const db = client.db();
 
-    // Check if requester is admin
+    // check admin
     const requester = await db.collection("users").findOne({
       email: requesterEmail,
     });
@@ -44,9 +42,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Find target user
+    // find target user
     const targetUser = await db.collection("users").findOne({
-      _id: targetUserId,
+      _id: new ObjectId(targetUserId),
     });
 
     if (!targetUser) {
@@ -56,8 +54,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // SECURITY CHECK
-    // Prevent admin from impersonating another admin
+    // prevent admin impersonation
     if (targetUser.role === "admin") {
       return NextResponse.json(
         { error: "Cannot impersonate another admin" },
@@ -65,12 +62,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Generate Firebase Custom Token
+    // generate custom token
     const customToken = await admin.auth().createCustomToken(targetUser.uid);
 
-    return NextResponse.json({
-      customToken,
-    });
+    return NextResponse.json({ customToken });
   } catch (error) {
     console.error("Impersonation error:", error);
 

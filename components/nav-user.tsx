@@ -27,6 +27,7 @@ import {
   ArrowLeftIcon,
 } from "lucide-react";
 import { auth } from "@/app/firebase/config";
+import { useEffect, useState } from "react";
 
 export function NavUser({
   user,

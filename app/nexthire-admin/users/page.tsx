@@ -14,8 +14,9 @@ import {
   Mail,
   Calendar,
 } from "lucide-react";
-import ImpersonateButton from "@/components/admin/impersonate-button";
-
+import { signInWithCustomToken } from "firebase/auth";
+import { auth } from "@/app/firebase/config";
+import { useRouter } from "next/navigation";
 type UserRecord = {
   id: string;
   uid: string;
@@ -24,6 +25,8 @@ type UserRecord = {
   role: string;
   createdAt?: string;
 };
+
+import { LogIn } from "lucide-react";
 
 type SortField = "name" | "email" | "role" | "createdAt";
 
@@ -52,14 +55,24 @@ export default function UsersPage() {
       const res = await fetch("/api/admin/users-list");
       const data = await res.json();
       setUsers(
-        data.map((u: any) => ({
-          id: u._id ?? u.id ?? "",
-          uid: u.uid ?? "",
-          name: u.name || u.email?.split("@")[0] || "Unknown",
-          email: u.email,
-          role: u.role || "user",
-          createdAt: u.createdAt,
-        })),
+        data.map(
+          (u: {
+            _id?: string;
+            id?: string;
+            uid?: string;
+            name?: string;
+            email: string;
+            role?: string;
+            createdAt?: string;
+          }) => ({
+            id: u._id ?? u.id ?? "",
+            uid: u.uid ?? "",
+            name: u.name || u.email?.split("@")[0] || "Unknown",
+            email: u.email,
+            role: u.role || "user",
+            createdAt: u.createdAt,
+          }),
+        ),
       );
     } catch {
       showToast("Failed to fetch users", "error");
@@ -137,6 +150,8 @@ export default function UsersPage() {
   }
 
   const adminCount = users.filter((u) => u.role === "admin").length;
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-8 relative">
@@ -347,7 +362,13 @@ export default function UsersPage() {
                                 <ShieldOff className="size-3.5" /> Revoke Admin
                               </button>
                             )}
-                            <ImpersonateButton uid={user.id} />
+                            <button
+                              onClick={() => impersonateUser(user.uid)}
+                              className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-blue-500 hover:bg-blue-500/5 transition-colors"
+                            >
+                              <LogIn className="size-3.5" />
+                              Impersonate
+                            </button>
                             <div className="my-1 h-px bg-border" />
                             <button
                               onClick={() => deleteUser(user.id)}
