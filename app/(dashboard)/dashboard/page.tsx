@@ -30,9 +30,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useEffect, useState } from "react";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
 interface AnalyticsData {
   interviews: { totalInterviews: number; avgInterviewScore: number };
   resume: { atsScore: number; strengths: string[]; improvements: string[] };
@@ -54,9 +51,6 @@ interface ResumeScore {
   createdAt: string;
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
@@ -78,24 +72,18 @@ function formatDisplayName(raw: string): string {
     .join(" ");
 }
 
-// ---------------------------------------------------------------------------
-// Readiness Matrix:  derived from real data
-// ---------------------------------------------------------------------------
 function buildMatrix(
   analytics: AnalyticsData,
-  interviewSessions: InterviewSession[]
+  interviewSessions: InterviewSession[],
 ) {
   const resumeQuality = analytics.resume.atsScore || 0;
 
-  // Technical Accuracy: avg interview score, scaled to 100
   const avgScore = analytics.interviews.avgInterviewScore || 0;
   const technicalAccuracy = Math.round((avgScore / 10) * 100);
 
-  // Behavioral Confidence: based on number of sessions (diminishing returns)
   const sessions = analytics.interviews.totalInterviews;
   const behavioralConfidence = Math.min(100, Math.round((sessions / 10) * 100));
 
-  // Communication Clarity: last 3 sessions avg score, scaled
   const recent = interviewSessions.slice(0, 3);
   const recentAvg =
     recent.length > 0
@@ -103,39 +91,63 @@ function buildMatrix(
       : 0;
   const communicationClarity = Math.round((recentAvg / 10) * 100);
 
-  // Keyword Coverage: found / (found + missing) * 100
   const { found, missing } = analytics.keywords;
   const keywordCoverage =
     found + missing > 0 ? Math.round((found / (found + missing)) * 100) : 0;
 
   return [
-    { label: "Resume Quality",       value: resumeQuality,        color: "from-blue-500 to-indigo-500",    shadow: "shadow-blue-500/20" },
-    { label: "Technical Accuracy",   value: technicalAccuracy,    color: "from-purple-500 to-fuchsia-500", shadow: "shadow-purple-500/20" },
-    { label: "Behavioral Confidence",value: behavioralConfidence, color: "from-emerald-400 to-teal-500",   shadow: "shadow-emerald-500/20" },
-    { label: "Communication Clarity",value: communicationClarity, color: "from-orange-400 to-red-500",     shadow: "shadow-orange-500/20" },
-    { label: "Keyword Coverage",     value: keywordCoverage,      color: "from-rose-400 to-pink-600",      shadow: "shadow-rose-500/20" },
+    {
+      label: "Resume Quality",
+      value: resumeQuality,
+      color: "from-blue-500 to-indigo-500",
+      shadow: "shadow-blue-500/20",
+    },
+    {
+      label: "Technical Accuracy",
+      value: technicalAccuracy,
+      color: "from-purple-500 to-fuchsia-500",
+      shadow: "shadow-purple-500/20",
+    },
+    {
+      label: "Behavioral Confidence",
+      value: behavioralConfidence,
+      color: "from-emerald-400 to-teal-500",
+      shadow: "shadow-emerald-500/20",
+    },
+    {
+      label: "Communication Clarity",
+      value: communicationClarity,
+      color: "from-orange-400 to-red-500",
+      shadow: "shadow-orange-500/20",
+    },
+    {
+      label: "Keyword Coverage",
+      value: keywordCoverage,
+      color: "from-rose-400 to-pink-600",
+      shadow: "shadow-rose-500/20",
+    },
   ];
 }
 
-// ---------------------------------------------------------------------------
-// AI Recommendation: based on lowest matrix score
-// ---------------------------------------------------------------------------
 function aiRecommendation(matrix: { label: string; value: number }[]): string {
   const lowest = [...matrix].sort((a, b) => a.value - b.value)[0];
-  if (!lowest || lowest.value === 0) return "Complete more sessions to get personalised recommendations.";
+  if (!lowest || lowest.value === 0)
+    return "Complete more sessions to get personalised recommendations.";
   const tips: Record<string, string> = {
-    "Resume Quality":        "Run the AI Resume Scorer to find gaps and boost your ATS match.",
-    "Technical Accuracy":    "Practice more Mock Interviews — your technical scores have room to grow.",
-    "Behavioral Confidence": "More interview sessions will build your confidence. Aim for 10+ sessions.",
-    "Communication Clarity": "Review your last interview feedback and refine your answer structure.",
-    "Keyword Coverage":      "Run a Keyword Gap Analysis against your target JDs to close the gap.",
+    "Resume Quality":
+      "Run the AI Resume Scorer to find gaps and boost your ATS match.",
+    "Technical Accuracy":
+      "Practice more Mock Interviews your technical scores have room to grow.",
+    "Behavioral Confidence":
+      "More interview sessions will build your confidence. Aim for 10+ sessions.",
+    "Communication Clarity":
+      "Review your last interview feedback and refine your answer structure.",
+    "Keyword Coverage":
+      "Run a Keyword Gap Analysis against your target JDs to close the gap.",
   };
   return `Focus on ${lowest.label} — ${tips[lowest.label] ?? "keep practising!"}`;
 }
 
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 export default function DashboardPage() {
   const [firebaseUser] = useAuthState(auth);
   const userId = firebaseUser?.uid;
@@ -183,7 +195,6 @@ export default function DashboardPage() {
     load();
   }, [userId, firebaseUser?.email]);
 
-  // Resolved display name
   const displayName =
     dbName ||
     firebaseUser?.displayName ||
@@ -194,24 +205,25 @@ export default function DashboardPage() {
 
   const firstName = displayName.split(" ")[0];
 
-  // Stats
   const atsScore = analytics?.resume?.atsScore ?? 0;
   const totalSessions = analytics?.interviews?.totalInterviews ?? 0;
   const avgScore = analytics?.interviews?.avgInterviewScore ?? 0;
   const keywordsMissing = analytics?.keywords?.missing ?? 0;
-
-  // Recent Sessions: merge interviews + resumes, sort by date, take 5
   type Activity =
     | { type: "interview"; session: InterviewSession }
     | { type: "resume"; score: ResumeScore };
 
   const activities: Activity[] = [
-    ...interviews.slice(0, 5).map((s) => ({ type: "interview" as const, session: s })),
+    ...interviews
+      .slice(0, 5)
+      .map((s) => ({ type: "interview" as const, session: s })),
     ...resumes.slice(0, 3).map((r) => ({ type: "resume" as const, score: r })),
   ]
     .sort((a, b) => {
-      const aDate = a.type === "interview" ? a.session.createdAt : a.score.createdAt;
-      const bDate = b.type === "interview" ? b.session.createdAt : b.score.createdAt;
+      const aDate =
+        a.type === "interview" ? a.session.createdAt : a.score.createdAt;
+      const bDate =
+        b.type === "interview" ? b.session.createdAt : b.score.createdAt;
       return new Date(bDate).getTime() - new Date(aDate).getTime();
     })
     .slice(0, 5);
@@ -262,8 +274,6 @@ export default function DashboardPage() {
 
         <div className="flex flex-1 flex-col gap-8 p-6 bg-background relative overflow-hidden">
           <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[500px] bg-primary/8 blur-[120px] rounded-full mix-blend-screen" />
-
-          {/* ── Hero Banner ── */}
           <div className="relative rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[200px] bg-primary/10 blur-[80px] rounded-full pointer-events-none mix-blend-screen" />
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
@@ -281,7 +291,8 @@ export default function DashboardPage() {
                 <Skeleton className="h-5 w-72 mb-6" />
               ) : totalSessions === 0 ? (
                 <p className="text-muted-foreground font-light max-w-lg mb-6">
-                  Start your first mock interview or score your resume to begin tracking progress.
+                  Start your first mock interview or score your resume to begin
+                  tracking progress.
                 </p>
               ) : (
                 <p className="text-muted-foreground font-light max-w-lg mb-6">
@@ -292,7 +303,10 @@ export default function DashboardPage() {
                   {atsScore > 0 && (
                     <>
                       and your ATS score is{" "}
-                      <span className="text-primary font-medium">{atsScore}/100</span>.{" "}
+                      <span className="text-primary font-medium">
+                        {atsScore}/100
+                      </span>
+                      .{" "}
                     </>
                   )}
                   Keep the momentum going.
@@ -324,14 +338,18 @@ export default function DashboardPage() {
                 label: "ATS RESUME SCORE",
                 value: loading ? null : atsScore,
                 unit: "/100",
-                delta: atsScore > 0 ? "Latest resume scan" : "No resume scored yet",
+                delta:
+                  atsScore > 0 ? "Latest resume scan" : "No resume scored yet",
                 icon: <FileTextIcon className="w-4 h-4" />,
               },
               {
                 label: "MOCK SESSIONS",
                 value: loading ? null : totalSessions,
                 unit: "sessions",
-                delta: totalSessions > 0 ? `${totalSessions} completed` : "No sessions yet",
+                delta:
+                  totalSessions > 0
+                    ? `${totalSessions} completed`
+                    : "No sessions yet",
                 icon: <MicIcon className="w-4 h-4" />,
               },
               {
@@ -345,7 +363,10 @@ export default function DashboardPage() {
                 label: "KEYWORD GAPS",
                 value: loading ? null : keywordsMissing,
                 unit: "missing",
-                delta: keywordsMissing > 0 ? "From latest ATS scan" : "No gaps found",
+                delta:
+                  keywordsMissing > 0
+                    ? "From latest ATS scan"
+                    : "No gaps found",
                 icon: <ScanSearchIcon className="w-4 h-4" />,
               },
             ].map((stat) => (
@@ -383,10 +404,7 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          {/* ── Bottom Row ── */}
           <div className="grid gap-6 md:grid-cols-2">
-
-            {/* Recent Sessions */}
             <div className="rounded-none bg-card/50 backdrop-blur-xl border border-border/50 shadow-sm p-8 overflow-hidden relative">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               <div className="relative z-10">
@@ -411,7 +429,8 @@ export default function DashboardPage() {
                     <div className="py-12 flex flex-col items-center gap-3 text-center">
                       <ZapIcon className="size-8 text-muted-foreground/30" />
                       <p className="text-sm text-muted-foreground">
-                        No activity yet — start a mock interview or score your resume!
+                        No activity yet — start a mock interview or score your
+                        resume!
                       </p>
                     </div>
                   ) : (
@@ -554,7 +573,6 @@ export default function DashboardPage() {
                       ))}
                 </div>
 
-                {/* AI Recommendation */}
                 <div className="mt-8 relative p-[1px] rounded-none bg-gradient-to-r from-primary/30 to-purple-600/30 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-purple-600/10 blur-xl" />
                   <div className="relative bg-card rounded-none p-5 border border-white/5 backdrop-blur-sm">
@@ -575,7 +593,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Quick shortcuts */}
                 {!loading && (
                   <div className="mt-6 pt-5 border-t border-border/50 flex flex-wrap gap-3">
                     <Link
