@@ -14,6 +14,7 @@ import {
   Mail,
   Calendar,
 } from "lucide-react";
+import ImpersonateButton from "@/components/admin/impersonate-button";
 
 type UserRecord = {
   id: string;
@@ -49,22 +50,13 @@ export default function UsersPage() {
       const res = await fetch("/api/admin/users-list");
       const data = await res.json();
       setUsers(
-        data.map(
-          (u: {
-            _id?: string;
-            id?: string;
-            name?: string;
-            email: string;
-            role?: string;
-            createdAt?: string;
-          }) => ({
-            id: u._id ?? u.id ?? "",
-            name: u.name || u.email?.split("@")[0] || "Unknown",
-            email: u.email,
-            role: u.role || "user",
-            createdAt: u.createdAt,
-          }),
-        ),
+        data.map((u: any) => ({
+          id: u._id ?? u.id ?? "",
+          name: u.name || u.email?.split("@")[0] || "Unknown",
+          email: u.email,
+          role: u.role || "user",
+          createdAt: u.createdAt,
+        })),
       );
     } catch {
       showToast("Failed to fetch users", "error");
@@ -145,14 +137,9 @@ export default function UsersPage() {
 
   return (
     <div className="flex flex-col gap-8 relative">
-      {/* Toast */}
       {toastMsg && (
         <div
-          className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-none border text-sm font-medium shadow-lg ${
-            toastMsg.type === "success"
-              ? "bg-card border-emerald-500/40 text-emerald-600"
-              : "bg-card border-rose-500/40 text-rose-600"
-          }`}
+          className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-none border text-sm font-medium shadow-lg ${toastMsg.type === "success" ? "bg-card border-emerald-500/40 text-emerald-600" : "bg-card border-rose-500/40 text-rose-600"}`}
         >
           <span
             className={`size-1.5 rounded-full ${toastMsg.type === "success" ? "bg-emerald-500" : "bg-rose-500"}`}
@@ -161,10 +148,7 @@ export default function UsersPage() {
         </div>
       )}
 
-      {/* Ambient glow */}
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[200px] bg-primary/5 blur-[100px] rounded-full" />
-
-      {/* Header */}
+      {/* Header & Filters */}
       <div className="relative flex items-start justify-between gap-4 flex-wrap">
         <div>
           <p className="text-[10px] uppercase tracking-[0.25em] text-primary/60 mb-2 font-mono">
@@ -190,7 +174,6 @@ export default function UsersPage() {
         </button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
@@ -206,11 +189,7 @@ export default function UsersPage() {
             <button
               key={r}
               onClick={() => setFilterRole(r)}
-              className={`px-3 py-1.5 rounded-none text-xs font-medium capitalize transition-all ${
-                filterRole === r
-                  ? "bg-primary/10 text-primary border border-primary/20"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-3 py-1.5 rounded-none text-xs font-medium capitalize transition-all ${filterRole === r ? "bg-primary/10 text-primary border border-primary/20" : "text-muted-foreground hover:text-foreground"}`}
             >
               {r}
             </button>
@@ -226,12 +205,11 @@ export default function UsersPage() {
             <thead>
               <tr className="border-b border-border/50 bg-muted/20">
                 <th
-                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap"
                   onClick={() => toggleSort("name")}
+                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1.5">
-                    <User className="size-3.5" />
-                    Name
+                    <User className="size-3.5" /> Name{" "}
                     {sortField === "name" && (
                       <ChevronDown
                         className={`size-3 transition-transform ${sortDir === "asc" ? "rotate-180" : ""}`}
@@ -240,12 +218,11 @@ export default function UsersPage() {
                   </div>
                 </th>
                 <th
-                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap"
                   onClick={() => toggleSort("email")}
+                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1.5">
-                    <Mail className="size-3.5" />
-                    Email
+                    <Mail className="size-3.5" /> Email{" "}
                     {sortField === "email" && (
                       <ChevronDown
                         className={`size-3 transition-transform ${sortDir === "asc" ? "rotate-180" : ""}`}
@@ -254,11 +231,11 @@ export default function UsersPage() {
                   </div>
                 </th>
                 <th
-                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap"
                   onClick={() => toggleSort("role")}
+                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1.5">
-                    Role
+                    Role{" "}
                     {sortField === "role" && (
                       <ChevronDown
                         className={`size-3 transition-transform ${sortDir === "asc" ? "rotate-180" : ""}`}
@@ -267,12 +244,11 @@ export default function UsersPage() {
                   </div>
                 </th>
                 <th
-                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap hidden md:table-cell"
                   onClick={() => toggleSort("createdAt")}
+                  className="text-left px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors whitespace-nowrap hidden md:table-cell"
                 >
                   <div className="flex items-center gap-1.5">
-                    <Calendar className="size-3.5" />
-                    Joined
+                    <Calendar className="size-3.5" /> Joined{" "}
                     {sortField === "createdAt" && (
                       <ChevronDown
                         className={`size-3 transition-transform ${sortDir === "asc" ? "rotate-180" : ""}`}
@@ -323,13 +299,11 @@ export default function UsersPage() {
                     <td className="px-5 py-3.5">
                       {user.role === "admin" ? (
                         <span className="inline-flex items-center gap-1.5 text-[10px] font-bold font-mono uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-2 py-1 rounded-none">
-                          <Crown className="size-3" />
-                          Admin
+                          <Crown className="size-3" /> Admin
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 text-[10px] font-bold font-mono uppercase tracking-widest text-muted-foreground bg-muted border border-border px-2 py-1 rounded-none">
-                          <User className="size-3" />
-                          User
+                          <User className="size-3" /> User
                         </span>
                       )}
                     </td>
@@ -354,39 +328,31 @@ export default function UsersPage() {
                         </button>
 
                         {actionId === user.id && (
-                          <>
-                            <div
-                              className="fixed inset-0 z-10"
-                              onClick={() => setActionId(null)}
-                            />
-                            <div className="absolute right-0 top-full mt-1 z-20 w-44 rounded-none bg-card border border-border/50 shadow-lg py-1 overflow-hidden">
-                              {user.role !== "admin" ? (
-                                <button
-                                  onClick={() => changeRole(user.id, "admin")}
-                                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-primary hover:bg-primary/5 transition-colors"
-                                >
-                                  <Shield className="size-3.5" />
-                                  Make Admin
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => changeRole(user.id, "user")}
-                                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-                                >
-                                  <ShieldOff className="size-3.5" />
-                                  Revoke Admin
-                                </button>
-                              )}
-                              <div className="my-1 h-px bg-border" />
+                          <div className="absolute right-0 top-full mt-1 z-20 w-44 rounded-none bg-card border border-border/50 shadow-lg py-1 overflow-hidden">
+                            {user.role !== "admin" ? (
                               <button
-                                onClick={() => deleteUser(user.id)}
-                                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-rose-500 hover:bg-rose-500/5 transition-colors"
+                                onClick={() => changeRole(user.id, "admin")}
+                                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-primary hover:bg-primary/5 transition-colors"
                               >
-                                <Trash2 className="size-3.5" />
-                                Delete User
+                                <Shield className="size-3.5" /> Make Admin
                               </button>
-                            </div>
-                          </>
+                            ) : (
+                              <button
+                                onClick={() => changeRole(user.id, "user")}
+                                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                              >
+                                <ShieldOff className="size-3.5" /> Revoke Admin
+                              </button>
+                            )}
+                            <ImpersonateButton uid={user.id} />
+                            <div className="my-1 h-px bg-border" />
+                            <button
+                              onClick={() => deleteUser(user.id)}
+                              className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-rose-500 hover:bg-rose-500/5 transition-colors"
+                            >
+                              <Trash2 className="size-3.5" /> Delete User
+                            </button>
+                          </div>
                         )}
                       </div>
                     </td>
@@ -395,16 +361,6 @@ export default function UsersPage() {
               )}
             </tbody>
           </table>
-        </div>
-
-        {/* Footer */}
-        <div className="px-5 py-3 border-t border-border/50 flex items-center justify-between bg-muted/20">
-          <span className="text-xs text-muted-foreground font-mono">
-            Showing {filtered.length} of {users.length} users
-          </span>
-          <span className="text-[10px] text-muted-foreground/40 font-mono">
-            nexthire · users collection
-          </span>
         </div>
       </div>
     </div>
