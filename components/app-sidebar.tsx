@@ -143,12 +143,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* NextHire Brand Logo */}
         <SidebarMenu>
           <SidebarMenuItem>
-             {isImpersonating && (
+            {isImpersonating && (
               <div className="bg-orange-300/20 text-orange-600 text-sm font-semibold p-2  flex items-center justify-center  z-50 relative border-b border-orange-500/50">
                 ⚠️ You are currently impersonating a user.
                 <button
                   onClick={endImpersonation}
-                  className="underline  hover:text-orange-300"
+                  className="underline cursor-pointer hover:text-orange-300"
                 >
                   End Session
                 </button>
@@ -167,14 +167,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
               </a>
             </SidebarMenuButton>
-           
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.quickTools} />
-        
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={userData} isAdmin={isAdmin} />
