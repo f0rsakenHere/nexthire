@@ -4,13 +4,16 @@ import { signInWithCustomToken } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import { UserCheck } from "lucide-react"; // <-- import icon
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function ImpersonateButton({ uid }: { uid: string }) {
   const router = useRouter();
+  const [user] = useAuthState(auth);
 
   async function handleImpersonate() {
     try {
-      const adminEmail = "tonmoybiswas0288@gmail.com";
+      if (!user?.email) throw new Error("Not logged in");
+      const adminEmail = user.email;
 
       const res = await fetch("/api/admin/impersonate", {
         method: "POST",
