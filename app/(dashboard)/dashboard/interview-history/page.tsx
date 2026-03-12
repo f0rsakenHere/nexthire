@@ -57,14 +57,34 @@ function scoreColor(score: number) {
 }
 
 function ScoreRing({ score }: { score: number }) {
+  let textColor = "text-rose-600";
+  let bgGradient = "from-rose-500/10 to-rose-500/5";
+  let borderColor = "border-rose-500/20";
+  
+  if (score >= 8) {
+    textColor = "text-emerald-600";
+    bgGradient = "from-emerald-500/10 to-emerald-500/5";
+    borderColor = "border-emerald-500/20";
+  } else if (score >= 6) {
+    textColor = "text-teal-600";
+    bgGradient = "from-teal-500/10 to-teal-500/5";
+    borderColor = "border-teal-500/20";
+  } else if (score >= 4) {
+    textColor = "text-amber-600";
+    bgGradient = "from-amber-500/10 to-amber-500/5";
+    borderColor = "border-amber-500/20";
+  }
+
   return (
-    <div className={`flex items-baseline leading-none ${scoreColor(score)}`}>
-      <span className="text-2xl font-black tabular-nums tracking-tighter">
-        {score.toFixed(1)}
-      </span>
-      <span className="text-[10px] font-bold text-muted-foreground/50 ml-0.5">
-        /10
-      </span>
+    <div className={`flex flex-col items-center justify-center size-16 shrink-0 rounded-none bg-gradient-to-br ${bgGradient} shadow-sm border ${borderColor}`}>
+      <div className={`flex flex-col items-center leading-none ${textColor}`}>
+        <span className="text-xl font-black tabular-nums tracking-tight">
+          {score.toFixed(1)}
+        </span>
+        <span className="text-[9px] font-bold opacity-60 mt-0.5 uppercase tracking-widest">
+          Score
+        </span>
+      </div>
     </div>
   );
 }
@@ -80,9 +100,7 @@ function SessionCard({ entry }: { entry: SessionEntry }) {
         onClick={() => setExpanded((v) => !v)}
       >
         {/* Score badge */}
-        <div className="size-16 rounded-none flex flex-col items-center justify-center shrink-0 bg-card border border-border/50">
-          <ScoreRing score={entry.avgScore} />
-        </div>
+        <ScoreRing score={entry.avgScore} />
 
         {/* Info */}
         <div className="flex-1 min-w-0">

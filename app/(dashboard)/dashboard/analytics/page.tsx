@@ -603,11 +603,14 @@ export default function AnalyticsPage() {
                         rejected:   { color: "#ef4444", bg: "rgba(239,68,68,0.1)",   icon: "❌" },
                         wishlist:   { color: "#8b5cf6", bg: "rgba(139,92,246,0.1)",  icon: "⭐" },
                         saved:      { color: "#8b5cf6", bg: "rgba(139,92,246,0.1)",  icon: "🔖" },
+                        phone_screen: { color: "#3b82f6", bg: "rgba(59,130,246,0.1)", icon: "📞" },
                       };
                       return applicationPipeline.map((item) => {
                         const count = item.value as number;
                         const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-                        const meta = STATUS_META[item.status as string] ?? { color: "hsl(var(--primary))", bg: "rgba(99,102,241,0.1)", icon: "📁" };
+                        const statusKey = (item.status as string).toLowerCase();
+                        const meta = STATUS_META[statusKey] ?? { color: "#3b82f6", bg: "rgba(59,130,246,0.1)", icon: "📁" };
+                        const displayName = (item.status as string).replace(/_/g, ' ');
                         return (
                           <div key={item.status as string} className="flex items-center gap-3">
                             <div className="flex h-9 w-9 items-center justify-center text-base flex-shrink-0" style={{ background: meta.bg }}>
@@ -615,7 +618,7 @@ export default function AnalyticsPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm font-medium capitalize">{item.status as string}</span>
+                                <span className="text-sm font-medium capitalize">{displayName}</span>
                                 <span className="text-xs font-semibold tabular-nums" style={{ color: meta.color }}>{count} <span className="text-muted-foreground font-normal">({pct}%)</span></span>
                               </div>
                               <div className="h-1.5 w-full bg-muted overflow-hidden">
