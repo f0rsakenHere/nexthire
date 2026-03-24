@@ -6,7 +6,6 @@ import { auth } from "@/app/firebase/config";
 import { useEffect, useState } from "react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -21,139 +20,104 @@ import {
 import {
   FileTextIcon,
   MicIcon,
-  ScanSearchIcon,
-  ZapIcon,
-  MessageCircleQuestionMark,
-  HistoryIcon,
   KanbanSquareIcon,
+  HistoryIcon,
   LineChartIcon,
+  ZapIcon,
 } from "lucide-react";
 
-const data = {
-  user: {
-    name: "Alex Johnson",
-    email: "alex@nexthire.ai",
-    avatar: "",
+const navSections = [
+  {
+    title: "Job Tracker",
+    url: "#",
+    icon: <KanbanSquareIcon className="size-3.5" />,
+    items: [{ title: "Application Tracker", url: "/dashboard/tracker" }],
   },
-  navMain: [
-    {
-      title: "Resume Tools",
-      url: "#",
-      icon: <FileTextIcon />,
-      isActive: true,
-      items: [
-        { title: "AI Resume Scorer", url: "/dashboard/resume-scorer" },
-        {
-          title: "Keyword Gap Analysis",
-          url: "/dashboard/keyword-gap-analysis",
-        },
-      ],
-    },
-    {
-      title: "Interview Practice",
-      url: "#",
-      icon: <MicIcon />,
-      items: [
-        { title: "Mock Interviews", url: "/dashboard/mock-interview" },
-        { title: "Video Interaction", url: "/dashboard/video-interaction" },
-        { title: "Practice Questions", url: "/dashboard/frontend-question" },
-      ],
-    },
-    {
-      title: "Job Tracker",
-      url: "/dashboard/tracker",
-      icon: <KanbanSquareIcon />,
-      items: [{ title: "Application Tracker", url: "/dashboard/tracker" }],
-    },
-    {
-      title: "History",
-      url: "#",
-      icon: <HistoryIcon />,
-      items: [
-        { title: "Resume Score History", url: "/dashboard/resume-history" },
-        { title: "Interview Sessions", url: "/dashboard/interview-history" },
-        { title: "Keyword Gap History", url: "/dashboard/keyword-history" },
-      ],
-    },
-    {
-      title: "Insights",
-      url: "#",
-      icon: <LineChartIcon />,
-      items: [{ title: "Analytics", url: "/dashboard/analytics" }],
-    },
-  ],
-  quickTools: [
-    {
-      name: "Keyword Gap Analysis",
-      url: "/dashboard/keyword-gap-analysis",
-      icon: <ScanSearchIcon />,
-    },
-    {
-      name: "Practice Questions",
-      url: "/dashboard/frontend-question",
-      icon: <MessageCircleQuestionMark />,
-    },
-    {
-      name: "Application Tracker",
-      url: "/dashboard/tracker",
-      icon: <KanbanSquareIcon />,
-    },
-  ],
-};
+  {
+    title: "Resume Tools",
+    url: "#",
+    icon: <FileTextIcon className="size-3.5" />,
+    items: [
+      { title: "AI Resume Scorer", url: "/dashboard/resume-scorer" },
+      { title: "Keyword Gap Analysis", url: "/dashboard/keyword-gap-analysis" },
+    ],
+  },
+  {
+    title: "Interview Practice",
+    url: "#",
+    icon: <MicIcon className="size-3.5" />,
+    items: [
+      { title: "Mock Interviews", url: "/dashboard/mock-interview" },
+      { title: "Video Interaction", url: "/dashboard/video-interaction" },
+      { title: "Practice Questions", url: "/dashboard/frontend-question" },
+    ],
+  },
+  {
+    title: "Insights",
+    url: "#",
+    icon: <LineChartIcon className="size-3.5" />,
+    items: [{ title: "Analytics", url: "/dashboard/analytics" }],
+  },
+  {
+    title: "History",
+    url: "#",
+    icon: <HistoryIcon className="size-3.5" />,
+    items: [
+      { title: "Resume Score History", url: "/dashboard/resume-history" },
+      { title: "Interview Sessions", url: "/dashboard/interview-history" },
+      { title: "Keyword Gap History", url: "/dashboard/keyword-history" },
+    ],
+  },
+];
+
+// Format raw email prefix into a readable name ("demoadmin" → "Demo Admin")
+function formatDisplayName(raw: string): string {
+  return raw
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_\-.]+/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
+}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [user] = useAuthState(auth);
+  const [firebaseUser] = useAuthState(auth);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isImpersonating, setIsImpersonating] = useState(false);
+  const [dbName, setDbName] = useState<string | null>(null);
 
   useEffect(() => {
-    if (localStorage.getItem("isImpersonating") === "true") {
-      setIsImpersonating(true);
-    }
-  }, []);
-
-  const endImpersonation = async () => {
-    localStorage.removeItem("isImpersonating");
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // clear cookie
-    await auth.signOut();
-    window.location.href = "/sign-in"; // Redirect to login page to log back in as Admin
-  };
-
-  useEffect(() => {
-    if (!user?.email) return;
+    if (!firebaseUser?.email) return;
     fetch("/api/admin/check", {
-      headers: { "x-user-email": user.email },
+      headers: { "x-user-email": firebaseUser.email },
     })
       .then((r) => r.json())
-      .then((d) => setIsAdmin(d.isAdmin === true))
+      .then((d) => {
+        setIsAdmin(d.isAdmin === true);
+        if (d.name) setDbName(d.name);
+      })
       .catch(() => {});
-  }, [user?.email]);
+  }, [firebaseUser?.email]);
 
-  const userData = user
-    ? {
-        name: user.displayName || user.email?.split("@")[0] || "User",
-        email: user.email || "",
-        avatar: user.photoURL || "",
-      }
-    : data.user;
+  const resolvedName =
+    dbName ||
+    firebaseUser?.displayName ||
+    (firebaseUser?.email
+      ? formatDisplayName(firebaseUser.email.split("@")[0])
+      : null) ||
+    "User";
+
+  const userData = {
+    name: resolvedName,
+    email: firebaseUser?.email ?? "",
+    avatar: firebaseUser?.photoURL ?? "",
+  };
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        {/* NextHire Brand Logo */}
         <SidebarMenu>
           <SidebarMenuItem>
-            {isImpersonating && (
-              <div className="bg-orange-300/20 text-orange-600 text-sm font-semibold p-2  flex items-center justify-center  z-50 relative border-b border-orange-500/50">
-                ⚠️ You are currently impersonating a user.
-                <button
-                  onClick={endImpersonation}
-                  className="underline cursor-pointer hover:text-orange-300"
-                >
-                  End Session
-                </button>
-              </div>
-            )}
             <SidebarMenuButton size="lg" asChild>
               <a href="/dashboard">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-primary-foreground shadow-sm">
@@ -170,13 +134,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.quickTools} />
+        <NavMain items={navSections} />
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser user={userData} isAdmin={isAdmin} />
       </SidebarFooter>
+
       <SidebarRail />
     </Sidebar>
   );

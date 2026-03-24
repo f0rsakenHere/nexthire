@@ -512,73 +512,64 @@ export default function VideoInteractionPage() {
 
         {/* ── SETUP / LOBBY ── */}
         {!questions && (
-          <div className="flex h-[calc(100vh-56px)] overflow-hidden">
+          <div className="flex h-[calc(100vh-56px)] overflow-hidden bg-[#1C1C1E]">
             {/* LEFT: Live camera preview */}
-            <div className="relative flex-1 bg-zinc-950 flex items-center justify-center overflow-hidden">
-              <video
-                ref={lobbyVideoRef}
-                autoPlay
-                muted
-                playsInline
-                className="w-full h-full object-cover scale-x-[-1]"
-              />
+            <div className="relative flex-1 flex items-center justify-center p-8 lg:p-12">
+              {/* Zoom-style 16:9 container */}
+              <div className="relative w-full max-w-5xl aspect-video bg-[#111111] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl">
+                <video
+                  ref={lobbyVideoRef}
+                  autoPlay
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover scale-x-[-1]"
+                />
 
-              {/* Camera not ready overlay */}
-              {!cameraReady && !cameraError && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-white/50">
-                  <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                    <CameraIcon className="size-7 opacity-60" />
+                {/* Camera not ready overlay */}
+                {!cameraReady && !cameraError && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-white/50 bg-[#111111]">
+                    <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                      <CameraIcon className="size-7 opacity-60" />
+                    </div>
+                    <p className="text-sm font-medium tracking-wide">
+                      Starting video...
+                    </p>
                   </div>
-                  <p className="text-sm font-mono tracking-widest uppercase">
-                    Requesting camera access...
-                  </p>
-                </div>
-              )}
+                )}
 
-              {/* Camera error overlay */}
-              {cameraError && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-white/60 px-8 text-center">
-                  <div className="size-16 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center">
-                    <AlertTriangleIcon className="size-7 text-rose-400" />
+                {/* Camera error overlay */}
+                {cameraError && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-zinc-400 bg-[#111111] px-8 text-center">
+                    <div className="size-16 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center">
+                      <AlertTriangleIcon className="size-7 text-rose-400" />
+                    </div>
+                    <p className="text-sm font-semibold tracking-wide text-rose-400">
+                      Camera Blocked
+                    </p>
+                    <p className="text-xs max-w-xs leading-relaxed">
+                      Please allow camera access in your browser preferences and refresh the page to join the interview.
+                    </p>
                   </div>
-                  <p className="text-sm font-mono uppercase tracking-widest text-rose-400">
-                    Camera blocked
-                  </p>
-                  <p className="text-xs text-white/40 max-w-[240px]">
-                    Please allow camera access in your browser and refresh the
-                    page to use video interview mode.
-                  </p>
-                </div>
-              )}
+                )}
 
-              {/* Camera status pill */}
-              {cameraReady && (
-                <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur px-3 py-1.5 border border-white/10">
-                  <span className="size-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-                  <span className="text-[10px] font-mono text-white/70 uppercase tracking-widest">
-                    Camera ready
-                  </span>
-                </div>
-              )}
+                {/* Zoom-style Nameplate (Bottom Left) */}
+                {cameraReady && (
+                  <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end pointer-events-none">
+                    <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10">
+                      <MicIcon className="size-3.5 text-white/80 shrink-0" />
+                      <span className="text-white/90 text-[13px] font-medium truncate max-w-[200px]">
+                        {role ? `${role}${company ? ` @ ${company}` : ''}` : "Guest Candidate"}
+                      </span>
+                    </div>
 
-              {/* Name/role tag at bottom */}
-              {role && (
-                <div className="absolute bottom-5 left-5 bg-black/60 backdrop-blur px-4 py-2 border border-white/10">
-                  <p className="text-white font-semibold text-sm">{role}</p>
-                  {company && (
-                    <p className="text-white/50 text-xs">{company}</p>
-                  )}
-                </div>
-              )}
-
-              {/* Mic indicator */}
-              {cameraReady && (
-                <div className="absolute bottom-5 right-5 flex items-center gap-2">
-                  <div className="size-9 bg-black/60 backdrop-blur border border-white/10 flex items-center justify-center">
-                    <MicIcon className="size-4 text-white/70" />
+                    {/* Camera indicator */}
+                    <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-white/10">
+                      <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[10px] font-semibold text-white/70 uppercase tracking-wider">Video On</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* RIGHT: Settings panel */}
@@ -770,43 +761,107 @@ export default function VideoInteractionPage() {
 
             {/* Main interview layout */}
             <div className="flex flex-1 overflow-hidden">
-              {/* Left: Video feed — always visible */}
-              <div className="relative flex-1 bg-black flex items-center justify-center overflow-hidden">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover scale-x-[-1]"
-                />
+              {/* Left: Video feed — Zoom Gallery View */}
+              <div className="relative flex-1 bg-[#1C1C1E] flex flex-col items-center justify-center p-4 lg:p-8">
+                
+                {/* Question Banner */}
+                <div className="w-full max-w-5xl mb-6 shrink-0">
+                   <div className="bg-black/40 backdrop-blur-md px-6 py-5 rounded-xl border border-white/10 shadow-lg text-center">
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-primary mb-2 inline-block drop-shadow-md">
+                       {questions[currentQ]?.category} • Question {currentQ + 1} of {questions.length}
+                     </span>
+                     <p className="text-white font-medium text-[16px] md:text-[18px] leading-relaxed drop-shadow-lg max-w-3xl mx-auto">
+                       {questions[currentQ]?.question}
+                     </p>
+                   </div>
+                </div>
 
-                {!stream && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white/50 gap-3">
-                    <CameraIcon className="size-10 opacity-40" />
-                    <span className="text-sm font-mono tracking-widest uppercase">
-                      Waiting for camera permission...
-                    </span>
+                {/* 1:1 Gallery View Grid */}
+                <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+                  
+                  {/* Participant 1: AI Coach */}
+                  <div className="relative w-full aspect-video bg-[#111111] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-xl flex items-center justify-center">
+                     {/* AI Avatar */}
+                     <div className="flex flex-col items-center gap-6">
+                        <div className="relative size-24 md:size-32 rounded-full bg-gradient-to-b from-slate-900 to-zinc-950 border border-white/10 flex items-center justify-center shadow-[0_0_40px_rgba(59,130,246,0.15)]">
+                           {/* Pulsing rings when listening */}
+                           <div className={`absolute inset-0 rounded-full bg-primary/20 blur-xl ${recordingIndex === currentQ ? 'animate-pulse' : 'opacity-0'} transition-opacity duration-1000`} />
+                           <div className={`absolute -inset-4 rounded-full border border-blue-500/20 scale-110 ${recordingIndex === currentQ ? 'animate-ping' : 'opacity-0'} transition-opacity duration-1000`} style={{ animationDuration: '3s' }} />
+                           <span className="text-white tracking-widest font-mono text-2xl font-bold z-10">AI</span>
+                        </div>
+                        {recordingIndex === currentQ ? (
+                           <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                             <div className="flex gap-1">
+                               <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                               <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                               <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                             </div>
+                             <span className="text-[10px] font-mono text-primary uppercase tracking-widest font-bold">Listening</span>
+                           </div>
+                        ) : (
+                           <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">Waiting for response</span>
+                        )}
+                     </div>
+
+                     {/* AI Nameplate */}
+                     <div className="absolute bottom-4 left-4 flex justify-between items-end pointer-events-none w-[calc(100%-32px)]">
+                        <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10">
+                           <MicIcon className="size-3.5 text-emerald-400 shrink-0" />
+                           <span className="text-white/90 text-[13px] font-medium">AI Coach</span>
+                        </div>
+                     </div>
                   </div>
-                )}
 
-                {/* Recording pill overlay */}
-                {recordingIndex === currentQ && (
-                  <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/70 backdrop-blur-md border border-white/10 px-4 py-2 shadow-lg rounded-full">
-                    <div className="size-2 rounded-full bg-rose-500 animate-pulse" />
-                    <span className="text-xs font-mono text-white tracking-widest uppercase font-bold">
-                      Listening...
-                    </span>
+                  {/* Participant 2: User */}
+                  <div className="relative w-full aspect-video bg-[#111111] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-xl">
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover scale-x-[-1]"
+                    />
+
+                    {!stream && (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-white/50 gap-4 bg-[#111111]">
+                        <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                          <CameraIcon className="size-7 opacity-60" />
+                        </div>
+                        <span className="text-sm font-medium tracking-wide">
+                          Waiting for camera permission...
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Recording pill overlay (Top Center) */}
+                    {recordingIndex === currentQ && (
+                      <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-rose-500/20 backdrop-blur-md border border-rose-500/30 px-3 py-1.5 shadow-lg rounded-md">
+                        <div className="size-2 rounded-full bg-rose-500 animate-pulse" />
+                        <span className="text-[10px] font-semibold text-rose-100 tracking-wider uppercase">
+                          Recording
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Zoom-style Nameplate (Bottom Left) */}
+                    {stream && (
+                      <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end pointer-events-none">
+                        <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10">
+                          <MicIcon className={`size-3.5 shrink-0 ${recordingIndex === currentQ ? "text-emerald-400" : "text-white/80"}`} />
+                          <span className="text-white/90 text-[13px] font-medium truncate max-w-[200px]">
+                            {role ? `${role}${company ? ` @ ${company}` : ''}` : "Guest Candidate"}
+                          </span>
+                        </div>
+
+                        {/* Camera indicator */}
+                        <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-white/10">
+                          <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="text-[10px] font-semibold text-white/70 uppercase tracking-wider">Video On</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
 
-                {/* Bottom-left: current question label */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5 pt-10">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary/80 mb-1 block">
-                    {questions[currentQ]?.category}
-                  </span>
-                  <p className="text-white font-semibold text-sm md:text-base leading-snug max-w-lg">
-                    {questions[currentQ]?.question}
-                  </p>
                 </div>
               </div>
 

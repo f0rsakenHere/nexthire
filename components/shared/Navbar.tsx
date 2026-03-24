@@ -8,10 +8,40 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, LayoutDashboard, LogOut } from "lucide-react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
+import { useEffect, useState } from "react";
+
+function formatDisplayName(raw: string): string {
+  return raw
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_\-.]+/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
+}
 
 export default function Navbar() {
   const pathname = usePathname();
   const [user, loading] = useAuthState(auth);
+  const [dbName, setDbName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user?.email) return;
+    fetch("/api/admin/check", {
+      headers: { "x-user-email": user.email },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.name) setDbName(d.name);
+      })
+      .catch(() => {});
+  }, [user?.email]);
+
+  const resolvedName =
+    dbName ||
+    user?.displayName ||
+    (user?.email ? formatDisplayName(user.email.split("@")[0]) : null) ||
+    "User";
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-border transition-all duration-300">
@@ -62,7 +92,7 @@ export default function Navbar() {
               (user ? (
                 <div className="flex items-center gap-5">
                   <span className="text-sm font-medium text-foreground">
-                    {user.displayName || user.email?.split("@")[0]}
+                    {resolvedName}
                   </span>
                   <div className="flex items-center gap-4">
                     <Link
@@ -148,12 +178,10 @@ export default function Navbar() {
                         <>
                           <div className="flex items-center gap-3 px-2 py-2">
                             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                              {(user.displayName ||
-                                user.email ||
-                                "U")[0].toUpperCase()}
+                              {resolvedName[0].toUpperCase()}
                             </div>
                             <span className="text-lg font-medium">
-                              {user.displayName || user.email?.split("@")[0]}
+                              {resolvedName}
                             </span>
                           </div>
                           <div className="flex items-center gap-3">

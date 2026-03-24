@@ -487,7 +487,7 @@ function AppCard({
       draggable
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
-      className={`group flex flex-col flex-1 rounded-none bg-background border-l-[3px] border border-border/40 transition-all duration-200 select-none ${
+      className={`group flex flex-col rounded-none bg-background border-l-[3px] border border-border/40 transition-all duration-200 select-none ${
         STATUS_ACCENT[app.status]
       } ${
         isDragging
@@ -496,10 +496,10 @@ function AppCard({
       }`}
     >
       {/* ── Top: avatar + company + actions */}
-      <div className="px-2.5 pt-2.5 pb-1.5 flex items-start gap-2">
+      <div className="px-3 pt-3 pb-2 flex items-start gap-2.5">
         {/* Company initial avatar */}
-        <div className="size-6 shrink-0 rounded-none bg-primary/8 border border-primary/15 flex items-center justify-center cursor-grab active:cursor-grabbing">
-          <span className="text-[9px] font-black text-primary/70 tracking-tight">
+        <div className="size-9 shrink-0 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center cursor-grab active:cursor-grabbing">
+          <span className="text-xs font-black text-primary/70 tracking-tight">
             {initials}
           </span>
         </div>
@@ -507,10 +507,10 @@ function AppCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-1">
             <div className="min-w-0">
-              <p className="font-bold text-xs text-foreground truncate leading-tight">
+              <p className="font-bold text-sm text-foreground truncate leading-tight">
                 {app.company}
               </p>
-              <p className="text-[10px] text-muted-foreground truncate">
+              <p className="text-xs text-muted-foreground truncate mt-0.5">
                 {app.role}
               </p>
             </div>
@@ -518,30 +518,30 @@ function AppCard({
             <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={() => onEdit(app)}
-                className="size-5 flex items-center justify-center hover:bg-muted rounded-none transition-colors text-muted-foreground hover:text-foreground"
+                className="size-6 flex items-center justify-center hover:bg-muted rounded-none transition-colors text-muted-foreground hover:text-foreground"
               >
-                <EditIcon className="size-2.5" />
+                <EditIcon className="size-3" />
               </button>
               <button
                 onClick={() => onDelete(app.id)}
-                className="size-5 flex items-center justify-center hover:bg-rose-50 rounded-none transition-colors text-muted-foreground hover:text-rose-500"
+                className="size-6 flex items-center justify-center hover:bg-rose-50 rounded-none transition-colors text-muted-foreground hover:text-rose-500"
               >
-                <Trash2Icon className="size-2.5" />
+                <Trash2Icon className="size-3" />
               </button>
             </div>
           </div>
 
           {/* Meta pills */}
-          <div className="flex flex-wrap gap-1 mt-1">
+          <div className="flex flex-wrap gap-1 mt-1.5">
             {app.location && (
-              <span className="flex items-center gap-0.5 text-[9px] text-muted-foreground/70 font-mono bg-muted/40 px-1 py-0.5">
-                <MapPinIcon className="size-2" />
+              <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground/70 font-mono bg-muted/50 px-1.5 py-0.5">
+                <MapPinIcon className="size-2.5" />
                 {app.location}
               </span>
             )}
             {app.salaryRange && (
-              <span className="flex items-center gap-0.5 text-[9px] text-muted-foreground/70 font-mono bg-muted/40 px-1 py-0.5">
-                <DollarSignIcon className="size-2" />
+              <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground/70 font-mono bg-muted/50 px-1.5 py-0.5">
+                <DollarSignIcon className="size-2.5" />
                 {app.salaryRange}
               </span>
             )}
@@ -551,52 +551,49 @@ function AppCard({
 
       {/* Notes preview */}
       {app.notes && (
-        <div className="mx-2.5 mb-1.5 px-2 py-1.5 bg-muted/30 border-l-2 border-border/40">
-          <p className="text-[9px] text-muted-foreground/80 leading-relaxed line-clamp-2">
+        <div className="mx-3 mb-2 px-2.5 py-2 bg-muted/30 border-l-2 border-border/50">
+          <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-2">
             {app.notes}
           </p>
         </div>
       )}
 
-      {/* Spacer — pushes action buttons + footer to bottom */}
-      <div className="flex-1" />
-
       {/* ── AI Quick Actions */}
-      <div className="px-2.5 pb-1.5 grid grid-cols-2 gap-1">
+      <div className="px-3 pb-2 grid grid-cols-2 gap-1.5">
         <Link
           href={prepUrl}
-          className="flex items-center justify-center gap-1 py-1.5 text-[9px] font-bold font-mono uppercase tracking-wider rounded-none bg-primary/6 hover:bg-primary/12 text-primary border border-primary/15 hover:border-primary/35 transition-all"
+          className="flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-none bg-primary/8 hover:bg-primary/15 text-primary border border-primary/20 hover:border-primary/40 transition-all"
         >
-          <MicIcon className="size-2.5" /> Prep
+          <MicIcon className="size-3" /> Prep
         </Link>
         <Link
           href={scoreUrl}
-          className="flex items-center justify-center gap-1 py-1.5 text-[9px] font-bold font-mono uppercase tracking-wider rounded-none bg-blue-500/6 hover:bg-blue-500/12 text-blue-600 border border-blue-200/60 hover:border-blue-300 transition-all"
+          className="flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-none bg-blue-500/8 hover:bg-blue-500/15 text-blue-600 border border-blue-200/70 hover:border-blue-300 transition-all"
         >
-          <FileTextIcon className="size-2.5" /> Score
+          <FileTextIcon className="size-3" /> Score
         </Link>
       </div>
 
       {/* ── Footer */}
-      <div className="px-2.5 pb-2 flex items-center justify-between gap-1">
-        <span className="text-[8px] font-mono text-muted-foreground/40">
+      <div className="px-3 pb-3 flex items-center justify-between gap-1">
+        <span className="text-[10px] font-mono text-muted-foreground/50">
           {timeAgo(app.updatedAt)}
         </span>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           {app.jdUrl && (
             <a
               href={app.jdUrl}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-0.5 text-[8px] font-mono text-muted-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-0.5 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors"
             >
-              <ExternalLinkIcon className="size-2" /> JD
+              <ExternalLinkIcon className="size-2.5" /> JD
             </a>
           )}
           {nextCol && (
             <button
               onClick={() => onMove(app.id, nextCol.key)}
-              className={`flex items-center gap-0.5 text-[8px] font-bold font-mono px-1.5 py-0.5 border rounded-none transition-all ${nextCol.color} ${nextCol.border}`}
+              className={`flex items-center gap-0.5 text-[10px] font-semibold font-mono px-2 py-0.5 border rounded-none transition-all ${nextCol.color} ${nextCol.border}`}
             >
               → {nextCol.label}
             </button>
@@ -644,7 +641,7 @@ function KanbanColumn({
 
   return (
     <div
-      className={`flex flex-col rounded-none border-t-2 border border-border/40 bg-background/60 transition-all duration-200 ${COL_ACCENT[col.key]} ${
+      className={`w-[280px] shrink-0 flex flex-col rounded-none border-t-2 border border-border/40 bg-background/60 transition-all duration-200 ${COL_ACCENT[col.key]} ${
         dragOver && draggingId
           ? "ring-2 ring-primary/30 shadow-[0_0_24px_oklch(0.62_0.26_278/0.1)]"
           : ""
@@ -660,26 +657,26 @@ function KanbanColumn({
       }}
     >
       {/* Column header */}
-      <div className="flex items-center justify-between px-2 py-2">
-        <div className="flex items-center gap-1.5 min-w-0">
-          <span className={`size-1.5 rounded-full shrink-0 ${col.dot}`} />
+      <div className="flex items-center justify-between px-3 py-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className={`size-2 rounded-full shrink-0 ${col.dot}`} />
           <span
-            className={`text-[10px] font-extrabold font-mono uppercase tracking-widest truncate ${col.color}`}
+            className={`text-xs font-bold uppercase tracking-wide truncate ${col.color}`}
           >
             {col.label}
           </span>
           <span
-            className={`shrink-0 min-w-[16px] text-center text-[9px] font-bold font-mono px-1 py-0.5 rounded-full ${col.bg} ${col.color}`}
+            className={`shrink-0 min-w-[20px] text-center text-[10px] font-bold px-1.5 py-0.5 ${col.bg} ${col.color}`}
           >
             {apps.length}
           </span>
         </div>
         <button
           onClick={() => onAdd(col.key)}
-          className={`size-5 shrink-0 flex items-center justify-center rounded-none border ${col.border} ${col.color} transition-all hover:scale-110`}
+          className={`size-6 shrink-0 flex items-center justify-center rounded-none border ${col.border} ${col.color} transition-all hover:scale-110`}
           title={`Add to ${col.label}`}
         >
-          <PlusIcon className="size-3" />
+          <PlusIcon className="size-3.5" />
         </button>
       </div>
 
@@ -690,7 +687,7 @@ function KanbanColumn({
       />
 
       {/* Cards area */}
-      <div className="flex flex-col gap-1.5 px-1.5 pb-2 overflow-y-auto flex-1 min-h-[160px] max-h-[calc(100vh-240px)]">
+      <div className="flex flex-col gap-2 px-2 pb-2 overflow-y-auto flex-1 min-h-[120px] max-h-[calc(100vh-280px)]">
         {/* Drag-over highlight for empty cols */}
         {dragOver && draggingId && (
           <div
@@ -821,12 +818,13 @@ export default function TrackerPage() {
   const activeCount = apps.filter(
     (a) => !["wishlist", "rejected"].includes(a.status),
   ).length;
-  const responseRate =
-    total > 0
-      ? Math.round(
-          (apps.filter((a) => a.status !== "wishlist").length / total) * 100,
-        )
-      : 0;
+
+  // Response Rate = employer got back to you / jobs actually submitted
+  // "Applied" doesn't count as a response — only when the company replies
+  const RESPONDED_STATUSES: Status[] = ["phone_screen", "interview", "offer", "rejected"];
+  const submitted = apps.filter((a) => a.status !== "wishlist").length;
+  const responded = apps.filter((a) => RESPONDED_STATUSES.includes(a.status)).length;
+  const responseRate = submitted > 0 ? Math.round((responded / submitted) * 100) : 0;
 
   if (loadingAuth || fetching) {
     return (
@@ -842,7 +840,7 @@ export default function TrackerPage() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-background text-foreground min-h-screen">
+      <SidebarInset className="bg-background text-foreground min-h-screen overflow-x-hidden">
         {/* ── Header */}
         <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background/90 backdrop-blur-xl">
           <div className="flex items-center gap-2 px-4">
@@ -882,7 +880,7 @@ export default function TrackerPage() {
           </div>
         </header>
 
-        <div className="flex flex-col gap-6 p-6 lg:p-8">
+        <div className="flex flex-col gap-6 p-6 lg:p-8 min-w-0">
           {/* ── Page title + stats */}
           <div className="flex flex-col gap-6">
             <div>
@@ -948,8 +946,8 @@ export default function TrackerPage() {
                     key={s.label}
                     className={`rounded-none border ${s.border} ${s.bg} p-4 flex items-start justify-between gap-3 transition-all`}
                   >
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-xs font-medium text-muted-foreground">
                         {s.label}
                       </span>
                       <span
@@ -958,7 +956,7 @@ export default function TrackerPage() {
                         {s.value}
                       </span>
                     </div>
-                    <div className={`${s.accent} opacity-20 mt-0.5`}>
+                    <div className={`${s.accent} opacity-25 mt-0.5`}>
                       {s.icon}
                     </div>
                   </div>
@@ -995,8 +993,9 @@ export default function TrackerPage() {
               </button>
             </div>
           ) : (
-            /* ── Kanban board ── fills viewport, no scroll */
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+            /* ── Kanban board ── horizontal scroll, fixed-width columns */
+            <div className="overflow-x-auto pb-4">
+              <div className="flex gap-3" style={{ minWidth: `${COLUMNS.length * 292}px` }}>
               {COLUMNS.map((col) => (
                 <KanbanColumn
                   key={col.key}
@@ -1014,6 +1013,7 @@ export default function TrackerPage() {
                   onDrop={handleDrop}
                 />
               ))}
+              </div>
             </div>
           )}
         </div>

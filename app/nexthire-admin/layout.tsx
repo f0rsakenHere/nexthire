@@ -50,10 +50,23 @@ export default function AdminLayout({
           router.push("/dashboard");
           return;
         }
+        // Format raw email prefix into readable name, e.g. "demoadmin" → "Demo Admin"
+        const formatDisplayName = (raw: string) => {
+          return raw
+            .replace(/([a-z])([A-Z])/g, "$1 $2")
+            .replace(/[_\-.]+/g, " ")
+            .split(" ")
+            .filter(Boolean)
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+            .join(" ");
+        };
+
         setUser({
+          // Prefer the name stored in MongoDB, then Firebase displayName, then format the email prefix
           name:
+            data.name ||
             firebaseUser.displayName ||
-            firebaseUser.email?.split("@")[0] ||
+            formatDisplayName(firebaseUser.email?.split("@")[0] ?? "") ||
             "Admin",
           email: firebaseUser.email ?? "",
         });
