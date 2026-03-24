@@ -63,4 +63,39 @@ export default function PricingPage() {
     console.log("Selected:", plan);
     //  Stripe integration here
   };
+
+  return (
+    <div className="min-h-screen px-6 py-12 space-y-20">
+      {/* HERO */}
+      <section className="text-center space-y-4">
+        <h1 className="text-4xl md:text-5xl font-bold">
+          Simple, Transparent Pricing
+        </h1>
+        <p className="text-muted-foreground max-w-xl mx-auto">
+          Choose the perfect plan for your journey. Upgrade anytime.
+        </p>
+
+        {/* TOGGLE */}
+        <div className="flex justify-center gap-4 mt-6">
+          <button
+            onClick={() => setBilling("monthly")}
+            className={`px-4 py-2  ${
+              billing === "monthly" ? "bg-primary text-white" : "bg-muted"
+            }`}
+          >
+            Monthly
+          </button>
+
+          <button
+            onClick={() => setBilling("yearly")}
+            className={`px-4 py-2  ${
+              billing === "yearly" ? "bg-primary text-white" : "bg-muted"
+            }`}
+          >
+            Yearly
+          </button>
+        </div>
+      </section>
+    </div>
+  );
 }
