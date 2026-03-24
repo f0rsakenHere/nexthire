@@ -54,3 +54,13 @@ const plans: Plan[] = [
     ],
   },
 ];
+
+export default function PricingPage() {
+  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const [selectedPlan, setSelectedPlan] = useState<PlanType | null>(null);
+
+  const handleSelect = (plan: PlanType) => {
+    console.log("Selected:", plan);
+    //  Stripe integration here
+  };
+}
