@@ -85,15 +85,6 @@ export default function PricingPage() {
           >
             Monthly
           </button>
-
-          <button
-            onClick={() => setBilling("yearly")}
-            className={`px-4 py-2  ${
-              billing === "yearly" ? "bg-primary text-white" : "bg-muted"
-            }`}
-          >
-            Yearly
-          </button>
         </div>
       </section>
     </div>
