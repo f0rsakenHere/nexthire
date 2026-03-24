@@ -50,7 +50,9 @@
    NextHire · Light Theme: Clean White × Electric Indigo
    Inspired by modern SaaS products — clean, minimal, professional.
    ────────────────────────────────────────────────────────────────────────── */
-
+html {
+  scroll-behavior: smooth;
+}
 :root {
   --radius: 0.75rem;
 
