@@ -96,6 +96,108 @@ export default function PricingPage() {
           </button>
         </div>
       </section>
+      {/* PRICING CARDS */}
+      <section className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {plans.map((plan) => {
+          const price =
+            billing === "monthly" ? plan.priceMonthly : plan.priceYearly;
+
+          const isActive = selectedPlan === plan.type;
+
+          return (
+            <Card
+              key={plan.name}
+              onClick={() =>
+                setSelectedPlan(selectedPlan === plan.type ? null : plan.type)
+              }
+              className={`
+                cursor-pointer group relative
+                transition-all duration-300 ease-in-out
+
+                h-full min-h-[520px] flex flex-col justify-between
+
+                ${
+                  selectedPlan
+                    ? plan.type === selectedPlan
+                      ? "scale-105 border-2 border-blue-500 shadow-xl z-10 ring-2 ring-blue-500 bg-blue-50 "
+                      : "scale-95 opacity-70"
+                    : "hover:-translate-y-2 hover:shadow-2xl"
+                }
+
+                ${
+                  plan.highlight && !selectedPlan
+                    ? "border-2 border-primary"
+                    : "border"
+                }
+              `}
+            >
+              {/* Badge */}
+              {plan.highlight && !isActive && (
+                <span className="absolute top-4 right-4 bg-primary text-white text-xs px-3 py-1 rounded-full">
+                  Most Popular
+                </span>
+              )}
+
+              <CardHeader>
+                <CardTitle className="text-center text-2xl">
+                  {plan.name}
+                </CardTitle>
+                <p className="text-center text-muted-foreground text-sm">
+                  {plan.description}
+                </p>
+              </CardHeader>
+
+              <CardContent className="text-center flex flex-col flex-1 justify-between">
+                <div>
+                  <p className="text-4xl font-bold mb-6">
+                    ${price}
+                    <span className="text-sm">
+                      {billing === "monthly" ? "/mo" : "/yr"}
+                    </span>
+                  </p>
+
+                  {/* FEATURES */}
+                  <ul className="space-y-3 text-sm mb-6 text-left">
+                    {plan.features.map((f, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <Check size={16} className="text-green-500" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* HOVER DETAILS */}
+                  <div className="max-h-0 overflow-hidden group-hover:max-h-40 transition-all duration-300 text-sm text-muted-foreground">
+                    <p>
+                      Unlock more power with the {plan.name} plan. Designed for
+                      growth and performance.
+                    </p>
+                  </div>
+                </div>
+
+                {/* BUTTON */}
+                <Button
+                  className={`w-full mt-6 ${
+                    isActive ? "bg-blue-600 text-white" : ""
+                  }`}
+                  variant={isActive ? "default" : "outline"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelect(plan.type);
+                  }}
+                >
+                  {isActive
+                    ? "Continue with this plan"
+                    : plan.type === "free"
+                      ? "Start Free"
+                      : "Choose Plan"}
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </section>
+      ;
     </div>
   );
 }
