@@ -224,6 +224,26 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+      {/* FAQ SECTION */}
+      <section className="max-w-3xl mx-auto space-y-6">
+        <h2 className="text-3xl font-bold text-center">FAQ</h2>
+
+        <div className="space-y-4">
+          <div className="border p-4 ">
+            <h3 className="font-semibold">Can I cancel anytime?</h3>
+            <p className="text-sm text-muted-foreground">
+              Yes, you can cancel your subscription anytime.
+            </p>
+          </div>
+
+          <div className="border p-4 ">
+            <h3 className="font-semibold">Is there a free trial?</h3>
+            <p className="text-sm text-muted-foreground">
+              Yes, we offer a free plan to get started.
+            </p>
+          </div>
+        </div>
+      </section>
       ;
     </div>
   );
