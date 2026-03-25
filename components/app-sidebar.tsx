@@ -4,6 +4,7 @@ import * as React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -31,16 +32,14 @@ const navSections = [
     title: "Job Tracker",
     url: "#",
     icon: <KanbanSquareIcon className="size-3.5" />,
-    items: [
-      { title: "Application Tracker", url: "/dashboard/tracker" },
-    ],
+    items: [{ title: "Application Tracker", url: "/dashboard/tracker" }],
   },
   {
     title: "Resume Tools",
     url: "#",
     icon: <FileTextIcon className="size-3.5" />,
     items: [
-      { title: "AI Resume Scorer",     url: "/dashboard/resume-scorer" },
+      { title: "AI Resume Scorer", url: "/dashboard/resume-scorer" },
       { title: "Keyword Gap Analysis", url: "/dashboard/keyword-gap-analysis" },
     ],
   },
@@ -49,8 +48,8 @@ const navSections = [
     url: "#",
     icon: <MicIcon className="size-3.5" />,
     items: [
-      { title: "Mock Interviews",    url: "/dashboard/mock-interview" },
-      { title: "Video Interaction",  url: "/dashboard/video-interaction" },
+      { title: "Mock Interviews", url: "/dashboard/mock-interview" },
+      { title: "Video Interaction", url: "/dashboard/video-interaction" },
       { title: "Practice Questions", url: "/dashboard/frontend-question" },
     ],
   },
@@ -58,9 +57,7 @@ const navSections = [
     title: "Insights",
     url: "#",
     icon: <LineChartIcon className="size-3.5" />,
-    items: [
-      { title: "Analytics", url: "/dashboard/analytics" },
-    ],
+    items: [{ title: "Analytics", url: "/dashboard/analytics" }],
   },
   {
     title: "History",
@@ -68,8 +65,8 @@ const navSections = [
     icon: <HistoryIcon className="size-3.5" />,
     items: [
       { title: "Resume Score History", url: "/dashboard/resume-history" },
-      { title: "Interview Sessions",   url: "/dashboard/interview-history" },
-      { title: "Keyword Gap History",  url: "/dashboard/keyword-history" },
+      { title: "Interview Sessions", url: "/dashboard/interview-history" },
+      { title: "Keyword Gap History", url: "/dashboard/keyword-history" },
     ],
   },
 ];
@@ -106,7 +103,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const resolvedName =
     dbName ||
     firebaseUser?.displayName ||
-    (firebaseUser?.email ? formatDisplayName(firebaseUser.email.split("@")[0]) : null) ||
+    (firebaseUser?.email
+      ? formatDisplayName(firebaseUser.email.split("@")[0])
+      : null) ||
     "User";
 
   const userData = {
@@ -121,7 +120,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/dashboard">
+              <Link href="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-primary-foreground shadow-sm">
                   <ZapIcon className="size-4" />
                 </div>
@@ -131,7 +130,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     AI Coach
                   </span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
