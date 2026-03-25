@@ -33,13 +33,14 @@ export async function POST(req: NextRequest) {
 
     try {
       decodedToken = await admin.auth().verifyIdToken(token);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("🔥 Firebase Verify Error:", error);
 
+      const firebaseError = error as { code?: string };
       return NextResponse.json(
         {
           error: "Authentication failed",
-          code: error.code || "unknown_error",
+          code: firebaseError.code || "unknown_error",
         },
         { status: 401 }
       );
@@ -79,20 +80,21 @@ export async function POST(req: NextRequest) {
     const db = client.db("nexthire");
     const users = db.collection("users");
 
-    let user = await users.findOne({ _id: uid });
+    let user = await users.findOne({ _id: uid } as unknown as Record<string, unknown>);
 
     if (!user) {
-      user = {
-        _id: uid,
+      const newUser = {
+        _id: uid as unknown,
         email,
         plan: "free",
         createdAt: new Date(),
       };
 
-      await users.insertOne(user);
+      await users.insertOne(newUser as unknown as Record<string, unknown>);
+      user = await users.findOne({ _id: uid } as unknown as Record<string, unknown>);
     }
 
-    let stripeCustomerId = user.stripeCustomerId;
+    let stripeCustomerId = user?.stripeCustomerId as string | undefined;
 
     // =========================
     // ✅ CREATE STRIPE CUSTOMER
@@ -107,7 +109,7 @@ export async function POST(req: NextRequest) {
       stripeCustomerId = customer.id;
 
       await users.updateOne(
-        { _id: uid },
+        { _id: uid } as unknown as Record<string, unknown>,
         { $set: { stripeCustomerId } }
       );
     }
@@ -136,13 +138,14 @@ export async function POST(req: NextRequest) {
           userId: uid,
         },
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("🔥 Stripe Error:", err);
+      const message = err instanceof Error ? err.message : "Unknown error";
 
       return NextResponse.json(
         {
           error: "Stripe session creation failed",
-          details: err.message,
+          details: message,
         },
         { status: 500 }
       );
@@ -160,13 +163,14 @@ export async function POST(req: NextRequest) {
     // =========================
     return NextResponse.json({ url: session.url });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("🔥 FINAL ERROR:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
 
     return NextResponse.json(
       {
         error: "Internal Server Error",
-        details: error.message,
+        details: message,
       },
       { status: 500 }
     );

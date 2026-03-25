@@ -6,30 +6,35 @@ import Stripe from "stripe";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-if (!webhookSecret) {
-  throw new Error("STRIPE_WEBHOOK_SECRET is not set in environment variables.");
-}
-
 async function updateUserSubscription(userId: string, subscription: Stripe.Subscription) {
   const client = await clientPromise;
   const db = client.db("nexthire");
   const usersCollection = db.collection("users");
 
+  const subscriptionItem = subscription.items.data[0];
+
   const updateData = {
     stripeSubscriptionId: subscription.id,
     stripeCustomerId: subscription.customer as string,
-    stripePriceId: subscription.items.data[0].price.id,
+    stripePriceId: subscriptionItem.price.id,
     stripeSubscriptionStatus: subscription.status,
-    stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+    stripeCurrentPeriodEnd: subscriptionItem.current_period_end
+      ? new Date(subscriptionItem.current_period_end * 1000)
+      : null,
   };
 
-  await usersCollection.updateOne({ _id: userId }, { $set: updateData });
+  await usersCollection.updateOne({ _id: userId } as unknown as Record<string, unknown>, { $set: updateData });
   console.log(`Updated subscription for user ${userId} to status ${subscription.status}`);
 }
 
 export async function POST(req: NextRequest) {
+  if (!webhookSecret) {
+    return new NextResponse("STRIPE_WEBHOOK_SECRET is not set", { status: 500 });
+  }
+
   const body = await req.text();
-  const signature = headers().get("stripe-signature");
+  const headersList = await headers();
+  const signature = headersList.get("stripe-signature");
 
   if (!signature) {
     return new NextResponse("Stripe signature missing", { status: 400 });
@@ -39,9 +44,10 @@ export async function POST(req: NextRequest) {
 
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-  } catch (err: any) {
-    console.error(`❌ Error message: ${err.message}`);
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error(`❌ Error message: ${message}`);
+    return new NextResponse(`Webhook Error: ${message}`, { status: 400 });
   }
 
   console.log("✅ Stripe Webhook Received:", event.type);
@@ -87,8 +93,9 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ received: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
     console.error("Webhook handler error:", error);
-    return new NextResponse(`Webhook Handler Error: ${error.message}`, { status: 500 });
+    return new NextResponse(`Webhook Handler Error: ${message}`, { status: 500 });
   }
 }
