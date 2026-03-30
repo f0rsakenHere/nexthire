@@ -182,14 +182,6 @@ export function FeaturesPage() {
         <Lightbulb className="w-10 h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
       ),
     },
-    {
-      title: '"Did You Mean?" Skill Mapper',
-      description:
-        'If you write "ReactJS", the system suggests adding "Redux" or "Hooks" based on industry skill clusters.',
-      icon: (
-        <Brain className="w-10 h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
-      ),
-    },
   ];
 
   const targetAudience = [
