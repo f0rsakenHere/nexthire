@@ -137,7 +137,7 @@ export async function POST(request: Request) {
       
       try {
         const cbCompletion = await cerebras.chat.completions.create({
-          model: "gpt-oss-120b",
+          model: "llama3.1-70b",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: userMessage },
@@ -151,7 +151,7 @@ export async function POST(request: Request) {
           choices?: Array<{ message?: { content?: string | null } }>;
         }
         raw = ((cbCompletion as unknown as CerebrasResponse).choices?.[0]?.message?.content) ?? "";
-        modelUsed = "Cerebras/gpt-oss-120b";
+        modelUsed = "Cerebras/llama3.1-70b";
       } catch (cerebrasErr) {
         console.warn("[resume-score] Cerebras failed, falling back to Groq:", (cerebrasErr as Error).message);
 
