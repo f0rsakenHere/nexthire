@@ -170,7 +170,7 @@ export async function POST(request: Request) {
       // ── Tier 2: Cerebras (fast fallback) ────────────────────────────────
       try {
         const cbCompletion = await cerebras.chat.completions.create({
-          model: "llama3.1-70b",
+          model: "qwen-3-235b-a22b-instruct-2507",
           messages,
           temperature: 0,
           top_p: 1,
@@ -179,7 +179,7 @@ export async function POST(request: Request) {
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         raw = ((cbCompletion as any).choices?.[0]?.message?.content as string) ?? "";
-        modelUsed = "Cerebras/llama3.1-70b";
+        modelUsed = "Cerebras/qwen-3-235b";
       } catch (cerebrasErr) {
         console.warn("[keyword-gap] Cerebras failed, falling back to Groq:", (cerebrasErr as Error).message);
 

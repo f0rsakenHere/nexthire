@@ -146,10 +146,10 @@ CRITICAL: Never use unescaped double quotes inside any JSON string value. Use si
         rawEval = completion.choices[0]?.message?.content ?? "";
         console.log("[video-interview] Used MiniMax via NVIDIA");
       } catch (nvidiaErr) {
-        // Fallback: Cerebras llama3.1-70b (ultra-fast)
+        // Fallback: Cerebras qwen-3-235b
         console.warn("[video-interview] MiniMax failed, falling back to Cerebras:", nvidiaErr);
         const fallback = await cerebras.chat.completions.create({
-          model: "llama3.1-70b",
+          model: "qwen-3-235b-a22b-instruct-2507",
           messages: [{ role: "user", content: prompt }],
           temperature: 0.4,
           max_completion_tokens: 1500,
